@@ -15,11 +15,29 @@ namespace MrLabandero
         public UserControlPOS()
         {
             InitializeComponent();
+
+            panelFullServices.Visible = false;
+            panelRegularServices.Visible = false;
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void rbFullServices_CheckedChanged_1(object sender, EventArgs e)
         {
-         
+            if (rbFullServices.Checked)
+            {
+                panelFullServices.Visible = true;
+                panelRegularServices.Visible = false;
+                panelFullServices.BringToFront();
+            }
+        }
+
+        private void rbRegularServices_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbRegularServices.Checked)
+            {
+                panelRegularServices.Visible = true;
+                panelFullServices.Visible = false;
+                panelRegularServices.BringToFront();
+            }
         }
     }
 }
