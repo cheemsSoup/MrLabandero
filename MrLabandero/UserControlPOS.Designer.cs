@@ -35,33 +35,33 @@ namespace MrLabandero
             this.lblFabconSub = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.nudFabcon = new System.Windows.Forms.NumericUpDown();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.chkFabcon = new System.Windows.Forms.CheckBox();
             this.lblDetergentSub = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.nudDetergent = new System.Windows.Forms.NumericUpDown();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.chkDetergent = new System.Windows.Forms.CheckBox();
             this.lblRinseSub = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.nudRinse = new System.Windows.Forms.NumericUpDown();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.chkRinse = new System.Windows.Forms.CheckBox();
             this.lblWashSub = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.nudWash = new System.Windows.Forms.NumericUpDown();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chkWash = new System.Windows.Forms.CheckBox();
             this.lblSpinSub = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.nudSpin = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.chkSpin = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnClearRadioButtons = new System.Windows.Forms.Button();
+            this.btnClearOptions = new System.Windows.Forms.Button();
             this.rbClothes = new System.Windows.Forms.RadioButton();
             this.rbBeddings = new System.Windows.Forms.RadioButton();
-            this.rbTowelOrCurtains = new System.Windows.Forms.RadioButton();
+            this.rbTowels = new System.Windows.Forms.RadioButton();
             this.panelHeader = new System.Windows.Forms.Panel();
-            this.rbRegularDryFold = new System.Windows.Forms.RadioButton();
+            this.rbDryFold = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
-            this.rbRegularWash = new System.Windows.Forms.RadioButton();
+            this.rbWash = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
             this.rbFullServices = new System.Windows.Forms.RadioButton();
             this.txtFullName = new System.Windows.Forms.TextBox();
@@ -75,6 +75,8 @@ namespace MrLabandero
             this.panelRegularServices = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.panelMainUserControl = new System.Windows.Forms.Panel();
+            this.lblGrandTotal = new System.Windows.Forms.Label();
+            this.btnProceed = new System.Windows.Forms.Button();
             this.panelFullServices.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFabcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDetergent)).BeginInit();
@@ -90,37 +92,39 @@ namespace MrLabandero
             // 
             // panelFullServices
             // 
+            this.panelFullServices.Controls.Add(this.btnProceed);
+            this.panelFullServices.Controls.Add(this.lblGrandTotal);
             this.panelFullServices.Controls.Add(this.label18);
             this.panelFullServices.Controls.Add(this.lblServiceSub);
             this.panelFullServices.Controls.Add(this.lblFabconSub);
             this.panelFullServices.Controls.Add(this.label14);
             this.panelFullServices.Controls.Add(this.nudFabcon);
-            this.panelFullServices.Controls.Add(this.checkBox3);
+            this.panelFullServices.Controls.Add(this.chkFabcon);
             this.panelFullServices.Controls.Add(this.lblDetergentSub);
             this.panelFullServices.Controls.Add(this.label16);
             this.panelFullServices.Controls.Add(this.nudDetergent);
-            this.panelFullServices.Controls.Add(this.checkBox4);
+            this.panelFullServices.Controls.Add(this.chkDetergent);
             this.panelFullServices.Controls.Add(this.lblRinseSub);
             this.panelFullServices.Controls.Add(this.label12);
             this.panelFullServices.Controls.Add(this.nudRinse);
-            this.panelFullServices.Controls.Add(this.checkBox2);
+            this.panelFullServices.Controls.Add(this.chkRinse);
             this.panelFullServices.Controls.Add(this.lblWashSub);
             this.panelFullServices.Controls.Add(this.label13);
             this.panelFullServices.Controls.Add(this.nudWash);
-            this.panelFullServices.Controls.Add(this.checkBox1);
+            this.panelFullServices.Controls.Add(this.chkWash);
             this.panelFullServices.Controls.Add(this.lblSpinSub);
             this.panelFullServices.Controls.Add(this.label7);
             this.panelFullServices.Controls.Add(this.nudSpin);
             this.panelFullServices.Controls.Add(this.label8);
             this.panelFullServices.Controls.Add(this.chkSpin);
             this.panelFullServices.Controls.Add(this.label3);
-            this.panelFullServices.Controls.Add(this.btnClearRadioButtons);
+            this.panelFullServices.Controls.Add(this.btnClearOptions);
             this.panelFullServices.Controls.Add(this.rbClothes);
             this.panelFullServices.Controls.Add(this.rbBeddings);
-            this.panelFullServices.Controls.Add(this.rbTowelOrCurtains);
-            this.panelFullServices.Location = new System.Drawing.Point(0, 158);
+            this.panelFullServices.Controls.Add(this.rbTowels);
+            this.panelFullServices.Location = new System.Drawing.Point(0, 168);
             this.panelFullServices.Name = "panelFullServices";
-            this.panelFullServices.Size = new System.Drawing.Size(772, 329);
+            this.panelFullServices.Size = new System.Drawing.Size(772, 319);
             this.panelFullServices.TabIndex = 18;
             // 
             // label18
@@ -186,18 +190,20 @@ namespace MrLabandero
             0,
             0,
             0});
+            this.nudFabcon.ValueChanged += new System.EventHandler(this.nudFabcon_ValueChanged);
             // 
-            // checkBox3
+            // chkFabcon
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox3.Location = new System.Drawing.Point(15, 241);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(116, 25);
-            this.checkBox3.TabIndex = 36;
-            this.checkBox3.Text = "Extra Fabcon";
-            this.checkBox3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.chkFabcon.AutoSize = true;
+            this.chkFabcon.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkFabcon.Location = new System.Drawing.Point(15, 241);
+            this.chkFabcon.Name = "chkFabcon";
+            this.chkFabcon.Size = new System.Drawing.Size(116, 25);
+            this.chkFabcon.TabIndex = 36;
+            this.chkFabcon.Text = "Extra Fabcon";
+            this.chkFabcon.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.chkFabcon.UseVisualStyleBackColor = true;
+            this.chkFabcon.CheckedChanged += new System.EventHandler(this.chkFabcon_CheckedChanged);
             // 
             // lblDetergentSub
             // 
@@ -242,17 +248,19 @@ namespace MrLabandero
             0,
             0,
             0});
+            this.nudDetergent.ValueChanged += new System.EventHandler(this.nudDetergent_ValueChanged);
             // 
-            // checkBox4
+            // chkDetergent
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox4.Location = new System.Drawing.Point(15, 206);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(145, 25);
-            this.checkBox4.TabIndex = 32;
-            this.checkBox4.Text = "Liquid Detergent";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.chkDetergent.AutoSize = true;
+            this.chkDetergent.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkDetergent.Location = new System.Drawing.Point(15, 206);
+            this.chkDetergent.Name = "chkDetergent";
+            this.chkDetergent.Size = new System.Drawing.Size(145, 25);
+            this.chkDetergent.TabIndex = 32;
+            this.chkDetergent.Text = "Liquid Detergent";
+            this.chkDetergent.UseVisualStyleBackColor = true;
+            this.chkDetergent.CheckedChanged += new System.EventHandler(this.chkDetergent_CheckedChanged);
             // 
             // lblRinseSub
             // 
@@ -297,17 +305,19 @@ namespace MrLabandero
             0,
             0,
             0});
+            this.nudRinse.ValueChanged += new System.EventHandler(this.nudRinse_ValueChanged);
             // 
-            // checkBox2
+            // chkRinse
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox2.Location = new System.Drawing.Point(15, 171);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(142, 25);
-            this.checkBox2.TabIndex = 28;
-            this.checkBox2.Text = "Additional Rinse";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.chkRinse.AutoSize = true;
+            this.chkRinse.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRinse.Location = new System.Drawing.Point(15, 171);
+            this.chkRinse.Name = "chkRinse";
+            this.chkRinse.Size = new System.Drawing.Size(142, 25);
+            this.chkRinse.TabIndex = 28;
+            this.chkRinse.Text = "Additional Rinse";
+            this.chkRinse.UseVisualStyleBackColor = true;
+            this.chkRinse.CheckedChanged += new System.EventHandler(this.chkRinse_CheckedChanged);
             // 
             // lblWashSub
             // 
@@ -352,17 +362,19 @@ namespace MrLabandero
             0,
             0,
             0});
+            this.nudWash.ValueChanged += new System.EventHandler(this.nudWash_ValueChanged);
             // 
-            // checkBox1
+            // chkWash
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(15, 136);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(142, 25);
-            this.checkBox1.TabIndex = 24;
-            this.checkBox1.Text = "Additional Wash";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.chkWash.AutoSize = true;
+            this.chkWash.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkWash.Location = new System.Drawing.Point(15, 136);
+            this.chkWash.Name = "chkWash";
+            this.chkWash.Size = new System.Drawing.Size(142, 25);
+            this.chkWash.TabIndex = 24;
+            this.chkWash.Text = "Additional Wash";
+            this.chkWash.UseVisualStyleBackColor = true;
+            this.chkWash.CheckedChanged += new System.EventHandler(this.chkWash_CheckedChanged);
             // 
             // lblSpinSub
             // 
@@ -407,6 +419,7 @@ namespace MrLabandero
             0,
             0,
             0});
+            this.nudSpin.ValueChanged += new System.EventHandler(this.nudSpin_ValueChanged);
             // 
             // label8
             // 
@@ -429,6 +442,7 @@ namespace MrLabandero
             this.chkSpin.TabIndex = 15;
             this.chkSpin.Text = "Additional Spin";
             this.chkSpin.UseVisualStyleBackColor = true;
+            this.chkSpin.CheckedChanged += new System.EventHandler(this.chkSpin_CheckedChanged);
             // 
             // label3
             // 
@@ -441,18 +455,19 @@ namespace MrLabandero
             this.label3.TabIndex = 4;
             this.label3.Text = "Full Services (Wash, Dry, Fold)";
             // 
-            // btnClearRadioButtons
+            // btnClearOptions
             // 
-            this.btnClearRadioButtons.BackColor = System.Drawing.Color.Maroon;
-            this.btnClearRadioButtons.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClearRadioButtons.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClearRadioButtons.ForeColor = System.Drawing.Color.White;
-            this.btnClearRadioButtons.Location = new System.Drawing.Point(587, 196);
-            this.btnClearRadioButtons.Name = "btnClearRadioButtons";
-            this.btnClearRadioButtons.Size = new System.Drawing.Size(127, 37);
-            this.btnClearRadioButtons.TabIndex = 13;
-            this.btnClearRadioButtons.Text = "CLEAR OPTIONS";
-            this.btnClearRadioButtons.UseVisualStyleBackColor = false;
+            this.btnClearOptions.BackColor = System.Drawing.Color.Maroon;
+            this.btnClearOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClearOptions.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearOptions.ForeColor = System.Drawing.Color.White;
+            this.btnClearOptions.Location = new System.Drawing.Point(15, 272);
+            this.btnClearOptions.Name = "btnClearOptions";
+            this.btnClearOptions.Size = new System.Drawing.Size(135, 37);
+            this.btnClearOptions.TabIndex = 13;
+            this.btnClearOptions.Text = "CLEAR OPTIONS";
+            this.btnClearOptions.UseVisualStyleBackColor = false;
+            this.btnClearOptions.Click += new System.EventHandler(this.btnClearOptions_Click);
             // 
             // rbClothes
             // 
@@ -465,6 +480,7 @@ namespace MrLabandero
             this.rbClothes.TabStop = true;
             this.rbClothes.Text = "Clothes (8kg)";
             this.rbClothes.UseVisualStyleBackColor = true;
+            this.rbClothes.CheckedChanged += new System.EventHandler(this.rbClothes_CheckedChanged);
             // 
             // rbBeddings
             // 
@@ -478,25 +494,27 @@ namespace MrLabandero
             this.rbBeddings.TabStop = true;
             this.rbBeddings.Text = "Beddings (5kg)";
             this.rbBeddings.UseVisualStyleBackColor = true;
+            this.rbBeddings.CheckedChanged += new System.EventHandler(this.rbBeddings_CheckedChanged);
             // 
-            // rbTowelOrCurtains
+            // rbTowels
             // 
-            this.rbTowelOrCurtains.AutoSize = true;
-            this.rbTowelOrCurtains.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbTowelOrCurtains.Location = new System.Drawing.Point(143, 41);
-            this.rbTowelOrCurtains.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.rbTowelOrCurtains.Name = "rbTowelOrCurtains";
-            this.rbTowelOrCurtains.Size = new System.Drawing.Size(195, 25);
-            this.rbTowelOrCurtains.TabIndex = 10;
-            this.rbTowelOrCurtains.TabStop = true;
-            this.rbTowelOrCurtains.Text = "Towels or Curtains (7kg)";
-            this.rbTowelOrCurtains.UseVisualStyleBackColor = true;
+            this.rbTowels.AutoSize = true;
+            this.rbTowels.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbTowels.Location = new System.Drawing.Point(143, 41);
+            this.rbTowels.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.rbTowels.Name = "rbTowels";
+            this.rbTowels.Size = new System.Drawing.Size(195, 25);
+            this.rbTowels.TabIndex = 10;
+            this.rbTowels.TabStop = true;
+            this.rbTowels.Text = "Towels or Curtains (7kg)";
+            this.rbTowels.UseVisualStyleBackColor = true;
+            this.rbTowels.CheckedChanged += new System.EventHandler(this.rbTowels_CheckedChanged);
             // 
             // panelHeader
             // 
-            this.panelHeader.Controls.Add(this.rbRegularDryFold);
+            this.panelHeader.Controls.Add(this.rbDryFold);
             this.panelHeader.Controls.Add(this.label2);
-            this.panelHeader.Controls.Add(this.rbRegularWash);
+            this.panelHeader.Controls.Add(this.rbWash);
             this.panelHeader.Controls.Add(this.label1);
             this.panelHeader.Controls.Add(this.rbFullServices);
             this.panelHeader.Controls.Add(this.txtFullName);
@@ -512,18 +530,18 @@ namespace MrLabandero
             this.panelHeader.Size = new System.Drawing.Size(772, 174);
             this.panelHeader.TabIndex = 17;
             // 
-            // rbRegularDryFold
+            // rbDryFold
             // 
-            this.rbRegularDryFold.AutoSize = true;
-            this.rbRegularDryFold.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbRegularDryFold.Location = new System.Drawing.Point(318, 137);
-            this.rbRegularDryFold.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.rbRegularDryFold.Name = "rbRegularDryFold";
-            this.rbRegularDryFold.Size = new System.Drawing.Size(185, 25);
-            this.rbRegularDryFold.TabIndex = 17;
-            this.rbRegularDryFold.TabStop = true;
-            this.rbRegularDryFold.Text = "Regular - Dry and Fold";
-            this.rbRegularDryFold.UseVisualStyleBackColor = true;
+            this.rbDryFold.AutoSize = true;
+            this.rbDryFold.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbDryFold.Location = new System.Drawing.Point(318, 137);
+            this.rbDryFold.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.rbDryFold.Name = "rbDryFold";
+            this.rbDryFold.Size = new System.Drawing.Size(185, 25);
+            this.rbDryFold.TabIndex = 17;
+            this.rbDryFold.TabStop = true;
+            this.rbDryFold.Text = "Regular - Dry and Fold";
+            this.rbDryFold.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -536,19 +554,19 @@ namespace MrLabandero
             this.label2.TabIndex = 2;
             this.label2.Text = "LAUNDRY SERVICES";
             // 
-            // rbRegularWash
+            // rbWash
             // 
-            this.rbRegularWash.AutoSize = true;
-            this.rbRegularWash.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbRegularWash.Location = new System.Drawing.Point(137, 138);
-            this.rbRegularWash.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.rbRegularWash.Name = "rbRegularWash";
-            this.rbRegularWash.Size = new System.Drawing.Size(171, 25);
-            this.rbRegularWash.TabIndex = 16;
-            this.rbRegularWash.TabStop = true;
-            this.rbRegularWash.Text = "Regular - Wash Only";
-            this.rbRegularWash.UseVisualStyleBackColor = true;
-            this.rbRegularWash.CheckedChanged += new System.EventHandler(this.rbRegularServices_CheckedChanged);
+            this.rbWash.AutoSize = true;
+            this.rbWash.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbWash.Location = new System.Drawing.Point(137, 138);
+            this.rbWash.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.rbWash.Name = "rbWash";
+            this.rbWash.Size = new System.Drawing.Size(171, 25);
+            this.rbWash.TabIndex = 16;
+            this.rbWash.TabStop = true;
+            this.rbWash.Text = "Regular - Wash Only";
+            this.rbWash.UseVisualStyleBackColor = true;
+            this.rbWash.CheckedChanged += new System.EventHandler(this.rbRegularServices_CheckedChanged);
             // 
             // label1
             // 
@@ -676,6 +694,30 @@ namespace MrLabandero
             this.panelMainUserControl.Size = new System.Drawing.Size(772, 487);
             this.panelMainUserControl.TabIndex = 3;
             // 
+            // lblGrandTotal
+            // 
+            this.lblGrandTotal.AutoSize = true;
+            this.lblGrandTotal.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGrandTotal.Location = new System.Drawing.Point(391, 277);
+            this.lblGrandTotal.Name = "lblGrandTotal";
+            this.lblGrandTotal.Size = new System.Drawing.Size(71, 21);
+            this.lblGrandTotal.TabIndex = 42;
+            this.lblGrandTotal.Text = "0.00 Php";
+            // 
+            // btnProceed
+            // 
+            this.btnProceed.BackColor = System.Drawing.Color.Maroon;
+            this.btnProceed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProceed.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProceed.ForeColor = System.Drawing.Color.White;
+            this.btnProceed.Location = new System.Drawing.Point(156, 272);
+            this.btnProceed.Name = "btnProceed";
+            this.btnProceed.Size = new System.Drawing.Size(135, 37);
+            this.btnProceed.TabIndex = 43;
+            this.btnProceed.Text = "PROCEED";
+            this.btnProceed.UseVisualStyleBackColor = false;
+            this.btnProceed.Click += new System.EventHandler(this.btnProceed_Click);
+            // 
             // UserControlPOS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -705,14 +747,14 @@ namespace MrLabandero
 
         private System.Windows.Forms.Panel panelFullServices;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnClearRadioButtons;
+        private System.Windows.Forms.Button btnClearOptions;
         private System.Windows.Forms.RadioButton rbClothes;
         private System.Windows.Forms.RadioButton rbBeddings;
-        private System.Windows.Forms.RadioButton rbTowelOrCurtains;
+        private System.Windows.Forms.RadioButton rbTowels;
         private System.Windows.Forms.Panel panelHeader;
         private System.Windows.Forms.Panel panelRegularServices;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RadioButton rbRegularWash;
+        private System.Windows.Forms.RadioButton rbWash;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton rbFullServices;
         private System.Windows.Forms.TextBox txtFullName;
@@ -722,7 +764,7 @@ namespace MrLabandero
         private System.Windows.Forms.Panel panelMainUserControl;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkSpin;
-        private System.Windows.Forms.RadioButton rbRegularDryFold;
+        private System.Windows.Forms.RadioButton rbDryFold;
         private System.Windows.Forms.NumericUpDown nudBaskets;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown nudWeight;
@@ -732,7 +774,7 @@ namespace MrLabandero
         private System.Windows.Forms.Label lblWashSub;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.NumericUpDown nudWash;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox chkWash;
         private System.Windows.Forms.Label lblSpinSub;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label18;
@@ -740,14 +782,16 @@ namespace MrLabandero
         private System.Windows.Forms.Label lblFabconSub;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.NumericUpDown nudFabcon;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox chkFabcon;
         private System.Windows.Forms.Label lblDetergentSub;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.NumericUpDown nudDetergent;
-        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox chkDetergent;
         private System.Windows.Forms.Label lblRinseSub;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.NumericUpDown nudRinse;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox chkRinse;
+        private System.Windows.Forms.Label lblGrandTotal;
+        private System.Windows.Forms.Button btnProceed;
     }
 }
