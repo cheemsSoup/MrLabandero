@@ -30,6 +30,8 @@ namespace MrLabandero
         private void InitializeComponent()
         {
             this.panelFullServices = new System.Windows.Forms.Panel();
+            this.btnProceed = new System.Windows.Forms.Button();
+            this.lblGrandTotal = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.lblServiceSub = new System.Windows.Forms.Label();
             this.lblFabconSub = new System.Windows.Forms.Label();
@@ -75,8 +77,8 @@ namespace MrLabandero
             this.panelRegularServices = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.panelMainUserControl = new System.Windows.Forms.Panel();
-            this.lblGrandTotal = new System.Windows.Forms.Label();
-            this.btnProceed = new System.Windows.Forms.Button();
+            this.btnAddOrder = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
             this.panelFullServices.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFabcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDetergent)).BeginInit();
@@ -92,6 +94,8 @@ namespace MrLabandero
             // 
             // panelFullServices
             // 
+            this.panelFullServices.Controls.Add(this.label11);
+            this.panelFullServices.Controls.Add(this.btnAddOrder);
             this.panelFullServices.Controls.Add(this.btnProceed);
             this.panelFullServices.Controls.Add(this.lblGrandTotal);
             this.panelFullServices.Controls.Add(this.label18);
@@ -126,6 +130,30 @@ namespace MrLabandero
             this.panelFullServices.Name = "panelFullServices";
             this.panelFullServices.Size = new System.Drawing.Size(772, 319);
             this.panelFullServices.TabIndex = 18;
+            // 
+            // btnProceed
+            // 
+            this.btnProceed.BackColor = System.Drawing.Color.Maroon;
+            this.btnProceed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnProceed.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnProceed.ForeColor = System.Drawing.Color.White;
+            this.btnProceed.Location = new System.Drawing.Point(156, 272);
+            this.btnProceed.Name = "btnProceed";
+            this.btnProceed.Size = new System.Drawing.Size(135, 37);
+            this.btnProceed.TabIndex = 43;
+            this.btnProceed.Text = "PROCEED";
+            this.btnProceed.UseVisualStyleBackColor = false;
+            this.btnProceed.Click += new System.EventHandler(this.btnProceed_Click);
+            // 
+            // lblGrandTotal
+            // 
+            this.lblGrandTotal.AutoSize = true;
+            this.lblGrandTotal.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblGrandTotal.Location = new System.Drawing.Point(500, 279);
+            this.lblGrandTotal.Name = "lblGrandTotal";
+            this.lblGrandTotal.Size = new System.Drawing.Size(71, 21);
+            this.lblGrandTotal.TabIndex = 42;
+            this.lblGrandTotal.Text = "0.00 Php";
             // 
             // label18
             // 
@@ -694,29 +722,28 @@ namespace MrLabandero
             this.panelMainUserControl.Size = new System.Drawing.Size(772, 487);
             this.panelMainUserControl.TabIndex = 3;
             // 
-            // lblGrandTotal
+            // btnAddOrder
             // 
-            this.lblGrandTotal.AutoSize = true;
-            this.lblGrandTotal.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGrandTotal.Location = new System.Drawing.Point(391, 277);
-            this.lblGrandTotal.Name = "lblGrandTotal";
-            this.lblGrandTotal.Size = new System.Drawing.Size(71, 21);
-            this.lblGrandTotal.TabIndex = 42;
-            this.lblGrandTotal.Text = "0.00 Php";
+            this.btnAddOrder.BackColor = System.Drawing.Color.Maroon;
+            this.btnAddOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddOrder.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddOrder.ForeColor = System.Drawing.Color.White;
+            this.btnAddOrder.Location = new System.Drawing.Point(297, 272);
+            this.btnAddOrder.Name = "btnAddOrder";
+            this.btnAddOrder.Size = new System.Drawing.Size(135, 37);
+            this.btnAddOrder.TabIndex = 44;
+            this.btnAddOrder.Text = "ADD ORDER";
+            this.btnAddOrder.UseVisualStyleBackColor = false;
             // 
-            // btnProceed
+            // label11
             // 
-            this.btnProceed.BackColor = System.Drawing.Color.Maroon;
-            this.btnProceed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnProceed.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProceed.ForeColor = System.Drawing.Color.White;
-            this.btnProceed.Location = new System.Drawing.Point(156, 272);
-            this.btnProceed.Name = "btnProceed";
-            this.btnProceed.Size = new System.Drawing.Size(135, 37);
-            this.btnProceed.TabIndex = 43;
-            this.btnProceed.Text = "PROCEED";
-            this.btnProceed.UseVisualStyleBackColor = false;
-            this.btnProceed.Click += new System.EventHandler(this.btnProceed_Click);
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(445, 279);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(60, 21);
+            this.label11.TabIndex = 45;
+            this.label11.Text = "TOTAL:";
             // 
             // UserControlPOS
             // 
@@ -793,5 +820,7 @@ namespace MrLabandero
         private System.Windows.Forms.CheckBox chkRinse;
         private System.Windows.Forms.Label lblGrandTotal;
         private System.Windows.Forms.Button btnProceed;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button btnAddOrder;
     }
 }
