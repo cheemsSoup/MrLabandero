@@ -30,6 +30,8 @@ namespace MrLabandero
         private void InitializeComponent()
         {
             this.panelFullServices = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.btnAddOrder = new System.Windows.Forms.Button();
             this.btnProceed = new System.Windows.Forms.Button();
             this.lblGrandTotal = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -77,8 +79,6 @@ namespace MrLabandero
             this.panelRegularServices = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.panelMainUserControl = new System.Windows.Forms.Panel();
-            this.btnAddOrder = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
             this.panelFullServices.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFabcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDetergent)).BeginInit();
@@ -130,6 +130,29 @@ namespace MrLabandero
             this.panelFullServices.Name = "panelFullServices";
             this.panelFullServices.Size = new System.Drawing.Size(772, 319);
             this.panelFullServices.TabIndex = 18;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(445, 279);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(60, 21);
+            this.label11.TabIndex = 45;
+            this.label11.Text = "TOTAL:";
+            // 
+            // btnAddOrder
+            // 
+            this.btnAddOrder.BackColor = System.Drawing.Color.Maroon;
+            this.btnAddOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddOrder.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddOrder.ForeColor = System.Drawing.Color.White;
+            this.btnAddOrder.Location = new System.Drawing.Point(297, 272);
+            this.btnAddOrder.Name = "btnAddOrder";
+            this.btnAddOrder.Size = new System.Drawing.Size(135, 37);
+            this.btnAddOrder.TabIndex = 44;
+            this.btnAddOrder.Text = "ADD ORDER";
+            this.btnAddOrder.UseVisualStyleBackColor = false;
             // 
             // btnProceed
             // 
@@ -570,6 +593,7 @@ namespace MrLabandero
             this.rbDryFold.TabStop = true;
             this.rbDryFold.Text = "Regular - Dry and Fold";
             this.rbDryFold.UseVisualStyleBackColor = true;
+            this.rbDryFold.CheckedChanged += new System.EventHandler(this.rbDryFold_CheckedChanged);
             // 
             // label2
             // 
@@ -594,7 +618,7 @@ namespace MrLabandero
             this.rbWash.TabStop = true;
             this.rbWash.Text = "Regular - Wash Only";
             this.rbWash.UseVisualStyleBackColor = true;
-            this.rbWash.CheckedChanged += new System.EventHandler(this.rbRegularServices_CheckedChanged);
+            this.rbWash.CheckedChanged += new System.EventHandler(this.rbWash_CheckedChanged);
             // 
             // label1
             // 
@@ -721,29 +745,6 @@ namespace MrLabandero
             this.panelMainUserControl.Name = "panelMainUserControl";
             this.panelMainUserControl.Size = new System.Drawing.Size(772, 487);
             this.panelMainUserControl.TabIndex = 3;
-            // 
-            // btnAddOrder
-            // 
-            this.btnAddOrder.BackColor = System.Drawing.Color.Maroon;
-            this.btnAddOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddOrder.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddOrder.ForeColor = System.Drawing.Color.White;
-            this.btnAddOrder.Location = new System.Drawing.Point(297, 272);
-            this.btnAddOrder.Name = "btnAddOrder";
-            this.btnAddOrder.Size = new System.Drawing.Size(135, 37);
-            this.btnAddOrder.TabIndex = 44;
-            this.btnAddOrder.Text = "ADD ORDER";
-            this.btnAddOrder.UseVisualStyleBackColor = false;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(445, 279);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(60, 21);
-            this.label11.TabIndex = 45;
-            this.label11.Text = "TOTAL:";
             // 
             // UserControlPOS
             // 
