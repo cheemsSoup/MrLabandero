@@ -30,6 +30,7 @@ namespace MrLabandero
         private void InitializeComponent()
         {
             this.panelFullServices = new System.Windows.Forms.Panel();
+            this.lstOrders = new System.Windows.Forms.ListBox();
             this.label11 = new System.Windows.Forms.Label();
             this.btnAddOrder = new System.Windows.Forms.Button();
             this.btnProceed = new System.Windows.Forms.Button();
@@ -72,13 +73,11 @@ namespace MrLabandero
             this.label6 = new System.Windows.Forms.Label();
             this.txtContactNumber = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.nudWeight = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.nudBaskets = new System.Windows.Forms.NumericUpDown();
             this.panelRegularServices = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.panelMainUserControl = new System.Windows.Forms.Panel();
+            this.panelServiceOptions = new System.Windows.Forms.Panel();
             this.panelFullServices.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFabcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDetergent)).BeginInit();
@@ -86,21 +85,17 @@ namespace MrLabandero
             ((System.ComponentModel.ISupportInitialize)(this.nudWash)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSpin)).BeginInit();
             this.panelHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudBaskets)).BeginInit();
             this.panelRegularServices.SuspendLayout();
             this.panelMainUserControl.SuspendLayout();
+            this.panelServiceOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelFullServices
             // 
-            this.panelFullServices.Controls.Add(this.label11);
-            this.panelFullServices.Controls.Add(this.btnAddOrder);
-            this.panelFullServices.Controls.Add(this.btnProceed);
-            this.panelFullServices.Controls.Add(this.lblGrandTotal);
             this.panelFullServices.Controls.Add(this.label18);
             this.panelFullServices.Controls.Add(this.lblServiceSub);
             this.panelFullServices.Controls.Add(this.lblFabconSub);
+            this.panelFullServices.Controls.Add(this.btnAddOrder);
             this.panelFullServices.Controls.Add(this.label14);
             this.panelFullServices.Controls.Add(this.nudFabcon);
             this.panelFullServices.Controls.Add(this.chkFabcon);
@@ -128,14 +123,22 @@ namespace MrLabandero
             this.panelFullServices.Controls.Add(this.rbTowels);
             this.panelFullServices.Location = new System.Drawing.Point(0, 168);
             this.panelFullServices.Name = "panelFullServices";
-            this.panelFullServices.Size = new System.Drawing.Size(772, 319);
+            this.panelFullServices.Size = new System.Drawing.Size(559, 348);
             this.panelFullServices.TabIndex = 18;
+            // 
+            // lstOrders
+            // 
+            this.lstOrders.FormattingEnabled = true;
+            this.lstOrders.Location = new System.Drawing.Point(570, 71);
+            this.lstOrders.Name = "lstOrders";
+            this.lstOrders.Size = new System.Drawing.Size(196, 264);
+            this.lstOrders.TabIndex = 46;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(445, 279);
+            this.label11.Location = new System.Drawing.Point(566, 342);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(60, 21);
             this.label11.TabIndex = 45;
@@ -147,12 +150,13 @@ namespace MrLabandero
             this.btnAddOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddOrder.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddOrder.ForeColor = System.Drawing.Color.White;
-            this.btnAddOrder.Location = new System.Drawing.Point(297, 272);
+            this.btnAddOrder.Location = new System.Drawing.Point(156, 279);
             this.btnAddOrder.Name = "btnAddOrder";
             this.btnAddOrder.Size = new System.Drawing.Size(135, 37);
             this.btnAddOrder.TabIndex = 44;
             this.btnAddOrder.Text = "ADD ORDER";
             this.btnAddOrder.UseVisualStyleBackColor = false;
+            this.btnAddOrder.Click += new System.EventHandler(this.btnAddOrder_Click);
             // 
             // btnProceed
             // 
@@ -160,9 +164,9 @@ namespace MrLabandero
             this.btnProceed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnProceed.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnProceed.ForeColor = System.Drawing.Color.White;
-            this.btnProceed.Location = new System.Drawing.Point(156, 272);
+            this.btnProceed.Location = new System.Drawing.Point(570, 368);
             this.btnProceed.Name = "btnProceed";
-            this.btnProceed.Size = new System.Drawing.Size(135, 37);
+            this.btnProceed.Size = new System.Drawing.Size(133, 37);
             this.btnProceed.TabIndex = 43;
             this.btnProceed.Text = "PROCEED";
             this.btnProceed.UseVisualStyleBackColor = false;
@@ -172,7 +176,7 @@ namespace MrLabandero
             // 
             this.lblGrandTotal.AutoSize = true;
             this.lblGrandTotal.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGrandTotal.Location = new System.Drawing.Point(500, 279);
+            this.lblGrandTotal.Location = new System.Drawing.Point(632, 342);
             this.lblGrandTotal.Name = "lblGrandTotal";
             this.lblGrandTotal.Size = new System.Drawing.Size(71, 21);
             this.lblGrandTotal.TabIndex = 42;
@@ -182,7 +186,7 @@ namespace MrLabandero
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(474, 45);
+            this.label18.Location = new System.Drawing.Point(470, 45);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(21, 21);
             this.label18.TabIndex = 41;
@@ -192,7 +196,7 @@ namespace MrLabandero
             // 
             this.lblServiceSub.AutoSize = true;
             this.lblServiceSub.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblServiceSub.Location = new System.Drawing.Point(500, 45);
+            this.lblServiceSub.Location = new System.Drawing.Point(487, 45);
             this.lblServiceSub.Name = "lblServiceSub";
             this.lblServiceSub.Size = new System.Drawing.Size(71, 21);
             this.lblServiceSub.TabIndex = 40;
@@ -512,7 +516,7 @@ namespace MrLabandero
             this.btnClearOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearOptions.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClearOptions.ForeColor = System.Drawing.Color.White;
-            this.btnClearOptions.Location = new System.Drawing.Point(15, 272);
+            this.btnClearOptions.Location = new System.Drawing.Point(15, 279);
             this.btnClearOptions.Name = "btnClearOptions";
             this.btnClearOptions.Size = new System.Drawing.Size(135, 37);
             this.btnClearOptions.TabIndex = 13;
@@ -537,7 +541,7 @@ namespace MrLabandero
             // 
             this.rbBeddings.AutoSize = true;
             this.rbBeddings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbBeddings.Location = new System.Drawing.Point(348, 42);
+            this.rbBeddings.Location = new System.Drawing.Point(347, 42);
             this.rbBeddings.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.rbBeddings.Name = "rbBeddings";
             this.rbBeddings.Size = new System.Drawing.Size(132, 25);
@@ -563,29 +567,23 @@ namespace MrLabandero
             // 
             // panelHeader
             // 
-            this.panelHeader.Controls.Add(this.rbDryFold);
+            this.panelHeader.Controls.Add(this.label9);
             this.panelHeader.Controls.Add(this.label2);
-            this.panelHeader.Controls.Add(this.rbWash);
             this.panelHeader.Controls.Add(this.label1);
-            this.panelHeader.Controls.Add(this.rbFullServices);
             this.panelHeader.Controls.Add(this.txtFullName);
-            this.panelHeader.Controls.Add(this.label6);
             this.panelHeader.Controls.Add(this.txtContactNumber);
             this.panelHeader.Controls.Add(this.label4);
-            this.panelHeader.Controls.Add(this.nudWeight);
-            this.panelHeader.Controls.Add(this.label9);
-            this.panelHeader.Controls.Add(this.label10);
-            this.panelHeader.Controls.Add(this.nudBaskets);
+            this.panelHeader.Controls.Add(this.panelServiceOptions);
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(772, 174);
+            this.panelHeader.Size = new System.Drawing.Size(808, 170);
             this.panelHeader.TabIndex = 17;
             // 
             // rbDryFold
             // 
             this.rbDryFold.AutoSize = true;
             this.rbDryFold.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbDryFold.Location = new System.Drawing.Point(318, 137);
+            this.rbDryFold.Location = new System.Drawing.Point(303, 31);
             this.rbDryFold.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.rbDryFold.Name = "rbDryFold";
             this.rbDryFold.Size = new System.Drawing.Size(185, 25);
@@ -610,7 +608,7 @@ namespace MrLabandero
             // 
             this.rbWash.AutoSize = true;
             this.rbWash.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbWash.Location = new System.Drawing.Point(137, 138);
+            this.rbWash.Location = new System.Drawing.Point(122, 31);
             this.rbWash.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.rbWash.Name = "rbWash";
             this.rbWash.Size = new System.Drawing.Size(171, 25);
@@ -635,7 +633,7 @@ namespace MrLabandero
             // 
             this.rbFullServices.AutoSize = true;
             this.rbFullServices.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbFullServices.Location = new System.Drawing.Point(15, 137);
+            this.rbFullServices.Location = new System.Drawing.Point(0, 31);
             this.rbFullServices.Name = "rbFullServices";
             this.rbFullServices.Size = new System.Drawing.Size(114, 25);
             this.rbFullServices.TabIndex = 15;
@@ -649,14 +647,16 @@ namespace MrLabandero
             this.txtFullName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFullName.Location = new System.Drawing.Point(15, 71);
             this.txtFullName.Name = "txtFullName";
-            this.txtFullName.Size = new System.Drawing.Size(298, 29);
+            this.txtFullName.Size = new System.Drawing.Size(273, 29);
             this.txtFullName.TabIndex = 6;
+            this.txtFullName.TextChanged += new System.EventHandler(this.txtFullName_TextChanged_1);
+            this.txtFullName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFullName_KeyPress);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(10, 106);
+            this.label6.Location = new System.Drawing.Point(-5, 3);
             this.label6.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(146, 25);
@@ -666,64 +666,40 @@ namespace MrLabandero
             // txtContactNumber
             // 
             this.txtContactNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtContactNumber.Location = new System.Drawing.Point(319, 71);
+            this.txtContactNumber.Location = new System.Drawing.Point(294, 71);
             this.txtContactNumber.Name = "txtContactNumber";
-            this.txtContactNumber.Size = new System.Drawing.Size(298, 29);
+            this.txtContactNumber.Size = new System.Drawing.Size(264, 29);
             this.txtContactNumber.TabIndex = 7;
+            this.txtContactNumber.TextChanged += new System.EventHandler(this.txtContactNumber_TextChanged_1);
+            this.txtContactNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtContactNumber_KeyPress);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(314, 40);
+            this.label4.Location = new System.Drawing.Point(289, 40);
             this.label4.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(151, 25);
             this.label4.TabIndex = 8;
             this.label4.Text = "Contact Number";
             // 
-            // nudWeight
-            // 
-            this.nudWeight.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nudWeight.Location = new System.Drawing.Point(333, 8);
-            this.nudWeight.Name = "nudWeight";
-            this.nudWeight.Size = new System.Drawing.Size(120, 29);
-            this.nudWeight.TabIndex = 17;
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(227, 10);
+            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(565, 40);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(108, 21);
+            this.label9.Size = new System.Drawing.Size(100, 25);
             this.label9.TabIndex = 18;
-            this.label9.Text = "Weight in Kg:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(466, 10);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(153, 21);
-            this.label10.TabIndex = 19;
-            this.label10.Text = "Number of Baskets:";
-            // 
-            // nudBaskets
-            // 
-            this.nudBaskets.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nudBaskets.Location = new System.Drawing.Point(618, 8);
-            this.nudBaskets.Name = "nudBaskets";
-            this.nudBaskets.Size = new System.Drawing.Size(120, 29);
-            this.nudBaskets.TabIndex = 20;
+            this.label9.Text = "Order List:";
             // 
             // panelRegularServices
             // 
             this.panelRegularServices.Controls.Add(this.label5);
-            this.panelRegularServices.Location = new System.Drawing.Point(3, 177);
+            this.panelRegularServices.Location = new System.Drawing.Point(3, 168);
             this.panelRegularServices.Name = "panelRegularServices";
-            this.panelRegularServices.Size = new System.Drawing.Size(766, 265);
+            this.panelRegularServices.Size = new System.Drawing.Size(556, 319);
             this.panelRegularServices.TabIndex = 19;
             // 
             // label5
@@ -737,14 +713,29 @@ namespace MrLabandero
             // 
             // panelMainUserControl
             // 
+            this.panelMainUserControl.Controls.Add(this.lblGrandTotal);
+            this.panelMainUserControl.Controls.Add(this.label11);
+            this.panelMainUserControl.Controls.Add(this.btnProceed);
+            this.panelMainUserControl.Controls.Add(this.lstOrders);
             this.panelMainUserControl.Controls.Add(this.panelFullServices);
             this.panelMainUserControl.Controls.Add(this.panelRegularServices);
             this.panelMainUserControl.Controls.Add(this.panelHeader);
             this.panelMainUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainUserControl.Location = new System.Drawing.Point(0, 0);
             this.panelMainUserControl.Name = "panelMainUserControl";
-            this.panelMainUserControl.Size = new System.Drawing.Size(772, 487);
+            this.panelMainUserControl.Size = new System.Drawing.Size(808, 516);
             this.panelMainUserControl.TabIndex = 3;
+            // 
+            // panelServiceOptions
+            // 
+            this.panelServiceOptions.Controls.Add(this.rbDryFold);
+            this.panelServiceOptions.Controls.Add(this.label6);
+            this.panelServiceOptions.Controls.Add(this.rbFullServices);
+            this.panelServiceOptions.Controls.Add(this.rbWash);
+            this.panelServiceOptions.Location = new System.Drawing.Point(15, 106);
+            this.panelServiceOptions.Name = "panelServiceOptions";
+            this.panelServiceOptions.Size = new System.Drawing.Size(544, 64);
+            this.panelServiceOptions.TabIndex = 21;
             // 
             // UserControlPOS
             // 
@@ -752,7 +743,7 @@ namespace MrLabandero
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelMainUserControl);
             this.Name = "UserControlPOS";
-            this.Size = new System.Drawing.Size(772, 487);
+            this.Size = new System.Drawing.Size(808, 516);
             this.panelFullServices.ResumeLayout(false);
             this.panelFullServices.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFabcon)).EndInit();
@@ -762,11 +753,12 @@ namespace MrLabandero
             ((System.ComponentModel.ISupportInitialize)(this.nudSpin)).EndInit();
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudBaskets)).EndInit();
             this.panelRegularServices.ResumeLayout(false);
             this.panelRegularServices.PerformLayout();
             this.panelMainUserControl.ResumeLayout(false);
+            this.panelMainUserControl.PerformLayout();
+            this.panelServiceOptions.ResumeLayout(false);
+            this.panelServiceOptions.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -793,9 +785,6 @@ namespace MrLabandero
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkSpin;
         private System.Windows.Forms.RadioButton rbDryFold;
-        private System.Windows.Forms.NumericUpDown nudBaskets;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown nudWeight;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown nudSpin;
@@ -823,5 +812,7 @@ namespace MrLabandero
         private System.Windows.Forms.Button btnProceed;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnAddOrder;
+        private System.Windows.Forms.ListBox lstOrders;
+        private System.Windows.Forms.Panel panelServiceOptions;
     }
 }
