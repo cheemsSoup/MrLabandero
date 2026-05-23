@@ -36,6 +36,16 @@ namespace MrLabandero
         // SAVED PDF PATH — USED FOR PRINT OPTION AFTER PDF GENERATION
         private string _lastPdfPath = string.Empty;
 
+        public EventHandler<ProceedEventArgs> OnProceed;
+
+        public class ProceedEventArgs : EventArgs
+        {
+            public string CustomerName { get; set; }
+            public string ContactNumber { get; set; }
+            public List<UserControlReceipt.ReceiptOrder> Orders { get; set; }
+            public decimal GrandTotal { get; set; }
+        }
+
         // =======================================
         // GROUP 2 — CONSTRUCTOR
         // =======================================
@@ -351,7 +361,31 @@ namespace MrLabandero
         // =======================================
         private void btnProceed_Click(object sender, EventArgs e)
         {
-           
+            if (!ValidateProceed()) return;
+
+            var receiptOrders = new List<UserControlReceipt.ReceiptOrder>();
+            foreach (var o in _orders)
+            {
+                receiptOrders.Add(new UserControlReceipt.ReceiptOrder
+                {
+                    ServiceType = o.ServiceType,
+                    ItemType = o.ItemType,
+                    BaseAmount = o.BaseAmount,
+                    AddOnDetails = o.AddOnDetails,
+                    AddOnAmount = o.AddOnAmount
+                });
+            }
+
+            decimal grandTotal = 0;
+            foreach (var o in _orders) grandTotal += o.OrderTotal;
+
+            OnProceed?.Invoke(this, new ProceedEventArgs
+            {
+                CustomerName = txtFullName.Text.Trim(),
+                ContactNumber = txtContactNumber.Text.Trim(),
+                Orders = receiptOrders,
+                GrandTotal = grandTotal
+            });
         }
 
 
@@ -428,7 +462,7 @@ namespace MrLabandero
             ResetSubLabels();
         }
         //RESET EVERYTHING AFTER RECEIPT GENERATION
-        private void ResetSession()
+        public void ResetSession()
         {
             txtFullName.Text = "";
             txtContactNumber.Text = "";

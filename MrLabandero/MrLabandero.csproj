@@ -102,7 +102,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FontResolver.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +122,12 @@
     <Compile Include="UserControlPOS.Designer.cs">
       <DependentUpon>UserControlPOS.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControlReceipt.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControlReceipt.Designer.cs">
+      <DependentUpon>UserControlReceipt.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -133,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControlPOS.resx">
       <DependentUpon>UserControlPOS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControlReceipt.resx">
+      <DependentUpon>UserControlReceipt.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

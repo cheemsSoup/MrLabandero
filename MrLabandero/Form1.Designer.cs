@@ -51,6 +51,7 @@ namespace MrLabandero
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(808, 516);
             this.mainPanel.TabIndex = 1;
+            this.mainPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.mainPanel_Paint);
             // 
             // panelBlueLeft
             // 
