@@ -55,7 +55,8 @@ namespace MrLabandero
 
             // HIDE UNNECESSARY PANELS
             panelFullServices.Visible = false;
-            panelRegularServices.Visible = false;
+            panelWashOnly.Visible = false;
+            panelAddOns.Visible = false;
 
             // DISABLE NUD ON LOAD
             nudSpin.Enabled = false;
@@ -151,7 +152,8 @@ namespace MrLabandero
             if (rbFullServices.Checked)
             {
                 panelFullServices.Visible = true;
-                panelRegularServices.Visible = false;
+                panelAddOns.Visible = true;
+                panelWashOnly.Visible = false;
                 panelFullServices.BringToFront();
                 ClearItemSelection();
                 UpdateCurrentSubtotal();
@@ -161,9 +163,10 @@ namespace MrLabandero
         {
             if (rbWash.Checked)
             {
-                panelRegularServices.Visible = true;
+                panelWashOnly.Visible = true;
                 panelFullServices.Visible = false;
-                panelRegularServices.BringToFront();
+                panelAddOns.Visible = true;
+                //panelRegularServices.BringToFront();
                 ClearItemSelection();
                 UpdateCurrentSubtotal();
             }
@@ -172,9 +175,10 @@ namespace MrLabandero
         {
             if (rbWash.Checked)
             {
-                panelRegularServices.Visible = true;
+                panelWashOnly.Visible = true;
                 panelFullServices.Visible = false;
-                panelRegularServices.BringToFront();
+                panelAddOns.Visible = true;
+                panelWashOnly.BringToFront();
                 ClearItemSelection();
                 UpdateCurrentSubtotal();
             }
@@ -443,7 +447,9 @@ namespace MrLabandero
             rbDryFold.Checked = false;
 
             panelFullServices.Visible = false;
-            panelRegularServices.Visible = false;
+            panelWashOnly.Visible = false;
+            panelAddOns.Visible = false;
+
 
             ClearItemSelection();
 
@@ -493,6 +499,9 @@ namespace MrLabandero
             lblGrandTotal.Text = "0.00 Php";
         }
 
+        private void rbClothesWash_CheckedChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }

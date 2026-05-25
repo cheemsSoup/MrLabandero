@@ -128,6 +128,12 @@
     <Compile Include="UserControlReceipt.Designer.cs">
       <DependentUpon>UserControlReceipt.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControl_Inventory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl_Inventory.Designer.cs">
+      <DependentUpon>UserControl_Inventory.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -141,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControlReceipt.resx">
       <DependentUpon>UserControlReceipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl_Inventory.resx">
+      <DependentUpon>UserControl_Inventory.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
