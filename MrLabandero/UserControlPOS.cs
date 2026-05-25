@@ -56,6 +56,7 @@ namespace MrLabandero
             // HIDE UNNECESSARY PANELS
             panelFullServices.Visible = false;
             panelWashOnly.Visible = false;
+            panelDryFold.Visible = false;
             panelAddOns.Visible = false;
 
             // DISABLE NUD ON LOAD
@@ -64,6 +65,8 @@ namespace MrLabandero
             nudRinse.Enabled = false;
             nudDetergent.Enabled = false;
             nudFabcon.Enabled = false;
+            nudWeight.Enabled = false;
+            nudBasket.Enabled = false;
 
             // SET NUD VALUE MINIMUM TO 1
             nudSpin.Minimum = 1;
@@ -72,6 +75,7 @@ namespace MrLabandero
             nudDetergent.Minimum = 1;
             nudFabcon.Minimum = 1;
             nudWeight.Minimum = 1;
+            nudBasket.Minimum = 1;
 
             // RESET SUBTEXT TOTALS
             lblSpinSub.Text = "0.00 Php";
@@ -80,6 +84,8 @@ namespace MrLabandero
             lblDetergentSub.Text = "0.00 Php";
             lblFabconSub.Text = "0.00 Php"; 
             lblServiceSub.Text = "0.00 Php";
+            lblSubTotalWash.Text = "0.00 Php";
+            lblSubTotalDryFold.Text = "0.00 Php";
 
             // DISABLED UNLESS REQUIREMENTS MET
             panelServiceOptions.Enabled = false;
@@ -114,7 +120,7 @@ namespace MrLabandero
         // Enables service options panel only when Full Name is filled AND contact is valid PH number
         private void CheckCustomerInfoComplete()
         {
-            bool nameOk = !string.IsNullOrWhiteSpace(txtFullName.Text);
+            bool nameOk = !string.IsNullOrWhiteSpace(txtFullName.Text) && txtFullName.Text.Trim().Length >= 2;
             bool contactOk = Regex.IsMatch(
                 txtContactNumber.Text.Trim(),
                 @"^(09\d{9}|09\d{2}-\d{3}-\d{4})$");
@@ -155,6 +161,12 @@ namespace MrLabandero
                 panelFullServices.Visible = true;
                 panelAddOns.Visible = true;
                 panelWashOnly.Visible = false;
+                panelDryFold.Visible = false;
+                chkWash.Enabled = true;
+                chkSpin.Enabled = true;
+                chkRinse.Enabled = true;
+                chkDetergent.Enabled = true;
+                chkFabcon.Enabled = true;
                 panelFullServices.BringToFront();
                 ClearItemSelection();
                 UpdateCurrentSubtotal();
@@ -162,12 +174,16 @@ namespace MrLabandero
         }
         private void rbDryFold_CheckedChanged(object sender, EventArgs e)
         {
-            if (rbWash.Checked)
+            if (rbDryFold.Checked)
             {
-                panelWashOnly.Visible = true;
+                panelDryFold.Visible = true;
+                panelWashOnly.Visible = false;
                 panelFullServices.Visible = false;
                 panelAddOns.Visible = true;
-                //panelRegularServices.BringToFront();
+                chkWash.Enabled = false;
+                chkRinse.Enabled = false;
+                chkDetergent.Enabled = false;
+                panelDryFold.BringToFront();
                 ClearItemSelection();
                 UpdateCurrentSubtotal();
             }
@@ -178,8 +194,14 @@ namespace MrLabandero
             {
                 panelWashOnly.Visible = true;
                 panelFullServices.Visible = false;
+                panelDryFold.Visible = false;
                 panelAddOns.Visible = true;
                 nudWeight.Value = 1;
+                chkWash.Enabled = true;
+                chkSpin.Enabled = true;
+                chkRinse.Enabled = true;
+                chkDetergent.Enabled = true;
+                chkFabcon.Enabled = true;
                 panelWashOnly.BringToFront();
                 ClearItemSelection();
                 UpdateCurrentSubtotal();
@@ -218,6 +240,7 @@ namespace MrLabandero
         // NUD VALUE - WEIGHT FOR WASH
         private void nudWeight_ValueChanged(object sender, EventArgs e)
         {
+            nudWeight.Enabled = rbClothesWash.Checked || rbTowelsWash.Checked || rbBeddingsWash.Checked;
             decimal pricePerKilo = rbClothesWash.Checked ? Prices.W_Clothes
                       : rbTowelsWash.Checked ? Prices.W_Towels
                       : rbBeddingsWash.Checked ? Prices.W_Beddings
@@ -225,6 +248,35 @@ namespace MrLabandero
 
             decimal subtotal = pricePerKilo * (decimal)nudWeight.Value;
             lblSubTotalWash.Text = $"{subtotal:0.00} Php";
+
+            UpdateCurrentSubtotal();
+        }
+        // DRY FOLD
+        private void rbBeddingsDryFold_CheckedChanged(object sender, EventArgs e)
+        {
+            nudBasket_ValueChanged(sender, e);
+        }
+
+        private void rbTowelsDryFold_CheckedChanged(object sender, EventArgs e)
+        {
+            nudBasket_ValueChanged(sender, e);
+        }
+
+        private void rbClothesDryFold_CheckedChanged(object sender, EventArgs e)
+        {
+            nudBasket_ValueChanged(sender, e);
+        }
+
+        private void nudBasket_ValueChanged(object sender, EventArgs e)
+        {
+            nudBasket.Enabled = rbClothesDryFold.Checked || rbTowelsDryFold.Checked || rbBeddingsDryFold.Checked;
+            decimal pricePerBasket = rbClothesDryFold.Checked ? Prices.W_Clothes
+                      : rbTowelsDryFold.Checked ? Prices.W_Towels
+                      : rbBeddingsDryFold.Checked ? Prices.W_Beddings
+                      : 0;
+
+            decimal subtotal = pricePerBasket * (decimal)nudBasket.Value;
+            lblSubTotalDryFold.Text = $"{subtotal:0.00} Php";
 
             UpdateCurrentSubtotal();
         }
@@ -297,6 +349,7 @@ namespace MrLabandero
 
             lblSubTotalWash.Text = $"{baseService:0.00} Php";
             lblServiceSub.Text = $"{baseService:0.00} Php";
+            lblSubTotalDryFold.Text = $"{baseService:0.00} Php";
 
             decimal savedTotal = 0;
             foreach (var o in _orders) savedTotal += o.OrderTotal;
@@ -317,6 +370,13 @@ namespace MrLabandero
                 if (rbTowelsWash.Checked) return Prices.W_Towels * kg;
                 if (rbBeddingsWash.Checked) return Prices.W_Beddings * kg; ;
             }
+            if (rbDryFold.Checked)
+            {
+                decimal basket = (decimal)nudBasket.Value;
+                if (rbClothesDryFold.Checked) return Prices.DF_Clothes *basket;
+                if (rbTowelsDryFold.Checked) return Prices.DF_Towels * basket;
+                if (rbBeddingsDryFold.Checked) return Prices.DF_Beddings * basket;
+            }
             return 0;
         }
         private decimal ComputeAddOns()
@@ -333,13 +393,10 @@ namespace MrLabandero
         }
 
         // =======================================
-        // GROUP  - ADD ORDER
+        // GROUP 7 - ADD ORDER
         // =======================================
-
-        private void btnAddOrder_Click(object sender, EventArgs e)
+        private OrderItem BuildCurrentOrder()
         {
-            if (!ValidateAddOrder()) return;
-
             var addOnDetails = new List<string>();
             if (chkSpin.Checked)
                 addOnDetails.Add($"Additional Spin x{nudSpin.Value} = {Prices.AddSpin * (decimal)nudSpin.Value:0.00} Php");
@@ -352,18 +409,18 @@ namespace MrLabandero
             if (chkFabcon.Checked)
                 addOnDetails.Add($"Extra Fabcon x{nudFabcon.Value} = {Prices.ExtraFabcon * (decimal)nudFabcon.Value:0.00} Php");
 
-            string ServiceType = rbFullServices.Checked ? "Full Service (Wash, Dry, Fold)"
-            : rbWash.Checked ? "Regular - Wash Only"
-            : rbDryFold.Checked ? "Regular - Dry and Fold"
-            : "";
+            string serviceType = rbFullServices.Checked ? "Full Service (Wash, Dry, Fold)"
+                               : rbWash.Checked ? "Regular - Wash Only"
+                               : rbDryFold.Checked ? "Regular - Dry and Fold"
+                               : "";
 
             string itemType;
-
-            if (rbFullServices.Checked) {
+            if (rbFullServices.Checked)
+            {
                 itemType = rbClothes.Checked ? "Clothes (8kg)"
-                        : rbTowels.Checked ? "Towels or Curtains (7kg)"
-                        : rbBeddings.Checked ? "Beddings (5kg)"
-                        : "";
+                         : rbTowels.Checked ? "Towels or Curtains (7kg)"
+                         : rbBeddings.Checked ? "Beddings (5kg)"
+                         : "";
             }
             else if (rbWash.Checked)
             {
@@ -374,28 +431,40 @@ namespace MrLabandero
             }
             else
             {
-                itemType = rbClothes.Checked ? "Clothes"
-                         : rbTowels.Checked ? "Towels or Curtains"
-                         : rbBeddings.Checked ? "Beddings"
+                itemType = rbClothesDryFold.Checked ? $"Clothes ({nudBasket.Value} Basket)"
+                         : rbTowelsDryFold.Checked ? $"Towels or Curtains ({nudBasket.Value} Basket)"
+                         : rbBeddingsDryFold.Checked ? $"Beddings ({nudBasket.Value} Basket)"
                          : "";
             }
 
-            _orders.Add(new OrderItem
+            return new OrderItem
             {
-                ServiceType = ServiceType,
+                ServiceType = serviceType,
                 ItemType = itemType,
                 BaseAmount = ComputeBaseService(),
                 AddOnDetails = addOnDetails,
                 AddOnAmount = ComputeAddOns()
-            });
+            };
+        }
+        private bool HasCurrentSelection()
+        {
+            return (rbFullServices.Checked || rbWash.Checked || rbDryFold.Checked) &&
+                   (rbClothes.Checked || rbTowels.Checked || rbBeddings.Checked ||
+                    rbClothesWash.Checked || rbTowelsWash.Checked || rbBeddingsWash.Checked ||
+                    rbClothesDryFold.Checked || rbTowelsDryFold.Checked || rbBeddingsDryFold.Checked);
+        }
+        private void btnAddOrder_Click(object sender, EventArgs e)
+        {
+            if (!ValidateAddOrder()) return;
+
+            _orders.Add(BuildCurrentOrder());
             RefreshOrderSummary();
             ClearServiceSelection();
 
             MessageBox.Show(
-                $"Order #{_orders.Count} added!\nContinue adding or click Generate Receipt.",
+                $"Order #{_orders.Count} added!\nContinue adding or click Proceed.",
                 "Order Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
         private void RefreshOrderSummary()
         {
             lstOrders.Items.Clear();
@@ -424,6 +493,14 @@ namespace MrLabandero
         // =======================================
         private void btnProceed_Click(object sender, EventArgs e)
         {
+            if (HasCurrentSelection())
+            {
+                if (!ValidateAddOrder()) return;
+                _orders.Add(BuildCurrentOrder());
+                RefreshOrderSummary();
+                ClearItemSelection();
+            }
+
             if (!ValidateProceed()) return;
 
             var receiptOrders = new List<UserControlReceipt.ReceiptOrder>();
@@ -451,9 +528,56 @@ namespace MrLabandero
             });
         }
 
+        // =======================================
+        // GROUP 9 — Remove Button
+        // =======================================
+        private void btnRemoveOrder_Click(object sender, EventArgs e)
+        {
+            if (lstOrders.SelectedIndex < 0)
+            {
+                MessageBox.Show("Please click an order to select it first.",
+                    "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Kung nag-click sa divider o total line — reject agad
+            string selectedLine = lstOrders.Items[lstOrders.SelectedIndex]?.ToString().TrimStart() ?? "";
+            if (selectedLine.StartsWith("═") || selectedLine.StartsWith("TOTAL") || selectedLine.Trim() == "")
+            {
+                MessageBox.Show("Please select a specific order, not the total or divider.",
+                    "Invalid Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Hanapin ang pinakamalapit na header pataas
+            int selectedIndex = lstOrders.SelectedIndex;
+            while (selectedIndex >= 0)
+            {
+                string line = lstOrders.Items[selectedIndex]?.ToString().TrimStart() ?? "";
+                if (line.StartsWith("#")) break;
+                selectedIndex--;
+            }
+
+            if (selectedIndex < 0) return;
+
+            string header = lstOrders.Items[selectedIndex].ToString().TrimStart();
+            int spaceIndex = header.IndexOf(' ');
+            int orderNum = int.Parse(header.Substring(1, spaceIndex - 1));
+
+            var confirm = MessageBox.Show(
+                $"Remove Order #{orderNum}: {_orders[orderNum - 1].ServiceType} — {_orders[orderNum - 1].ItemType}?",
+                "Remove Order", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirm == DialogResult.Yes)
+            {
+                _orders.RemoveAt(orderNum - 1);
+                RefreshOrderSummary();
+                UpdateCurrentSubtotal();
+            }
+        }
 
         // =======================================
-        // GROUP — CLEAR BUTTON
+        // GROUP 10 — CLEAR BUTTON
         // =======================================
         // CLEARS ALL SERVICES AND ITEMS BUT NOT CUSTOMER INFO
         private void btnClearOptions_Click(object sender, EventArgs e)
@@ -462,7 +586,7 @@ namespace MrLabandero
         }
 
         // =======================================
-        // GROUP — FORM VALIDATION
+        // GROUP 11 — FORM VALIDATION
         // =======================================
         private bool ValidateAddOrder()
         {
@@ -487,7 +611,13 @@ namespace MrLabandero
                     "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
-
+            if (rbDryFold.Checked &&
+               !rbClothesDryFold.Checked && !rbTowelsDryFold.Checked && !rbBeddingsDryFold.Checked)
+            {
+                MessageBox.Show("Please select an item type (Clothes, Towels, or Beddings).",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
             return true;
         }
         private bool ValidateProceed()
@@ -502,7 +632,7 @@ namespace MrLabandero
         }
 
         // =======================================
-        // GROUP  - HELPER METHODS
+        // GROUP 12 - HELPER METHODS
         // =======================================
 
         //CLEARS EVERYTHING EXCEPT FULL NAME AND CONTACT NUMBER
@@ -514,6 +644,7 @@ namespace MrLabandero
 
             panelFullServices.Visible = false;
             panelWashOnly.Visible = false;
+            panelDryFold.Visible = false;
             panelAddOns.Visible = false;
 
 
@@ -524,6 +655,8 @@ namespace MrLabandero
             chkRinse.Checked = false;
             chkDetergent.Checked = false;
             chkFabcon.Checked = false;
+            nudWeight.Enabled = false;
+            nudBasket.Enabled = false;
 
             nudSpin.Value = 1;
             nudWash.Value = 1;
@@ -531,6 +664,7 @@ namespace MrLabandero
             nudDetergent.Value = 1;
             nudFabcon.Value = 1;
             nudWeight.Value = 1;
+            nudBasket.Value = 1;
 
             ResetSubLabels();
         }
@@ -558,6 +692,11 @@ namespace MrLabandero
             rbTowelsWash.Checked = false;
             rbBeddingsWash.Checked = false;
             lblSubTotalWash.Text = "0.00 Php";
+
+            rbClothesDryFold.Checked = false;
+            rbTowelsDryFold.Checked = false;
+            rbBeddingsDryFold.Checked = false;
+            lblSubTotalDryFold.Text = "0.00 Php";
         }
         //RESETS SUBTEXT VALUE TO ZERO
         private void ResetSubLabels()
@@ -569,6 +708,7 @@ namespace MrLabandero
             lblFabconSub.Text = "0.00 Php";
             lblServiceSub.Text = "0.00 Php";
             lblSubTotalWash.Text = "0.00 Php";
+            lblSubTotalDryFold.Text = "0.00 Php";
             lblGrandTotal.Text = "0.00 Php";
         }
 
@@ -576,5 +716,7 @@ namespace MrLabandero
         {
 
         }
+
+       
     }
 }

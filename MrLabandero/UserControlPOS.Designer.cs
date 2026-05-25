@@ -30,19 +30,21 @@ namespace MrLabandero
         private void InitializeComponent()
         {
             this.panelFullServices = new System.Windows.Forms.Panel();
-            this.panelWashOnly = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.nudWeight = new System.Windows.Forms.NumericUpDown();
-            this.rbBeddingsWash = new System.Windows.Forms.RadioButton();
-            this.rbTowelsWash = new System.Windows.Forms.RadioButton();
-            this.rbClothesWash = new System.Windows.Forms.RadioButton();
-            this.label5 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.lblServiceSub = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.rbClothes = new System.Windows.Forms.RadioButton();
             this.rbBeddings = new System.Windows.Forms.RadioButton();
             this.rbTowels = new System.Windows.Forms.RadioButton();
+            this.panelWashOnly = new System.Windows.Forms.Panel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.lblSubTotalWash = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.nudWeight = new System.Windows.Forms.NumericUpDown();
+            this.rbBeddingsWash = new System.Windows.Forms.RadioButton();
+            this.rbTowelsWash = new System.Windows.Forms.RadioButton();
+            this.rbClothesWash = new System.Windows.Forms.RadioButton();
+            this.label5 = new System.Windows.Forms.Label();
             this.lblFabconSub = new System.Windows.Forms.Label();
             this.btnAddOrder = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
@@ -84,8 +86,16 @@ namespace MrLabandero
             this.rbWash = new System.Windows.Forms.RadioButton();
             this.panelMainUserControl = new System.Windows.Forms.Panel();
             this.panelAddOns = new System.Windows.Forms.Panel();
-            this.lblSubTotalWash = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
+            this.panelDryFold = new System.Windows.Forms.Panel();
+            this.label20 = new System.Windows.Forms.Label();
+            this.lblSubTotalDryFold = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.nudBasket = new System.Windows.Forms.NumericUpDown();
+            this.rbBeddingsDryFold = new System.Windows.Forms.RadioButton();
+            this.rbTowelsDryFold = new System.Windows.Forms.RadioButton();
+            this.rbClothesDryFold = new System.Windows.Forms.RadioButton();
+            this.label24 = new System.Windows.Forms.Label();
+            this.btnRemoveOrder = new System.Windows.Forms.Button();
             this.panelFullServices.SuspendLayout();
             this.panelWashOnly.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).BeginInit();
@@ -98,6 +108,8 @@ namespace MrLabandero
             this.panelServiceOptions.SuspendLayout();
             this.panelMainUserControl.SuspendLayout();
             this.panelAddOns.SuspendLayout();
+            this.panelDryFold.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBasket)).BeginInit();
             this.SuspendLayout();
             // 
             // panelFullServices
@@ -113,6 +125,78 @@ namespace MrLabandero
             this.panelFullServices.Size = new System.Drawing.Size(559, 71);
             this.panelFullServices.TabIndex = 18;
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(458, 45);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(21, 21);
+            this.label18.TabIndex = 41;
+            this.label18.Text = "=";
+            // 
+            // lblServiceSub
+            // 
+            this.lblServiceSub.AutoSize = true;
+            this.lblServiceSub.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblServiceSub.Location = new System.Drawing.Point(475, 45);
+            this.lblServiceSub.Name = "lblServiceSub";
+            this.lblServiceSub.Size = new System.Drawing.Size(71, 21);
+            this.lblServiceSub.TabIndex = 40;
+            this.lblServiceSub.Text = "0.00 Php";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(10, 8);
+            this.label3.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(269, 25);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Full Services (Wash, Dry, Fold)";
+            // 
+            // rbClothes
+            // 
+            this.rbClothes.AutoSize = true;
+            this.rbClothes.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbClothes.Location = new System.Drawing.Point(15, 39);
+            this.rbClothes.Name = "rbClothes";
+            this.rbClothes.Size = new System.Drawing.Size(120, 25);
+            this.rbClothes.TabIndex = 9;
+            this.rbClothes.TabStop = true;
+            this.rbClothes.Text = "Clothes (8kg)";
+            this.rbClothes.UseVisualStyleBackColor = true;
+            this.rbClothes.CheckedChanged += new System.EventHandler(this.rbClothes_CheckedChanged);
+            // 
+            // rbBeddings
+            // 
+            this.rbBeddings.AutoSize = true;
+            this.rbBeddings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbBeddings.Location = new System.Drawing.Point(334, 42);
+            this.rbBeddings.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.rbBeddings.Name = "rbBeddings";
+            this.rbBeddings.Size = new System.Drawing.Size(132, 25);
+            this.rbBeddings.TabIndex = 11;
+            this.rbBeddings.TabStop = true;
+            this.rbBeddings.Text = "Beddings (5kg)";
+            this.rbBeddings.UseVisualStyleBackColor = true;
+            this.rbBeddings.CheckedChanged += new System.EventHandler(this.rbBeddings_CheckedChanged);
+            // 
+            // rbTowels
+            // 
+            this.rbTowels.AutoSize = true;
+            this.rbTowels.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbTowels.Location = new System.Drawing.Point(137, 41);
+            this.rbTowels.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.rbTowels.Name = "rbTowels";
+            this.rbTowels.Size = new System.Drawing.Size(195, 25);
+            this.rbTowels.TabIndex = 10;
+            this.rbTowels.TabStop = true;
+            this.rbTowels.Text = "Towels or Curtains (7kg)";
+            this.rbTowels.UseVisualStyleBackColor = true;
+            this.rbTowels.CheckedChanged += new System.EventHandler(this.rbTowels_CheckedChanged);
+            // 
             // panelWashOnly
             // 
             this.panelWashOnly.Controls.Add(this.label15);
@@ -127,6 +211,26 @@ namespace MrLabandero
             this.panelWashOnly.Name = "panelWashOnly";
             this.panelWashOnly.Size = new System.Drawing.Size(558, 71);
             this.panelWashOnly.TabIndex = 42;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(331, 11);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(21, 21);
+            this.label15.TabIndex = 44;
+            this.label15.Text = "=";
+            // 
+            // lblSubTotalWash
+            // 
+            this.lblSubTotalWash.AutoSize = true;
+            this.lblSubTotalWash.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubTotalWash.Location = new System.Drawing.Point(351, 11);
+            this.lblSubTotalWash.Name = "lblSubTotalWash";
+            this.lblSubTotalWash.Size = new System.Drawing.Size(71, 21);
+            this.lblSubTotalWash.TabIndex = 43;
+            this.lblSubTotalWash.Text = "0.00 Php";
             // 
             // label10
             // 
@@ -220,78 +324,6 @@ namespace MrLabandero
             this.label5.Size = new System.Drawing.Size(103, 25);
             this.label5.TabIndex = 5;
             this.label5.Text = "Wash Only";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(470, 45);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(21, 21);
-            this.label18.TabIndex = 41;
-            this.label18.Text = "=";
-            // 
-            // lblServiceSub
-            // 
-            this.lblServiceSub.AutoSize = true;
-            this.lblServiceSub.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblServiceSub.Location = new System.Drawing.Point(487, 45);
-            this.lblServiceSub.Name = "lblServiceSub";
-            this.lblServiceSub.Size = new System.Drawing.Size(71, 21);
-            this.lblServiceSub.TabIndex = 40;
-            this.lblServiceSub.Text = "0.00 Php";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(10, 8);
-            this.label3.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(269, 25);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Full Services (Wash, Dry, Fold)";
-            // 
-            // rbClothes
-            // 
-            this.rbClothes.AutoSize = true;
-            this.rbClothes.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbClothes.Location = new System.Drawing.Point(15, 39);
-            this.rbClothes.Name = "rbClothes";
-            this.rbClothes.Size = new System.Drawing.Size(120, 25);
-            this.rbClothes.TabIndex = 9;
-            this.rbClothes.TabStop = true;
-            this.rbClothes.Text = "Clothes (8kg)";
-            this.rbClothes.UseVisualStyleBackColor = true;
-            this.rbClothes.CheckedChanged += new System.EventHandler(this.rbClothes_CheckedChanged);
-            // 
-            // rbBeddings
-            // 
-            this.rbBeddings.AutoSize = true;
-            this.rbBeddings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbBeddings.Location = new System.Drawing.Point(347, 42);
-            this.rbBeddings.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.rbBeddings.Name = "rbBeddings";
-            this.rbBeddings.Size = new System.Drawing.Size(132, 25);
-            this.rbBeddings.TabIndex = 11;
-            this.rbBeddings.TabStop = true;
-            this.rbBeddings.Text = "Beddings (5kg)";
-            this.rbBeddings.UseVisualStyleBackColor = true;
-            this.rbBeddings.CheckedChanged += new System.EventHandler(this.rbBeddings_CheckedChanged);
-            // 
-            // rbTowels
-            // 
-            this.rbTowels.AutoSize = true;
-            this.rbTowels.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbTowels.Location = new System.Drawing.Point(143, 41);
-            this.rbTowels.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
-            this.rbTowels.Name = "rbTowels";
-            this.rbTowels.Size = new System.Drawing.Size(195, 25);
-            this.rbTowels.TabIndex = 10;
-            this.rbTowels.TabStop = true;
-            this.rbTowels.Text = "Towels or Curtains (7kg)";
-            this.rbTowels.UseVisualStyleBackColor = true;
-            this.rbTowels.CheckedChanged += new System.EventHandler(this.rbTowels_CheckedChanged);
             // 
             // lblFabconSub
             // 
@@ -646,7 +678,7 @@ namespace MrLabandero
             this.btnProceed.ForeColor = System.Drawing.Color.White;
             this.btnProceed.Location = new System.Drawing.Point(570, 447);
             this.btnProceed.Name = "btnProceed";
-            this.btnProceed.Size = new System.Drawing.Size(133, 37);
+            this.btnProceed.Size = new System.Drawing.Size(95, 37);
             this.btnProceed.TabIndex = 43;
             this.btnProceed.Text = "PROCEED";
             this.btnProceed.UseVisualStyleBackColor = false;
@@ -804,12 +836,14 @@ namespace MrLabandero
             // 
             // panelMainUserControl
             // 
-            this.panelMainUserControl.Controls.Add(this.panelWashOnly);
+            this.panelMainUserControl.Controls.Add(this.btnRemoveOrder);
             this.panelMainUserControl.Controls.Add(this.btnProceed);
             this.panelMainUserControl.Controls.Add(this.lstOrders);
             this.panelMainUserControl.Controls.Add(this.panelAddOns);
-            this.panelMainUserControl.Controls.Add(this.panelFullServices);
             this.panelMainUserControl.Controls.Add(this.panelHeader);
+            this.panelMainUserControl.Controls.Add(this.panelFullServices);
+            this.panelMainUserControl.Controls.Add(this.panelDryFold);
+            this.panelMainUserControl.Controls.Add(this.panelWashOnly);
             this.panelMainUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainUserControl.Location = new System.Drawing.Point(0, 0);
             this.panelMainUserControl.Name = "panelMainUserControl";
@@ -848,25 +882,141 @@ namespace MrLabandero
             this.panelAddOns.Size = new System.Drawing.Size(559, 273);
             this.panelAddOns.TabIndex = 46;
             // 
-            // lblSubTotalWash
+            // panelDryFold
             // 
-            this.lblSubTotalWash.AutoSize = true;
-            this.lblSubTotalWash.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSubTotalWash.Location = new System.Drawing.Point(351, 11);
-            this.lblSubTotalWash.Name = "lblSubTotalWash";
-            this.lblSubTotalWash.Size = new System.Drawing.Size(71, 21);
-            this.lblSubTotalWash.TabIndex = 43;
-            this.lblSubTotalWash.Text = "0.00 Php";
+            this.panelDryFold.Controls.Add(this.label20);
+            this.panelDryFold.Controls.Add(this.lblSubTotalDryFold);
+            this.panelDryFold.Controls.Add(this.label23);
+            this.panelDryFold.Controls.Add(this.nudBasket);
+            this.panelDryFold.Controls.Add(this.rbBeddingsDryFold);
+            this.panelDryFold.Controls.Add(this.rbTowelsDryFold);
+            this.panelDryFold.Controls.Add(this.rbClothesDryFold);
+            this.panelDryFold.Controls.Add(this.label24);
+            this.panelDryFold.Location = new System.Drawing.Point(0, 168);
+            this.panelDryFold.Name = "panelDryFold";
+            this.panelDryFold.Size = new System.Drawing.Size(559, 71);
+            this.panelDryFold.TabIndex = 45;
             // 
-            // label15
+            // label20
             // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(331, 11);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(21, 21);
-            this.label15.TabIndex = 44;
-            this.label15.Text = "=";
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(343, 11);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(21, 21);
+            this.label20.TabIndex = 44;
+            this.label20.Text = "=";
+            // 
+            // lblSubTotalDryFold
+            // 
+            this.lblSubTotalDryFold.AutoSize = true;
+            this.lblSubTotalDryFold.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubTotalDryFold.Location = new System.Drawing.Point(363, 11);
+            this.lblSubTotalDryFold.Name = "lblSubTotalDryFold";
+            this.lblSubTotalDryFold.Size = new System.Drawing.Size(71, 21);
+            this.lblSubTotalDryFold.TabIndex = 43;
+            this.lblSubTotalDryFold.Text = "0.00 Php";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(128, 8);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(88, 25);
+            this.label23.TabIndex = 16;
+            this.label23.Text = "|  Basket:";
+            // 
+            // nudBasket
+            // 
+            this.nudBasket.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudBasket.Location = new System.Drawing.Point(219, 7);
+            this.nudBasket.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.nudBasket.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudBasket.Name = "nudBasket";
+            this.nudBasket.Size = new System.Drawing.Size(120, 29);
+            this.nudBasket.TabIndex = 15;
+            this.nudBasket.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudBasket.ValueChanged += new System.EventHandler(this.nudBasket_ValueChanged);
+            // 
+            // rbBeddingsDryFold
+            // 
+            this.rbBeddingsDryFold.AutoSize = true;
+            this.rbBeddingsDryFold.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbBeddingsDryFold.Location = new System.Drawing.Point(347, 41);
+            this.rbBeddingsDryFold.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.rbBeddingsDryFold.Name = "rbBeddingsDryFold";
+            this.rbBeddingsDryFold.Size = new System.Drawing.Size(138, 25);
+            this.rbBeddingsDryFold.TabIndex = 14;
+            this.rbBeddingsDryFold.TabStop = true;
+            this.rbBeddingsDryFold.Text = "Beddings(₱130)";
+            this.rbBeddingsDryFold.UseVisualStyleBackColor = true;
+            this.rbBeddingsDryFold.CheckedChanged += new System.EventHandler(this.rbBeddingsDryFold_CheckedChanged);
+            // 
+            // rbTowelsDryFold
+            // 
+            this.rbTowelsDryFold.AutoSize = true;
+            this.rbTowelsDryFold.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbTowelsDryFold.Location = new System.Drawing.Point(153, 41);
+            this.rbTowelsDryFold.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.rbTowelsDryFold.Name = "rbTowelsDryFold";
+            this.rbTowelsDryFold.Size = new System.Drawing.Size(184, 25);
+            this.rbTowelsDryFold.TabIndex = 13;
+            this.rbTowelsDryFold.TabStop = true;
+            this.rbTowelsDryFold.Text = "Towels/Curtains(₱110)";
+            this.rbTowelsDryFold.UseVisualStyleBackColor = true;
+            this.rbTowelsDryFold.CheckedChanged += new System.EventHandler(this.rbTowelsDryFold_CheckedChanged);
+            // 
+            // rbClothesDryFold
+            // 
+            this.rbClothesDryFold.AutoSize = true;
+            this.rbClothesDryFold.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbClothesDryFold.Location = new System.Drawing.Point(15, 40);
+            this.rbClothesDryFold.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.rbClothesDryFold.Name = "rbClothesDryFold";
+            this.rbClothesDryFold.Size = new System.Drawing.Size(130, 25);
+            this.rbClothesDryFold.TabIndex = 12;
+            this.rbClothesDryFold.TabStop = true;
+            this.rbClothesDryFold.Text = "Clothes (₱100)";
+            this.rbClothesDryFold.UseVisualStyleBackColor = true;
+            this.rbClothesDryFold.CheckedChanged += new System.EventHandler(this.rbClothesDryFold_CheckedChanged);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(10, 8);
+            this.label24.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(123, 25);
+            this.label24.TabIndex = 5;
+            this.label24.Text = "Dry and Fold";
+            // 
+            // btnRemoveOrder
+            // 
+            this.btnRemoveOrder.BackColor = System.Drawing.Color.Maroon;
+            this.btnRemoveOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemoveOrder.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemoveOrder.ForeColor = System.Drawing.Color.White;
+            this.btnRemoveOrder.Location = new System.Drawing.Point(671, 447);
+            this.btnRemoveOrder.Name = "btnRemoveOrder";
+            this.btnRemoveOrder.Size = new System.Drawing.Size(121, 37);
+            this.btnRemoveOrder.TabIndex = 47;
+            this.btnRemoveOrder.Text = "REMOVE ORDER";
+            this.btnRemoveOrder.UseVisualStyleBackColor = false;
+            this.btnRemoveOrder.Click += new System.EventHandler(this.btnRemoveOrder_Click);
             // 
             // UserControlPOS
             // 
@@ -892,6 +1042,9 @@ namespace MrLabandero
             this.panelMainUserControl.ResumeLayout(false);
             this.panelAddOns.ResumeLayout(false);
             this.panelAddOns.PerformLayout();
+            this.panelDryFold.ResumeLayout(false);
+            this.panelDryFold.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBasket)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -955,5 +1108,15 @@ namespace MrLabandero
         private System.Windows.Forms.RadioButton rbBeddingsWash;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label lblSubTotalWash;
+        private System.Windows.Forms.Panel panelDryFold;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label lblSubTotalDryFold;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.NumericUpDown nudBasket;
+        private System.Windows.Forms.RadioButton rbBeddingsDryFold;
+        private System.Windows.Forms.RadioButton rbTowelsDryFold;
+        private System.Windows.Forms.RadioButton rbClothesDryFold;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Button btnRemoveOrder;
     }
 }
