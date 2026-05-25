@@ -140,11 +140,33 @@ namespace MrLabandero
             // 
             // nudWeight
             // 
+            this.nudWeight.DecimalPlaces = 1;
             this.nudWeight.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudWeight.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
             this.nudWeight.Location = new System.Drawing.Point(207, 7);
+            this.nudWeight.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.nudWeight.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.nudWeight.Name = "nudWeight";
             this.nudWeight.Size = new System.Drawing.Size(120, 29);
             this.nudWeight.TabIndex = 15;
+            this.nudWeight.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudWeight.ValueChanged += new System.EventHandler(this.nudWeight_ValueChanged);
             // 
             // rbBeddingsWash
             // 
@@ -158,6 +180,7 @@ namespace MrLabandero
             this.rbBeddingsWash.TabStop = true;
             this.rbBeddingsWash.Text = "Beddings(₱65/kg)";
             this.rbBeddingsWash.UseVisualStyleBackColor = true;
+            this.rbBeddingsWash.CheckedChanged += new System.EventHandler(this.rbBeddingsWash_CheckedChanged);
             // 
             // rbTowelsWash
             // 
@@ -171,6 +194,7 @@ namespace MrLabandero
             this.rbTowelsWash.TabStop = true;
             this.rbTowelsWash.Text = "Towels/Curtains(₱45/kg)";
             this.rbTowelsWash.UseVisualStyleBackColor = true;
+            this.rbTowelsWash.CheckedChanged += new System.EventHandler(this.rbTowelsWash_CheckedChanged);
             // 
             // rbClothesWash
             // 
@@ -602,6 +626,7 @@ namespace MrLabandero
             this.lstOrders.Name = "lstOrders";
             this.lstOrders.Size = new System.Drawing.Size(223, 368);
             this.lstOrders.TabIndex = 46;
+            this.lstOrders.SelectedIndexChanged += new System.EventHandler(this.lstOrders_SelectedIndexChanged);
             // 
             // label11
             // 

@@ -71,6 +71,7 @@ namespace MrLabandero
             nudRinse.Minimum = 1;
             nudDetergent.Minimum = 1;
             nudFabcon.Minimum = 1;
+            nudWeight.Minimum = 1;
 
             // RESET SUBTEXT TOTALS
             lblSpinSub.Text = "0.00 Php";
@@ -178,6 +179,7 @@ namespace MrLabandero
                 panelWashOnly.Visible = true;
                 panelFullServices.Visible = false;
                 panelAddOns.Visible = true;
+                nudWeight.Value = 1;
                 panelWashOnly.BringToFront();
                 ClearItemSelection();
                 UpdateCurrentSubtotal();
@@ -198,6 +200,32 @@ namespace MrLabandero
         }
         private void rbBeddings_CheckedChanged(object sender, EventArgs e)
         {
+            UpdateCurrentSubtotal();
+        }
+        // WASH SERVICES
+        private void rbClothesWash_CheckedChanged(object sender, EventArgs e)
+        {
+            nudWeight_ValueChanged(sender, e);
+        }
+        private void rbTowelsWash_CheckedChanged(object sender, EventArgs e)
+        {
+            nudWeight_ValueChanged(sender, e);
+        }
+        private void rbBeddingsWash_CheckedChanged(object sender, EventArgs e)
+        {
+            nudWeight_ValueChanged(sender, e);
+        }
+        // NUD VALUE - WEIGHT FOR WASH
+        private void nudWeight_ValueChanged(object sender, EventArgs e)
+        {
+            decimal pricePerKilo = rbClothesWash.Checked ? Prices.W_Clothes
+                      : rbTowelsWash.Checked ? Prices.W_Towels
+                      : rbBeddingsWash.Checked ? Prices.W_Beddings
+                      : 0;
+
+            decimal subtotal = pricePerKilo * (decimal)nudWeight.Value;
+            lblSubTotalWash.Text = $"{subtotal:0.00} Php";
+
             UpdateCurrentSubtotal();
         }
 
@@ -267,6 +295,7 @@ namespace MrLabandero
             decimal addOns = ComputeAddOns();
             decimal currentTotal = baseService + addOns;
 
+            lblSubTotalWash.Text = $"{baseService:0.00} Php";
             lblServiceSub.Text = $"{baseService:0.00} Php";
 
             decimal savedTotal = 0;
@@ -280,6 +309,13 @@ namespace MrLabandero
                 if (rbClothes.Checked) return Prices.FS_Clothes;
                 if (rbTowels.Checked) return Prices.FS_Towels;
                 if (rbBeddings.Checked) return Prices.FS_Beddings;
+            }
+            if (rbWash.Checked)
+            {
+                decimal kg = (decimal)nudWeight.Value;
+                if (rbClothesWash.Checked) return Prices.W_Clothes * kg;
+                if (rbTowelsWash.Checked) return Prices.W_Towels * kg;
+                if (rbBeddingsWash.Checked) return Prices.W_Beddings * kg; ;
             }
             return 0;
         }
@@ -316,14 +352,37 @@ namespace MrLabandero
             if (chkFabcon.Checked)
                 addOnDetails.Add($"Extra Fabcon x{nudFabcon.Value} = {Prices.ExtraFabcon * (decimal)nudFabcon.Value:0.00} Php");
 
-            string itemType = rbClothes.Checked ? "Clothes (8kg)"
-                            : rbTowels.Checked ? "Towels or Curtains (7kg)"
-                            : rbBeddings.Checked ? "Beddings (5kg)"
-                            : "";
+            string ServiceType = rbFullServices.Checked ? "Full Service (Wash, Dry, Fold)"
+            : rbWash.Checked ? "Regular - Wash Only"
+            : rbDryFold.Checked ? "Regular - Dry and Fold"
+            : "";
+
+            string itemType;
+
+            if (rbFullServices.Checked) {
+                itemType = rbClothes.Checked ? "Clothes (8kg)"
+                        : rbTowels.Checked ? "Towels or Curtains (7kg)"
+                        : rbBeddings.Checked ? "Beddings (5kg)"
+                        : "";
+            }
+            else if (rbWash.Checked)
+            {
+                itemType = rbClothesWash.Checked ? $"Clothes ({nudWeight.Value}kg)"
+                         : rbTowelsWash.Checked ? $"Towels or Curtains ({nudWeight.Value}kg)"
+                         : rbBeddingsWash.Checked ? $"Beddings ({nudWeight.Value}kg)"
+                         : "";
+            }
+            else
+            {
+                itemType = rbClothes.Checked ? "Clothes"
+                         : rbTowels.Checked ? "Towels or Curtains"
+                         : rbBeddings.Checked ? "Beddings"
+                         : "";
+            }
 
             _orders.Add(new OrderItem
             {
-                ServiceType = "Full Service (Wash, Dry, Fold)",
+                ServiceType = ServiceType,
                 ItemType = itemType,
                 BaseAmount = ComputeBaseService(),
                 AddOnDetails = addOnDetails,
@@ -421,6 +480,13 @@ namespace MrLabandero
                     "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
+            if (rbWash.Checked &&
+                !rbClothesWash.Checked && !rbTowelsWash.Checked && !rbBeddingsWash.Checked)
+            {
+                MessageBox.Show("Please select an item type (Clothes, Towels, or Beddings).",
+                    "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
             return true;
         }
@@ -464,6 +530,7 @@ namespace MrLabandero
             nudRinse.Value = 1;
             nudDetergent.Value = 1;
             nudFabcon.Value = 1;
+            nudWeight.Value = 1;
 
             ResetSubLabels();
         }
@@ -486,6 +553,11 @@ namespace MrLabandero
             rbTowels.Checked = false;
             rbBeddings.Checked = false;
             lblServiceSub.Text = "0.00 Php";
+
+            rbClothesWash.Checked = false;
+            rbTowelsWash.Checked = false;
+            rbBeddingsWash.Checked = false;
+            lblSubTotalWash.Text = "0.00 Php";
         }
         //RESETS SUBTEXT VALUE TO ZERO
         private void ResetSubLabels()
@@ -496,10 +568,11 @@ namespace MrLabandero
             lblDetergentSub.Text = "0.00 Php";
             lblFabconSub.Text = "0.00 Php";
             lblServiceSub.Text = "0.00 Php";
+            lblSubTotalWash.Text = "0.00 Php";
             lblGrandTotal.Text = "0.00 Php";
         }
 
-        private void rbClothesWash_CheckedChanged(object sender, EventArgs e)
+        private void lstOrders_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
