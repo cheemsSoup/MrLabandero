@@ -110,35 +110,21 @@ namespace MrLabandero
                     {
                         // STEP 1: SAVE OR REUSE CUSTOMER
                         long custID;
-                        string checkCustomer = @"
-                            SELECT ID FROM Customers
-                            WHERE ContactNumber = @contact LIMIT 1";
-
-                        using (var cmd = new SQLiteCommand(checkCustomer, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@contact", contactNumber);
-                            var result = cmd.ExecuteScalar();
-
-                            if (result != null)
-                            {
-                                custID = Convert.ToInt64(result);
-                            }
-                            else
-                            {
-                                string insertCustomer = @"
-                                    INSERT INTO Customers (FullName, ContactNumber)
-                                    VALUES (@name, @contact);
-                                    SELECT last_insert_rowid();";
+                        string insertCustomer = "INSERT INTO Customers (Fullname, ContactNumber) VALUES (@name, @contact)";
 
                                 using (var ins = new SQLiteCommand(insertCustomer, conn))
-                                {
-                                    ins.Parameters.AddWithValue("@name", customerName);
-                                    ins.Parameters.AddWithValue("@contact", contactNumber);
-                                    custID = Convert.ToInt64(ins.ExecuteScalar());
-                                }
-                            }
-                        }
+                                    {   
+                                    ins.Parameters.AddWithValue("@name", customerName.Trim());
+                                    ins.Parameters.AddWithValue("@contact", contactNumber.Trim());
+                                    ins.ExecuteNonQuery();
+                                    }
 
+                                string getID = "SELECT last_insert_rowid()";
+                                using (var getId = new SQLiteCommand(getID, conn))
+                                { 
+                                    custID = Convert.ToInt64(getId.ExecuteScalar());
+                                }
+                        
                         customerID = (int)custID;
 
                         // STEP 2: SAVE TRANSACTION
