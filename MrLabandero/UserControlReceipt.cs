@@ -56,12 +56,13 @@ namespace MrLabandero
         // GROUP 1 - LOAD RECEIPT
         // =======================================
         public void LoadReceipt(string customerName, string contactNumber,
-          List<ReceiptOrder> orders, decimal grandTotal)
+          List<ReceiptOrder> orders, decimal grandTotal, int transactionID, int customerID)
         {
             _customerName = customerName;
             _contactNumber = contactNumber;
             _orders = orders;
             _grandTotal = grandTotal;
+
 
             BuildReceiptDisplay();
         }

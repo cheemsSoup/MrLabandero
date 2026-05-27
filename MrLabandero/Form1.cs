@@ -18,6 +18,7 @@ namespace MrLabandero
         public frmMrLabandero()
         {
             InitializeComponent();
+            DatabaseHelper.InitializeDatabase();
         }
 
         private void btnPOS_Click(object sender, EventArgs e)
@@ -48,11 +49,21 @@ namespace MrLabandero
         // Proceed clicked — switch to receipt
         private void ShowReceipt(object sender, UserControlPOS.ProceedEventArgs e)
         {
+            int customerID;
+            int transactionID = DatabaseHelper.SaveTransaction(
+                e.CustomerName,
+                e.ContactNumber,
+                e.Orders,
+                e.GrandTotal,
+                out customerID);
+
             ucReceipt.LoadReceipt(
                 e.CustomerName,
                 e.ContactNumber,
                 e.Orders,
-                e.GrandTotal);
+                e.GrandTotal,
+                transactionID,
+                customerID);
 
             mainPanel.Controls.Clear();
             mainPanel.Controls.Add(ucReceipt);
