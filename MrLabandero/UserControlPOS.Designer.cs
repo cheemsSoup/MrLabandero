@@ -85,6 +85,7 @@ namespace MrLabandero
             this.rbFullServices = new System.Windows.Forms.RadioButton();
             this.rbWash = new System.Windows.Forms.RadioButton();
             this.panelMainUserControl = new System.Windows.Forms.Panel();
+            this.btnRemoveOrder = new System.Windows.Forms.Button();
             this.panelAddOns = new System.Windows.Forms.Panel();
             this.panelDryFold = new System.Windows.Forms.Panel();
             this.label20 = new System.Windows.Forms.Label();
@@ -95,7 +96,6 @@ namespace MrLabandero
             this.rbTowelsDryFold = new System.Windows.Forms.RadioButton();
             this.rbClothesDryFold = new System.Windows.Forms.RadioButton();
             this.label24 = new System.Windows.Forms.Label();
-            this.btnRemoveOrder = new System.Windows.Forms.Button();
             this.panelFullServices.SuspendLayout();
             this.panelWashOnly.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudWeight)).BeginInit();
@@ -757,6 +757,7 @@ namespace MrLabandero
             this.txtContactNumber.Name = "txtContactNumber";
             this.txtContactNumber.Size = new System.Drawing.Size(264, 29);
             this.txtContactNumber.TabIndex = 7;
+            this.txtContactNumber.Text = " ";
             this.txtContactNumber.TextChanged += new System.EventHandler(this.txtContactNumber_TextChanged_1);
             this.txtContactNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtContactNumber_KeyPress);
             // 
@@ -849,6 +850,20 @@ namespace MrLabandero
             this.panelMainUserControl.Name = "panelMainUserControl";
             this.panelMainUserControl.Size = new System.Drawing.Size(808, 516);
             this.panelMainUserControl.TabIndex = 3;
+            // 
+            // btnRemoveOrder
+            // 
+            this.btnRemoveOrder.BackColor = System.Drawing.Color.Maroon;
+            this.btnRemoveOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemoveOrder.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemoveOrder.ForeColor = System.Drawing.Color.White;
+            this.btnRemoveOrder.Location = new System.Drawing.Point(671, 447);
+            this.btnRemoveOrder.Name = "btnRemoveOrder";
+            this.btnRemoveOrder.Size = new System.Drawing.Size(121, 37);
+            this.btnRemoveOrder.TabIndex = 47;
+            this.btnRemoveOrder.Text = "REMOVE ORDER";
+            this.btnRemoveOrder.UseVisualStyleBackColor = false;
+            this.btnRemoveOrder.Click += new System.EventHandler(this.btnRemoveOrder_Click);
             // 
             // panelAddOns
             // 
@@ -1003,20 +1018,6 @@ namespace MrLabandero
             this.label24.Size = new System.Drawing.Size(123, 25);
             this.label24.TabIndex = 5;
             this.label24.Text = "Dry and Fold";
-            // 
-            // btnRemoveOrder
-            // 
-            this.btnRemoveOrder.BackColor = System.Drawing.Color.Maroon;
-            this.btnRemoveOrder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRemoveOrder.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveOrder.ForeColor = System.Drawing.Color.White;
-            this.btnRemoveOrder.Location = new System.Drawing.Point(671, 447);
-            this.btnRemoveOrder.Name = "btnRemoveOrder";
-            this.btnRemoveOrder.Size = new System.Drawing.Size(121, 37);
-            this.btnRemoveOrder.TabIndex = 47;
-            this.btnRemoveOrder.Text = "REMOVE ORDER";
-            this.btnRemoveOrder.UseVisualStyleBackColor = false;
-            this.btnRemoveOrder.Click += new System.EventHandler(this.btnRemoveOrder_Click);
             // 
             // UserControlPOS
             // 

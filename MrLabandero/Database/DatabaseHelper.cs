@@ -194,11 +194,356 @@ namespace MrLabandero
             }
         }
 
+        // ===========================
+        // SECTION 3 — INVENTORY CRUD
+        // ===========================
 
+        // GET ALL INVENTORY
+        public static DataTable GetAllInventory()
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT ID, ItemName, CurrentQty, Unit, DateUpdated
+                    FROM Inventory
+                    ORDER BY ItemName";
 
-        // ═════════════════════════════════════════════════════════
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+
+        // ADD NEW INVENTORY ITEM + LOG ACTION
+        public static void AddInventoryItem(string itemName, decimal quantity,
+            string unit, string remarks = "")
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var dbTrans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string insertItem = @"
+                            INSERT INTO Inventory (ItemName, CurrentQty, Unit, DateUpdated)
+                            VALUES (@name, @qty, @unit, CURRENT_TIMESTAMP);
+                            SELECT last_insert_rowid();";
+
+                        long newID;
+                        using (var cmd = new SQLiteCommand(insertItem, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@name", itemName);
+                            cmd.Parameters.AddWithValue("@qty", quantity);
+                            cmd.Parameters.AddWithValue("@unit", unit);
+                            newID = Convert.ToInt64(cmd.ExecuteScalar());
+                        }
+
+                        LogInventoryAction(conn, newID, "Add", quantity, quantity, remarks);
+
+                        dbTrans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        dbTrans.Rollback();
+                        MessageBox.Show($"Error adding item:\n{ex.Message}",
+                            "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        // UPDATE ITEM INVENTORY AND THEN LOGS ACTION
+        public static void UpdateInventoryItem(int id, string itemName,
+            decimal newQty, string unit, string remarks = "")
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var dbTrans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // GET CURRENT QUANTITY FOR LOG
+                        decimal oldQty = 0;
+                        string getQty = "SELECT CurrentQty FROM Inventory WHERE ID = @id";
+                        using (var cmd = new SQLiteCommand(getQty, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@id", id);
+                            oldQty = Convert.ToDecimal(cmd.ExecuteScalar());
+                        }
+
+                        string update = @"
+                            UPDATE Inventory
+                            SET ItemName = @name, CurrentQty = @qty,
+                                Unit = @unit, DateUpdated = CURRENT_TIMESTAMP
+                            WHERE ID = @id";
+
+                        using (var cmd = new SQLiteCommand(update, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@id", id);
+                            cmd.Parameters.AddWithValue("@name", itemName);
+                            cmd.Parameters.AddWithValue("@qty", newQty);
+                            cmd.Parameters.AddWithValue("@unit", unit);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        decimal qtyChanged = newQty - oldQty;
+                        LogInventoryAction(conn, id, "Edit", qtyChanged, newQty, remarks);
+
+                        dbTrans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        dbTrans.Rollback();
+                        MessageBox.Show($"Error updating item:\n{ex.Message}",
+                            "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        // RESTOCK - ADD QUANTITY ON TOP OF STOCK
+        public static void RestockInventoryItem(int id, decimal addQty, string remarks = "")
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var dbTrans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        decimal newQty = 0;
+                        string restock = @"
+                            UPDATE Inventory
+                            SET CurrentQty = CurrentQty + @addQty, DateUpdated = CURRENT_TIMESTAMP
+                            WHERE ID = @id;
+                            SELECT CurrentQty FROM Inventory WHERE ID = @id;";
+
+                        using (var cmd = new SQLiteCommand(restock, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@id", id);
+                            cmd.Parameters.AddWithValue("@addQty", addQty);
+                            newQty = Convert.ToDecimal(cmd.ExecuteScalar());
+                        }
+
+                        LogInventoryAction(conn, id, "Restock", addQty, newQty, remarks);
+
+                        dbTrans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        dbTrans.Rollback();
+                        MessageBox.Show($"Error restocking item:\n{ex.Message}",
+                            "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        // DELETE ITEM IN INVENTORY AND LOG ACTION
+        public static void DeleteInventoryItem(int id)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var dbTrans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string deleteLogs = "DELETE FROM InventoryLog WHERE InventoryID = @id";
+                        using (var cmd = new SQLiteCommand(deleteLogs, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@id", id);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        string deleteItem = "DELETE FROM Inventory WHERE ID = @id";
+                        using (var cmd = new SQLiteCommand(deleteItem, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@id", id);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        dbTrans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        dbTrans.Rollback();
+                        MessageBox.Show($"Error deleting item:\n{ex.Message}",
+                            "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        // GET INVENTORY LOG FOR ITEM
+        public static DataTable GetInventoryLog(int inventoryID)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT
+                        Action      AS 'Action',
+                        QtyChanged  AS 'Qty Changed',
+                        QtyAfter    AS 'Qty After',
+                        Remarks     AS 'Remarks',
+                        DateLogged  AS 'Date'
+                    FROM InventoryLog
+                    WHERE InventoryID = @id
+                    ORDER BY DateLogged DESC";
+
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    adapter.SelectCommand.Parameters.AddWithValue("@id", inventoryID);
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+
+        // =========================
+        // SECTION 4 — SALES REPORT
+        // =========================
+
+        // All transactions with customer info — filterable by date range
+        public static DataTable GetSalesReport(DateTime from, DateTime to)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT
+                        t.ID            AS 'Trans #',
+                        c.ID            AS 'Customer ID',
+                        c.FullName      AS 'Customer',
+                        c.ContactNumber AS 'Contact',
+                        t.DateCreated   AS 'Date',
+                        t.GrandTotal    AS 'Total (Php)'
+                    FROM Transactions t
+                    INNER JOIN Customers c ON c.ID = t.CustomerID
+                    WHERE DATE(t.DateCreated) BETWEEN @from AND @to
+                    ORDER BY t.DateCreated DESC";
+
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    adapter.SelectCommand.Parameters.AddWithValue("@from", from.ToString("yyyy-MM-dd"));
+                    adapter.SelectCommand.Parameters.AddWithValue("@to", to.ToString("yyyy-MM-dd"));
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+
+        // Daily sales — grouped by day
+        public static DataTable GetDailySales(DateTime from, DateTime to)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT
+                        DATE(DateCreated)   AS 'Date',
+                        COUNT(*)            AS 'Transactions',
+                        SUM(GrandTotal)     AS 'Total Sales (Php)'
+                    FROM Transactions
+                    WHERE DATE(DateCreated) BETWEEN @from AND @to
+                    GROUP BY DATE(DateCreated)
+                    ORDER BY DATE(DateCreated) DESC";
+
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    adapter.SelectCommand.Parameters.AddWithValue("@from", from.ToString("yyyy-MM-dd"));
+                    adapter.SelectCommand.Parameters.AddWithValue("@to", to.ToString("yyyy-MM-dd"));
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+
+        // Weekly sales — grouped by week number
+        public static DataTable GetWeeklySales(int year)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT
+                        'Week ' || strftime('%W', DateCreated)  AS 'Week',
+                        COUNT(*)                                AS 'Transactions',
+                        SUM(GrandTotal)                         AS 'Total Sales (Php)'
+                    FROM Transactions
+                    WHERE strftime('%Y', DateCreated) = @year
+                    GROUP BY strftime('%W', DateCreated)
+                    ORDER BY strftime('%W', DateCreated) DESC";
+
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    adapter.SelectCommand.Parameters.AddWithValue("@year", year.ToString());
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+
+        // Monthly sales — grouped by month
+        public static DataTable GetMonthlySales(int year)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT
+                        strftime('%Y-%m', DateCreated)  AS 'Month',
+                        COUNT(*)                        AS 'Transactions',
+                        SUM(GrandTotal)                 AS 'Total Sales (Php)'
+                    FROM Transactions
+                    WHERE strftime('%Y', DateCreated) = @year
+                    GROUP BY strftime('%Y-%m', DateCreated)
+                    ORDER BY strftime('%Y-%m', DateCreated) DESC";
+
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    adapter.SelectCommand.Parameters.AddWithValue("@year", year.ToString());
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+
+        // Total sales for a date range — for summary label
+        public static decimal GetTotalSales(DateTime from, DateTime to)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT IFNULL(SUM(GrandTotal), 0)
+                    FROM Transactions
+                    WHERE DATE(DateCreated) BETWEEN @from AND @to";
+
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@from", from.ToString("yyyy-MM-dd"));
+                    cmd.Parameters.AddWithValue("@to", to.ToString("yyyy-MM-dd"));
+                    return Convert.ToDecimal(cmd.ExecuteScalar());
+                }
+            }
+        }
+
+        // ===========================
         // SECTION 5 — PRIVATE HELPERS
-        // ═════════════════════════════════════════════════════════
+        // ==========================
 
         // AUTO-DEDUCT PER TRANSACTION
         // Full Service + Wash Only: 60ml Detergent + 60ml Fabcon (default)

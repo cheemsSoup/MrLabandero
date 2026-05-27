@@ -92,7 +92,7 @@ namespace MrLabandero
 
             // ── Customer Info ──
             AddLabel($"Date     : {DateTime.Now:MMMM dd, yyyy  hh:mm tt}", ref y, bold: false, size: 9, center: false);
-            AddLabel($"Trans #  : {_transactionID}", ref y, bold: false, size: 9, center: false);  // ← add
+            AddLabel($"Transaction #: {_transactionID}", ref y, bold: false, size: 9, center: false);
             AddLabel($"Customer : {_customerName}", ref y, bold: false, size: 9, center: false);
             AddLabel($"Contact  : {_contactNumber}", ref y, bold: false, size: 9, center: false);
 
