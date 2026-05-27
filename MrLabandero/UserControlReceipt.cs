@@ -55,6 +55,8 @@ namespace MrLabandero
         // =======================================
         // GROUP 1 - LOAD RECEIPT
         // =======================================
+        private int _customerID = 0;
+        private int _transactionID = 0;
         public void LoadReceipt(string customerName, string contactNumber,
           List<ReceiptOrder> orders, decimal grandTotal, int transactionID, int customerID)
         {
@@ -62,7 +64,8 @@ namespace MrLabandero
             _contactNumber = contactNumber;
             _orders = orders;
             _grandTotal = grandTotal;
-
+            _transactionID = transactionID;  // ← add this
+            _customerID = customerID;
 
             BuildReceiptDisplay();
         }
@@ -89,6 +92,7 @@ namespace MrLabandero
 
             // ── Customer Info ──
             AddLabel($"Date     : {DateTime.Now:MMMM dd, yyyy  hh:mm tt}", ref y, bold: false, size: 9, center: false);
+            AddLabel($"Trans #  : {_transactionID}", ref y, bold: false, size: 9, center: false);  // ← add
             AddLabel($"Customer : {_customerName}", ref y, bold: false, size: 9, center: false);
             AddLabel($"Contact  : {_contactNumber}", ref y, bold: false, size: 9, center: false);
 
