@@ -35,7 +35,7 @@ namespace MrLabandero
                 conn.Open();
 
                 string createTables = @"
-                    -- Customer info
+                    -- Customer per transaction record
                     CREATE TABLE IF NOT EXISTS Customers (
                         ID            INTEGER PRIMARY KEY AUTOINCREMENT,
                         FullName      TEXT NOT NULL,
@@ -45,31 +45,58 @@ namespace MrLabandero
 
                     -- One receipt = one transaction
                     CREATE TABLE IF NOT EXISTS Transactions (
-                        ID            INTEGER PRIMARY KEY AUTOINCREMENT,
-                        CustomerID    INTEGER NOT NULL REFERENCES Customers(ID),
-                        DateCreated   DATETIME DEFAULT CURRENT_TIMESTAMP,
-                        GrandTotal    DECIMAL NOT NULL
+                        ID          INTEGER PRIMARY KEY AUTOINCREMENT,
+                        CustomerID  INTEGER NOT NULL REFERENCES Customers(ID),
+                        DateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        GrandTotal  DECIMAL NOT NULL
+                    );
+
+                    -- Service types with prices — pre-populated
+                    CREATE TABLE IF NOT EXISTS Services (
+                        ID          INTEGER PRIMARY KEY AUTOINCREMENT,
+                        ServiceName TEXT NOT NULL,
+                        ItemType    TEXT NOT NULL,
+                        Price       DECIMAL NOT NULL,
+                        PriceType   TEXT NOT NULL
+                    );
+
+                    -- Add-on types with prices — pre-populated
+                    CREATE TABLE IF NOT EXISTS AddOns (
+                        ID        INTEGER PRIMARY KEY AUTOINCREMENT,
+                        AddOnName TEXT NOT NULL,
+                        Price     DECIMAL NOT NULL,
+                        Unit      TEXT NOT NULL
                     );
 
                     -- Each order line inside a transaction
                     CREATE TABLE IF NOT EXISTS TransactionItems (
                         ID            INTEGER PRIMARY KEY AUTOINCREMENT,
                         TransactionID INTEGER NOT NULL REFERENCES Transactions(ID),
-                        ServiceType   TEXT NOT NULL,
-                        ItemType      TEXT NOT NULL,
+                        ServiceID     INTEGER NOT NULL REFERENCES Services(ID),
+                        Quantity      DECIMAL NOT NULL DEFAULT 1,
                         BaseAmount    DECIMAL NOT NULL,
-                        AddOnDetails  TEXT,
                         Subtotal      DECIMAL NOT NULL
+                    );
+
+                    -- Add-ons per transaction item
+                    CREATE TABLE IF NOT EXISTS TransactionAddOns (
+                        ID                INTEGER PRIMARY KEY AUTOINCREMENT,
+                        TransactionItemID INTEGER NOT NULL REFERENCES TransactionItems(ID),
+                        AddOnID           INTEGER NOT NULL REFERENCES AddOns(ID),
+                        Quantity          INTEGER NOT NULL DEFAULT 1,
+                        Subtotal          DECIMAL NOT NULL
                     );
 
                     -- Inventory stocks
                     CREATE TABLE IF NOT EXISTS Inventory (
                         ID          INTEGER PRIMARY KEY AUTOINCREMENT,
                         ItemName    TEXT NOT NULL,
-                        Quantity    DECIMAL NOT NULL DEFAULT 0,
+                        CurrentQty  DECIMAL NOT NULL DEFAULT 0,
                         Unit        TEXT NOT NULL,
                         DateUpdated DATETIME DEFAULT CURRENT_TIMESTAMP
                     );
+
+                    -- Inventory movement history
                     CREATE TABLE IF NOT EXISTS InventoryLog (
                         ID          INTEGER PRIMARY KEY AUTOINCREMENT,
                         InventoryID INTEGER NOT NULL REFERENCES Inventory(ID),
@@ -83,10 +110,106 @@ namespace MrLabandero
 
                 using (var cmd = new SQLiteCommand(createTables, conn))
                     cmd.ExecuteNonQuery();
+
+                SeedServices(conn);
+                SeedAddOns(conn);
             }
         }
+
+        //  =======================================
+        // SEED SERVICE TABLE BASED ON PRICE
+        // ONLY INSERT IF TABLE IS EMPTY
+        // =======================================
+        private static void SeedServices(SQLiteConnection conn)
+        {
+            string check = "SELECT COUNT(*) FROM Services";
+            using (var cmd = new SQLiteCommand(check, conn))
+            {
+                long count = Convert.ToInt64(cmd.ExecuteScalar());
+                if (count > 0) return; // ALREADY SEEDED
+            }
+
+            string insert = @"
+                INSERT INTO Services (ServiceName, ItemType, Price, PriceType) VALUES
+                -- Full Service (per load)
+                ('Full Service (Wash, Dry, Fold)', 'Clothes',              180, 'per load'),
+                ('Full Service (Wash, Dry, Fold)', 'Towels or Curtains',   190, 'per load'),
+                ('Full Service (Wash, Dry, Fold)', 'Beddings',             210, 'per load'),
+                -- Regular Wash Only (per kg)
+                ('Regular - Wash Only',            'Clothes',               35, 'per kg'),
+                ('Regular - Wash Only',            'Towels or Curtains',    45, 'per kg'),
+                ('Regular - Wash Only',            'Beddings',              65, 'per kg'),
+                -- Regular Dry and Fold (per basket)
+                ('Regular - Dry and Fold',         'Clothes',              100, 'per basket'),
+                ('Regular - Dry and Fold',         'Towels or Curtains',   110, 'per basket'),
+                ('Regular - Dry and Fold',         'Beddings',             130, 'per basket')";
+
+            using (var cmd = new SQLiteCommand(insert, conn))
+                cmd.ExecuteNonQuery();
+        }
+
+        //  =======================================
+        // SEED ADDS ON TABLE IF EMPTY
+        // ONLY INSERT TABLE IF EMPTY
+        //  =======================================
+        private static void SeedAddOns(SQLiteConnection conn)
+        {
+            string check = "SELECT COUNT(*) FROM AddOns";
+            using (var cmd = new SQLiteCommand(check, conn))
+            {
+                long count = Convert.ToInt64(cmd.ExecuteScalar());
+                if (count > 0) return; // ALREADY SEEDED
+            }
+
+            string insert = @"
+                INSERT INTO AddOns (AddOnName, Price, Unit) VALUES
+                ('Additional Spin',    30, 'per 10 mins'),
+                ('Additional Wash',    30, 'per 7 mins'),
+                ('Additional Rinse',   30, 'per 5 mins'),
+                ('Liquid Detergent',   25, 'per 60ml'),
+                ('Extra Fabcon',       15, 'per 60ml')";
+
+            using (var cmd = new SQLiteCommand(insert, conn))
+                cmd.ExecuteNonQuery();
+        }
+
+        // =======================================
+        // SECTION 2 — LOOKUP HELPERS
+        // Get Service ID and AddOn ID by name — used in SaveTransaction
+        //  =======================================
+
+        // Get Service ID by ServiceName + ItemType
+        public static long GetServiceID(SQLiteConnection conn,
+            string serviceName, string itemType)
+        {
+            string query = @"
+                SELECT ID FROM Services
+                WHERE ServiceName = @name AND ItemType = @item
+                LIMIT 1";
+
+            using (var cmd = new SQLiteCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@name", serviceName);
+                cmd.Parameters.AddWithValue("@item", itemType);
+                var result = cmd.ExecuteScalar();
+                return result != null ? Convert.ToInt64(result) : -1;
+            }
+        }
+
+        // GET ADD ON ID BY ADD ON NAME
+        public static long GetAddOnID(SQLiteConnection conn, string addOnName)
+        {
+            string query = "SELECT ID FROM AddOns WHERE AddOnName = @name LIMIT 1";
+            using (var cmd = new SQLiteCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@name", addOnName);
+                var result = cmd.ExecuteScalar();
+                return result != null ? Convert.ToInt64(result) : -1;
+            }
+        }
+
         // ==========================================
-        // SECTION 2 — POS: SAVE TRANSACTION
+        // SECTION 3 — POS: SAVE TRANSACTION
         // frmMrLabandero.ShowReceipt()
         // SAVES CUSTOMER, TRANSACTION, AND ALL ITEMS
         // AUTO-DEDUCTS DETERGENT AND FABCON
