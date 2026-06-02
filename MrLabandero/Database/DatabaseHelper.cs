@@ -263,35 +263,79 @@ namespace MrLabandero
                             cmd.Parameters.AddWithValue("@grandTotal", grandTotal);
                             transactionID = Convert.ToInt64(cmd.ExecuteScalar());
                         }
-                            // STEP 3: SAVE EACH ORDER ITEM
+                        // STEP 3: SAVE ORDER AND ADD ONS
+                        foreach (var order in orders)
+                        {
+                            // Parse item type — strip weight/basket info for lookup
+                            // e.g. "Clothes (2.5kg)" → "Clothes"
+                            string cleanItemType = order.ItemType.Split('(')[0].Trim();
+
+                            // Get ServiceID from Services table
+                            long serviceID = GetServiceID(conn, order.ServiceType, cleanItemType);
+
+                            // Parse quantity from ItemType
+                            // e.g. "Clothes (2.5kg)" → 2.5, "Clothes (2 Basket)" → 2
+                            decimal quantity = ParseQuantityFromItemType(order.ItemType);
+
+                            // Insert TransactionItem
+                            long transItemID;
                             string insertItem = @"
-                            INSERT INTO TransactionItems
-                                (TransactionID, ServiceType, ItemType, BaseAmount, AddOnDetails, Subtotal)
-                            VALUES
-                                (@transID, @serviceType, @itemType, @baseAmount, @addOnDetails, @subtotal)";
+                                INSERT INTO TransactionItems
+                                    (TransactionID, ServiceID, Quantity, BaseAmount, Subtotal)
+                                VALUES
+                                    (@transID, @serviceID, @qty, @baseAmount, @subtotal)";
 
-                            foreach (var order in orders)
+                            using (var cmd = new SQLiteCommand(insertItem, conn))
                             {
-                                string addOns = string.Join(" | ", order.AddOnDetails);
+                                cmd.Parameters.AddWithValue("@transID", transactionID);
+                                cmd.Parameters.AddWithValue("@serviceID", serviceID);
+                                cmd.Parameters.AddWithValue("@qty", quantity);
+                                cmd.Parameters.AddWithValue("@baseAmount", order.BaseAmount);
+                                cmd.Parameters.AddWithValue("@subtotal", order.OrderTotal);
+                                cmd.ExecuteNonQuery();
+                            }
 
-                                using (var cmd = new SQLiteCommand(insertItem, conn))
+                            using (var getId = new SQLiteCommand("SELECT last_insert_rowid()", conn))
+                                transItemID = Convert.ToInt64(getId.ExecuteScalar());
+
+                            // ── Step 4: Save Add-ons per Transaction Item ──
+                            foreach (var detail in order.AddOnDetails)
+                            {
+                                // Parse AddOnName and Quantity from detail string
+                                // Format: "Additional Spin x2 = 60.00 Php"
+                                string addOnName = ParseAddOnName(detail);
+                                int addOnQty = ParseQtyFromDetail(detail);
+                                long addOnID = GetAddOnID(conn, addOnName);
+
+                                if (addOnID == -1) continue; // skip if not found
+
+                                // Compute subtotal from AddOns table price
+                                decimal addOnPrice = GetAddOnPrice(conn, addOnID);
+                                decimal addOnSubtotal = addOnPrice * addOnQty;
+
+                                string insertAddOn = @"
+                                    INSERT INTO TransactionAddOns
+                                        (TransactionItemID, AddOnID, Quantity, Subtotal)
+                                    VALUES
+                                        (@transItemID, @addOnID, @qty, @subtotal)";
+
+                                using (var cmd = new SQLiteCommand(insertAddOn, conn))
                                 {
-                                    cmd.Parameters.AddWithValue("@transID", transactionID);
-                                    cmd.Parameters.AddWithValue("@serviceType", order.ServiceType);
-                                    cmd.Parameters.AddWithValue("@itemType", order.ItemType);
-                                    cmd.Parameters.AddWithValue("@baseAmount", order.BaseAmount);
-                                    cmd.Parameters.AddWithValue("@addOnDetails", addOns);
-                                    cmd.Parameters.AddWithValue("@subtotal", order.OrderTotal);
+                                    cmd.Parameters.AddWithValue("@transItemID", transItemID);
+                                    cmd.Parameters.AddWithValue("@addOnID", addOnID);
+                                    cmd.Parameters.AddWithValue("@qty", addOnQty);
+                                    cmd.Parameters.AddWithValue("@subtotal", addOnSubtotal);
                                     cmd.ExecuteNonQuery();
                                 }
                             }
-
-                            // STEP 4: DEDUCT FROM INNVENTORY
-                            DeductInventory(conn, orders);
-
-                            dbTrans.Commit();
-                            return (int)transactionID;
                         }
+
+                        // ── Step 5: Auto-deduct Inventory ──
+                        DeductInventory(conn, orders);
+
+                        dbTrans.Commit();
+                        return (int)transactionID;
+                    }
                     catch (Exception ex)
                     {
                         dbTrans.Rollback();
