@@ -807,14 +807,58 @@ namespace MrLabandero
 
         // PARSE QUANTITY FROM ADD-ON DETAIL STRING
         // Format: "Liquid Detergent x2 = 50.00 Php"
+        // Parse quantity from detail string — "Additional Spin x2 = 60.00 Php" → 2
         private static int ParseQtyFromDetail(string detail)
         {
             try
             {
                 int xIndex = detail.IndexOf('x');
                 int spaceIndex = detail.IndexOf(' ', xIndex);
-                string qtyStr = detail.Substring(xIndex + 1, spaceIndex - xIndex - 1);
-                return int.Parse(qtyStr);
+                return int.Parse(detail.Substring(xIndex + 1, spaceIndex - xIndex - 1));
+            }
+            catch { return 1; }
+        }
+
+
+        private static decimal GetAddOnPrice(SQLiteConnection conn, long addOnID)
+        {
+            string query = "SELECT Price FROM AddOns WHERE ID = @id";
+            using (var cmd = new SQLiteCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", addOnID);
+                var result = cmd.ExecuteScalar();
+                return result != null ? Convert.ToDecimal(result) : 0;
+            }
+        }
+
+        // Parse add-on name from detail — "Additional Spin x2 = 60.00 Php" → "Additional Spin"
+        private static string ParseAddOnName(string detail)
+        {
+            try
+            {
+                int xIndex = detail.IndexOf(" x");
+                return xIndex > 0 ? detail.Substring(0, xIndex).Trim() : detail;
+            }
+            catch { return detail; }
+        }
+
+        // Parse quantity from ItemType — "Clothes (2.5kg)" → 2.5, "Clothes (2 Basket)" → 2
+        private static decimal ParseQuantityFromItemType(string itemType)
+        {
+            try
+            {
+                int start = itemType.IndexOf('(');
+                int end = itemType.IndexOf(')');
+                if (start < 0 || end < 0) return 1;
+
+                string inner = itemType.Substring(start + 1, end - start - 1); // "2.5kg" or "2 Basket"
+                string numStr = "";
+                foreach (char c in inner)
+                {
+                    if (char.IsDigit(c) || c == '.') numStr += c;
+                    else break;
+                }
+                return decimal.Parse(numStr);
             }
             catch { return 1; }
         }
