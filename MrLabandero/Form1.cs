@@ -90,5 +90,10 @@ namespace MrLabandero
         {
 
         }
+
+        private void btnSalesReport_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

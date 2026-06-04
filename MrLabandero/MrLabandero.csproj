@@ -201,6 +201,12 @@
     <Compile Include="UserControlReceipt.Designer.cs">
       <DependentUpon>UserControlReceipt.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControlSalesReport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControlSalesReport.Designer.cs">
+      <DependentUpon>UserControlSalesReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControl_Inventory.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -220,6 +226,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControlReceipt.resx">
       <DependentUpon>UserControlReceipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControlSalesReport.resx">
+      <DependentUpon>UserControlSalesReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl_Inventory.resx">
       <DependentUpon>UserControl_Inventory.cs</DependentUpon>

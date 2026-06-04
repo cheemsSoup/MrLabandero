@@ -35,7 +35,6 @@ namespace MrLabandero
                 conn.Open();
 
                 string createTables = @"
-                    -- Customer per transaction record
                     CREATE TABLE IF NOT EXISTS Customers (
                         ID            INTEGER PRIMARY KEY AUTOINCREMENT,
                         FullName      TEXT NOT NULL,
@@ -43,7 +42,6 @@ namespace MrLabandero
                         DateCreated   DATETIME DEFAULT CURRENT_TIMESTAMP
                     );
 
-                    -- One receipt = one transaction
                     CREATE TABLE IF NOT EXISTS Transactions (
                         ID          INTEGER PRIMARY KEY AUTOINCREMENT,
                         CustomerID  INTEGER NOT NULL REFERENCES Customers(ID),
@@ -51,43 +49,43 @@ namespace MrLabandero
                         GrandTotal  DECIMAL NOT NULL
                     );
 
-                    -- Service types with prices — pre-populated
+                    -- Services reference table — pre-populated
                     CREATE TABLE IF NOT EXISTS Services (
                         ID          INTEGER PRIMARY KEY AUTOINCREMENT,
+                        ServiceCode TEXT NOT NULL UNIQUE,
                         ServiceName TEXT NOT NULL,
                         ItemType    TEXT NOT NULL,
                         Price       DECIMAL NOT NULL,
                         PriceType   TEXT NOT NULL
                     );
 
-                    -- Add-on types with prices — pre-populated
+                    -- AddOns reference table — pre-populated
                     CREATE TABLE IF NOT EXISTS AddOns (
                         ID        INTEGER PRIMARY KEY AUTOINCREMENT,
+                        AddOnCode TEXT NOT NULL UNIQUE,
                         AddOnName TEXT NOT NULL,
                         Price     DECIMAL NOT NULL,
                         Unit      TEXT NOT NULL
                     );
 
-                    -- Each order line inside a transaction
                     CREATE TABLE IF NOT EXISTS TransactionItems (
                         ID            INTEGER PRIMARY KEY AUTOINCREMENT,
                         TransactionID INTEGER NOT NULL REFERENCES Transactions(ID),
-                        ServiceID     INTEGER NOT NULL REFERENCES Services(ID),
+                        ServiceCode   TEXT NOT NULL,
+                        ItemType      TEXT NOT NULL,
                         Quantity      DECIMAL NOT NULL DEFAULT 1,
                         BaseAmount    DECIMAL NOT NULL,
                         Subtotal      DECIMAL NOT NULL
                     );
 
-                    -- Add-ons per transaction item
                     CREATE TABLE IF NOT EXISTS TransactionAddOns (
                         ID                INTEGER PRIMARY KEY AUTOINCREMENT,
                         TransactionItemID INTEGER NOT NULL REFERENCES TransactionItems(ID),
-                        AddOnID           INTEGER NOT NULL REFERENCES AddOns(ID),
-                        Quantity          INTEGER NOT NULL DEFAULT 1,
+                        AddOnCode         TEXT NOT NULL,
+                        Quantity          DECIMAL NOT NULL DEFAULT 1,
                         Subtotal          DECIMAL NOT NULL
                     );
 
-                    -- Inventory stocks
                     CREATE TABLE IF NOT EXISTS Inventory (
                         ID          INTEGER PRIMARY KEY AUTOINCREMENT,
                         ItemName    TEXT NOT NULL,
@@ -96,7 +94,6 @@ namespace MrLabandero
                         DateUpdated DATETIME DEFAULT CURRENT_TIMESTAMP
                     );
 
-                    -- Inventory movement history
                     CREATE TABLE IF NOT EXISTS InventoryLog (
                         ID          INTEGER PRIMARY KEY AUTOINCREMENT,
                         InventoryID INTEGER NOT NULL REFERENCES Inventory(ID),
@@ -130,19 +127,16 @@ namespace MrLabandero
             }
 
             string insert = @"
-                INSERT INTO Services (ServiceName, ItemType, Price, PriceType) VALUES
-                -- Full Service (per load)
-                ('Full Service (Wash, Dry, Fold)', 'Clothes',              180, 'per load'),
-                ('Full Service (Wash, Dry, Fold)', 'Towels or Curtains',   190, 'per load'),
-                ('Full Service (Wash, Dry, Fold)', 'Beddings',             210, 'per load'),
-                -- Regular Wash Only (per kg)
-                ('Regular - Wash Only',            'Clothes',               35, 'per kg'),
-                ('Regular - Wash Only',            'Towels or Curtains',    45, 'per kg'),
-                ('Regular - Wash Only',            'Beddings',              65, 'per kg'),
-                -- Regular Dry and Fold (per basket)
-                ('Regular - Dry and Fold',         'Clothes',              100, 'per basket'),
-                ('Regular - Dry and Fold',         'Towels or Curtains',   110, 'per basket'),
-                ('Regular - Dry and Fold',         'Beddings',             130, 'per basket')";
+            INSERT INTO Services (ServiceCode, ServiceName, ItemType, Price, PriceType) VALUES
+            ('FULL01', 'Full Service (Wash, Dry, Fold)', 'Clothes',            180, 'per load'),
+            ('FULL02', 'Full Service (Wash, Dry, Fold)', 'Towels or Curtains', 190, 'per load'),
+            ('FULL03', 'Full Service (Wash, Dry, Fold)', 'Beddings',           210, 'per load'),
+            ('WASH01', 'Regular - Wash Only',            'Clothes',             35, 'per kg'),
+            ('WASH02', 'Regular - Wash Only',            'Towels or Curtains',  45, 'per kg'),
+            ('WASH03', 'Regular - Wash Only',            'Beddings',            65, 'per kg'),
+            ('DFLD01', 'Regular - Dry and Fold',         'Clothes',            100, 'per basket'),
+            ('DFLD02', 'Regular - Dry and Fold',         'Towels or Curtains', 110, 'per basket'),
+            ('DFLD03', 'Regular - Dry and Fold',         'Beddings',           130, 'per basket')";
 
             using (var cmd = new SQLiteCommand(insert, conn))
                 cmd.ExecuteNonQuery();
@@ -160,14 +154,13 @@ namespace MrLabandero
                 long count = Convert.ToInt64(cmd.ExecuteScalar());
                 if (count > 0) return; // ALREADY SEEDED
             }
-
             string insert = @"
-                INSERT INTO AddOns (AddOnName, Price, Unit) VALUES
-                ('Additional Spin',    30, 'per 10 mins'),
-                ('Additional Wash',    30, 'per 7 mins'),
-                ('Additional Rinse',   30, 'per 5 mins'),
-                ('Liquid Detergent',   25, 'per 60ml'),
-                ('Extra Fabcon',       15, 'per 60ml')";
+            INSERT INTO AddOns (AddOnCode, AddOnName, Price, Unit) VALUES
+            ('ADDSPN', 'Additional Spin',  30, 'per 10 mins'),
+            ('ADDWSH', 'Additional Wash',  30, 'per 7 mins'),
+            ('ADDRNS', 'Additional Rinse', 30, 'per 5 mins'),
+            ('ADDDET', 'Liquid Detergent', 25, 'per 60ml'),
+            ('ADDFBC', 'Extra Fabcon',     15, 'per 60ml')";
 
             using (var cmd = new SQLiteCommand(insert, conn))
                 cmd.ExecuteNonQuery();
@@ -178,12 +171,12 @@ namespace MrLabandero
         // Get Service ID and AddOn ID by name — used in SaveTransaction
         //  =======================================
 
-        // Get Service ID by ServiceName + ItemType
-        public static long GetServiceID(SQLiteConnection conn,
+        // Get ServiceCode by ServiceName + ItemType
+        private static string GetServiceCode(SQLiteConnection conn,
             string serviceName, string itemType)
         {
             string query = @"
-                SELECT ID FROM Services
+                SELECT ServiceCode FROM Services
                 WHERE ServiceName = @name AND ItemType = @item
                 LIMIT 1";
 
@@ -192,19 +185,31 @@ namespace MrLabandero
                 cmd.Parameters.AddWithValue("@name", serviceName);
                 cmd.Parameters.AddWithValue("@item", itemType);
                 var result = cmd.ExecuteScalar();
-                return result != null ? Convert.ToInt64(result) : -1;
+                return result != null ? result.ToString() : "UNKNOWN";
             }
         }
 
-        // GET ADD ON ID BY ADD ON NAME
-        public static long GetAddOnID(SQLiteConnection conn, string addOnName)
+        // Get AddOnCode by AddOnName
+        private static string GetAddOnCode(SQLiteConnection conn, string addOnName)
         {
-            string query = "SELECT ID FROM AddOns WHERE AddOnName = @name LIMIT 1";
+            string query = "SELECT AddOnCode FROM AddOns WHERE AddOnName = @name LIMIT 1";
             using (var cmd = new SQLiteCommand(query, conn))
             {
                 cmd.Parameters.AddWithValue("@name", addOnName);
                 var result = cmd.ExecuteScalar();
-                return result != null ? Convert.ToInt64(result) : -1;
+                return result != null ? result.ToString() : "UNKNOWN";
+            }
+        }
+
+        // Get AddOn Price by AddOnCode
+        private static decimal GetAddOnPrice(SQLiteConnection conn, string addOnCode)
+        {
+            string query = "SELECT Price FROM AddOns WHERE AddOnCode = @code LIMIT 1";
+            using (var cmd = new SQLiteCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@code", addOnCode);
+                var result = cmd.ExecuteScalar();
+                return result != null ? Convert.ToDecimal(result) : 0;
             }
         }
 
@@ -264,31 +269,32 @@ namespace MrLabandero
                             transactionID = Convert.ToInt64(cmd.ExecuteScalar());
                         }
                         // STEP 3: SAVE ORDER AND ADD ONS
+                        // ── Step 3: Save each Order Item ──
                         foreach (var order in orders)
                         {
-                            // Parse item type — strip weight/basket info for lookup
-                            // e.g. "Clothes (2.5kg)" → "Clothes"
+                            // Strip weight/basket info for lookup
+                            // "Clothes (2.5kg)" → "Clothes"
                             string cleanItemType = order.ItemType.Split('(')[0].Trim();
 
-                            // Get ServiceID from Services table
-                            long serviceID = GetServiceID(conn, order.ServiceType, cleanItemType);
+                            // Get ServiceCode from Services table
+                            string serviceCode = GetServiceCode(conn, order.ServiceType, cleanItemType);
 
-                            // Parse quantity from ItemType
-                            // e.g. "Clothes (2.5kg)" → 2.5, "Clothes (2 Basket)" → 2
+                            // Parse quantity — "Clothes (2.5kg)" → 2.5
                             decimal quantity = ParseQuantityFromItemType(order.ItemType);
 
-                            // Insert TransactionItem
+                            // Insert TransactionItem with ServiceCode directly
                             long transItemID;
                             string insertItem = @"
                                 INSERT INTO TransactionItems
-                                    (TransactionID, ServiceID, Quantity, BaseAmount, Subtotal)
+                                    (TransactionID, ServiceCode, ItemType, Quantity, BaseAmount, Subtotal)
                                 VALUES
-                                    (@transID, @serviceID, @qty, @baseAmount, @subtotal)";
+                                    (@transID, @serviceCode, @itemType, @qty, @baseAmount, @subtotal)";
 
                             using (var cmd = new SQLiteCommand(insertItem, conn))
                             {
                                 cmd.Parameters.AddWithValue("@transID", transactionID);
-                                cmd.Parameters.AddWithValue("@serviceID", serviceID);
+                                cmd.Parameters.AddWithValue("@serviceCode", serviceCode);
+                                cmd.Parameters.AddWithValue("@itemType", order.ItemType);
                                 cmd.Parameters.AddWithValue("@qty", quantity);
                                 cmd.Parameters.AddWithValue("@baseAmount", order.BaseAmount);
                                 cmd.Parameters.AddWithValue("@subtotal", order.OrderTotal);
@@ -301,28 +307,27 @@ namespace MrLabandero
                             // ── Step 4: Save Add-ons per Transaction Item ──
                             foreach (var detail in order.AddOnDetails)
                             {
-                                // Parse AddOnName and Quantity from detail string
-                                // Format: "Additional Spin x2 = 60.00 Php"
                                 string addOnName = ParseAddOnName(detail);
                                 int addOnQty = ParseQtyFromDetail(detail);
-                                long addOnID = GetAddOnID(conn, addOnName);
 
-                                if (addOnID == -1) continue; // skip if not found
+                                // Get AddOnCode from AddOns table
+                                string addOnCode = GetAddOnCode(conn, addOnName);
+                                if (addOnCode == "UNKNOWN") continue;
 
-                                // Compute subtotal from AddOns table price
-                                decimal addOnPrice = GetAddOnPrice(conn, addOnID);
+                                decimal addOnPrice = GetAddOnPrice(conn, addOnCode);
                                 decimal addOnSubtotal = addOnPrice * addOnQty;
 
+                                // Insert TransactionAddOn with AddOnCode directly
                                 string insertAddOn = @"
                                     INSERT INTO TransactionAddOns
-                                        (TransactionItemID, AddOnID, Quantity, Subtotal)
+                                        (TransactionItemID, AddOnCode, Quantity, Subtotal)
                                     VALUES
-                                        (@transItemID, @addOnID, @qty, @subtotal)";
+                                        (@transItemID, @addOnCode, @qty, @subtotal)";
 
                                 using (var cmd = new SQLiteCommand(insertAddOn, conn))
                                 {
                                     cmd.Parameters.AddWithValue("@transItemID", transItemID);
-                                    cmd.Parameters.AddWithValue("@addOnID", addOnID);
+                                    cmd.Parameters.AddWithValue("@addOnCode", addOnCode);
                                     cmd.Parameters.AddWithValue("@qty", addOnQty);
                                     cmd.Parameters.AddWithValue("@subtotal", addOnSubtotal);
                                     cmd.ExecuteNonQuery();
@@ -851,14 +856,16 @@ namespace MrLabandero
                 int end = itemType.IndexOf(')');
                 if (start < 0 || end < 0) return 1;
 
-                string inner = itemType.Substring(start + 1, end - start - 1); // "2.5kg" or "2 Basket"
+                string inner = itemType.Substring(start + 1, end - start - 1);
                 string numStr = "";
                 foreach (char c in inner)
                 {
-                    if (char.IsDigit(c) || c == '.') numStr += c;
+                    if (char.IsDigit(c) || c == '.' || c == ',') numStr += c;
                     else break;
                 }
-                return decimal.Parse(numStr);
+
+                return decimal.Parse(numStr.Replace(',', '.'),
+                    System.Globalization.CultureInfo.InvariantCulture);
             }
             catch { return 1; }
         }

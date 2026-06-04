@@ -101,6 +101,7 @@ namespace MrLabandero
             this.btnSalesReport.TabIndex = 3;
             this.btnSalesReport.Text = "Sales Report";
             this.btnSalesReport.UseVisualStyleBackColor = false;
+            this.btnSalesReport.Click += new System.EventHandler(this.btnSalesReport_Click);
             // 
             // btnInventory
             // 
