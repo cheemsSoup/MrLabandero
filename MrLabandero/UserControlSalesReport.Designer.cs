@@ -32,27 +32,31 @@ namespace MrLabandero
             this.label2 = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
+            this.btnGenerate = new System.Windows.Forms.Button();
+            this.panelYearlyMonthly = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.nudYear = new System.Windows.Forms.NumericUpDown();
             this.flowPanelSelection = new System.Windows.Forms.FlowLayoutPanel();
             this.rbDaily = new System.Windows.Forms.RadioButton();
             this.rbWeekly = new System.Windows.Forms.RadioButton();
             this.rbMonthly = new System.Windows.Forms.RadioButton();
+            this.panelDaily = new System.Windows.Forms.Panel();
+            this.dtpTo = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.dtpFrom = new System.Windows.Forms.DateTimePicker();
-            this.dtpTo = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.nudYear = new System.Windows.Forms.NumericUpDown();
-            this.btnGenerate = new System.Windows.Forms.Button();
-            this.panelDaily = new System.Windows.Forms.Panel();
             this.dgvSalesReport = new System.Windows.Forms.DataGridView();
             this.panelBottom = new System.Windows.Forms.Panel();
-            this.panelYearlyMonthly = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblTotalSales = new System.Windows.Forms.Label();
+            this.btnDetailed = new System.Windows.Forms.Button();
+            this.btnSummary = new System.Windows.Forms.Button();
             this.panelHeader.SuspendLayout();
-            this.flowPanelSelection.SuspendLayout();
+            this.panelYearlyMonthly.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudYear)).BeginInit();
+            this.flowPanelSelection.SuspendLayout();
             this.panelDaily.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSalesReport)).BeginInit();
-            this.panelYearlyMonthly.SuspendLayout();
+            this.panelBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -76,7 +80,7 @@ namespace MrLabandero
             this.panelHeader.Controls.Add(this.panelDaily);
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(808, 170);
+            this.panelHeader.Size = new System.Drawing.Size(808, 152);
             this.panelHeader.TabIndex = 4;
             // 
             // label6
@@ -89,6 +93,63 @@ namespace MrLabandero
             this.label6.Size = new System.Drawing.Size(84, 25);
             this.label6.TabIndex = 15;
             this.label6.Text = "View By:";
+            // 
+            // btnGenerate
+            // 
+            this.btnGenerate.BackColor = System.Drawing.Color.Maroon;
+            this.btnGenerate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGenerate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerate.ForeColor = System.Drawing.Color.White;
+            this.btnGenerate.Location = new System.Drawing.Point(15, 111);
+            this.btnGenerate.Name = "btnGenerate";
+            this.btnGenerate.Size = new System.Drawing.Size(189, 37);
+            this.btnGenerate.TabIndex = 45;
+            this.btnGenerate.Text = "GENERATE";
+            this.btnGenerate.UseVisualStyleBackColor = false;
+            this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
+            // 
+            // panelYearlyMonthly
+            // 
+            this.panelYearlyMonthly.Controls.Add(this.label5);
+            this.panelYearlyMonthly.Controls.Add(this.nudYear);
+            this.panelYearlyMonthly.Location = new System.Drawing.Point(15, 75);
+            this.panelYearlyMonthly.Name = "panelYearlyMonthly";
+            this.panelYearlyMonthly.Size = new System.Drawing.Size(189, 35);
+            this.panelYearlyMonthly.TabIndex = 47;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(2, 4);
+            this.label5.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 25);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "Year:";
+            // 
+            // nudYear
+            // 
+            this.nudYear.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudYear.Location = new System.Drawing.Point(63, 3);
+            this.nudYear.Maximum = new decimal(new int[] {
+            2030,
+            0,
+            0,
+            0});
+            this.nudYear.Minimum = new decimal(new int[] {
+            2026,
+            0,
+            0,
+            0});
+            this.nudYear.Name = "nudYear";
+            this.nudYear.Size = new System.Drawing.Size(120, 29);
+            this.nudYear.TabIndex = 22;
+            this.nudYear.Value = new decimal(new int[] {
+            2026,
+            0,
+            0,
+            0});
             // 
             // flowPanelSelection
             // 
@@ -112,6 +173,7 @@ namespace MrLabandero
             this.rbDaily.TabStop = true;
             this.rbDaily.Text = "Daily";
             this.rbDaily.UseVisualStyleBackColor = true;
+            this.rbDaily.CheckedChanged += new System.EventHandler(this.rbDaily_CheckedChanged);
             // 
             // rbWeekly
             // 
@@ -125,6 +187,7 @@ namespace MrLabandero
             this.rbWeekly.TabStop = true;
             this.rbWeekly.Text = "Weekly";
             this.rbWeekly.UseVisualStyleBackColor = true;
+            this.rbWeekly.CheckedChanged += new System.EventHandler(this.rbWeekly_CheckedChanged);
             // 
             // rbMonthly
             // 
@@ -138,6 +201,29 @@ namespace MrLabandero
             this.rbMonthly.TabStop = true;
             this.rbMonthly.Text = "Monthly";
             this.rbMonthly.UseVisualStyleBackColor = true;
+            this.rbMonthly.CheckedChanged += new System.EventHandler(this.rbMonthly_CheckedChanged);
+            // 
+            // panelDaily
+            // 
+            this.panelDaily.Controls.Add(this.dtpTo);
+            this.panelDaily.Controls.Add(this.label4);
+            this.panelDaily.Controls.Add(this.dtpFrom);
+            this.panelDaily.Controls.Add(this.label1);
+            this.panelDaily.Location = new System.Drawing.Point(15, 77);
+            this.panelDaily.Name = "panelDaily";
+            this.panelDaily.Size = new System.Drawing.Size(577, 30);
+            this.panelDaily.TabIndex = 46;
+            // 
+            // dtpTo
+            // 
+            this.dtpTo.CalendarFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpTo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpTo.Location = new System.Drawing.Point(339, 3);
+            this.dtpTo.MaxDate = new System.DateTime(2030, 6, 1, 0, 0, 0, 0);
+            this.dtpTo.MinDate = new System.DateTime(2026, 1, 1, 0, 0, 0, 0);
+            this.dtpTo.Name = "dtpTo";
+            this.dtpTo.Size = new System.Drawing.Size(230, 25);
+            this.dtpTo.TabIndex = 19;
             // 
             // label4
             // 
@@ -155,22 +241,11 @@ namespace MrLabandero
             this.dtpFrom.CalendarFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFrom.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpFrom.Location = new System.Drawing.Point(63, 3);
-            this.dtpFrom.MaxDate = new System.DateTime(2028, 6, 1, 0, 0, 0, 0);
-            this.dtpFrom.MinDate = new System.DateTime(2026, 6, 1, 0, 0, 0, 0);
+            this.dtpFrom.MaxDate = new System.DateTime(2030, 6, 1, 0, 0, 0, 0);
+            this.dtpFrom.MinDate = new System.DateTime(2026, 1, 1, 0, 0, 0, 0);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.Size = new System.Drawing.Size(226, 25);
             this.dtpFrom.TabIndex = 18;
-            // 
-            // dtpTo
-            // 
-            this.dtpTo.CalendarFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpTo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpTo.Location = new System.Drawing.Point(339, 3);
-            this.dtpTo.MaxDate = new System.DateTime(2028, 6, 1, 0, 0, 0, 0);
-            this.dtpTo.MinDate = new System.DateTime(2026, 6, 1, 0, 0, 0, 0);
-            this.dtpTo.Name = "dtpTo";
-            this.dtpTo.Size = new System.Drawing.Size(230, 25);
-            this.dtpTo.TabIndex = 19;
             // 
             // label1
             // 
@@ -183,74 +258,64 @@ namespace MrLabandero
             this.label1.TabIndex = 20;
             this.label1.Text = "To:";
             // 
-            // nudYear
-            // 
-            this.nudYear.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nudYear.Location = new System.Drawing.Point(63, 3);
-            this.nudYear.Name = "nudYear";
-            this.nudYear.Size = new System.Drawing.Size(120, 29);
-            this.nudYear.TabIndex = 22;
-            // 
-            // btnGenerate
-            // 
-            this.btnGenerate.BackColor = System.Drawing.Color.Maroon;
-            this.btnGenerate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGenerate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGenerate.ForeColor = System.Drawing.Color.White;
-            this.btnGenerate.Location = new System.Drawing.Point(15, 111);
-            this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(189, 37);
-            this.btnGenerate.TabIndex = 45;
-            this.btnGenerate.Text = "GENERATE";
-            this.btnGenerate.UseVisualStyleBackColor = false;
-            // 
-            // panelDaily
-            // 
-            this.panelDaily.Controls.Add(this.dtpTo);
-            this.panelDaily.Controls.Add(this.label4);
-            this.panelDaily.Controls.Add(this.dtpFrom);
-            this.panelDaily.Controls.Add(this.label1);
-            this.panelDaily.Location = new System.Drawing.Point(15, 77);
-            this.panelDaily.Name = "panelDaily";
-            this.panelDaily.Size = new System.Drawing.Size(577, 30);
-            this.panelDaily.TabIndex = 46;
-            // 
             // dgvSalesReport
             // 
             this.dgvSalesReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSalesReport.Location = new System.Drawing.Point(25, 176);
+            this.dgvSalesReport.Location = new System.Drawing.Point(25, 158);
             this.dgvSalesReport.Margin = new System.Windows.Forms.Padding(25, 3, 25, 3);
             this.dgvSalesReport.Name = "dgvSalesReport";
-            this.dgvSalesReport.Size = new System.Drawing.Size(758, 262);
+            this.dgvSalesReport.Size = new System.Drawing.Size(758, 280);
             this.dgvSalesReport.TabIndex = 5;
             // 
             // panelBottom
             // 
+            this.panelBottom.Controls.Add(this.btnSummary);
+            this.panelBottom.Controls.Add(this.btnDetailed);
+            this.panelBottom.Controls.Add(this.lblTotalSales);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelBottom.Location = new System.Drawing.Point(0, 444);
             this.panelBottom.Name = "panelBottom";
             this.panelBottom.Size = new System.Drawing.Size(808, 72);
             this.panelBottom.TabIndex = 6;
             // 
-            // panelYearlyMonthly
+            // lblTotalSales
             // 
-            this.panelYearlyMonthly.Controls.Add(this.label5);
-            this.panelYearlyMonthly.Controls.Add(this.nudYear);
-            this.panelYearlyMonthly.Location = new System.Drawing.Point(15, 75);
-            this.panelYearlyMonthly.Name = "panelYearlyMonthly";
-            this.panelYearlyMonthly.Size = new System.Drawing.Size(189, 35);
-            this.panelYearlyMonthly.TabIndex = 47;
+            this.lblTotalSales.AutoSize = true;
+            this.lblTotalSales.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalSales.Location = new System.Drawing.Point(11, 27);
+            this.lblTotalSales.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
+            this.lblTotalSales.Name = "lblTotalSales";
+            this.lblTotalSales.Size = new System.Drawing.Size(150, 21);
+            this.lblTotalSales.TabIndex = 23;
+            this.lblTotalSales.Text = "Total Sales: 0.00 Php";
             // 
-            // label5
+            // btnDetailed
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(2, 4);
-            this.label5.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(52, 25);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "Year:";
+            this.btnDetailed.BackColor = System.Drawing.Color.Maroon;
+            this.btnDetailed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDetailed.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDetailed.ForeColor = System.Drawing.Color.White;
+            this.btnDetailed.Location = new System.Drawing.Point(662, 20);
+            this.btnDetailed.Name = "btnDetailed";
+            this.btnDetailed.Size = new System.Drawing.Size(121, 37);
+            this.btnDetailed.TabIndex = 48;
+            this.btnDetailed.Text = "DETAILED";
+            this.btnDetailed.UseVisualStyleBackColor = false;
+            this.btnDetailed.Click += new System.EventHandler(this.btnDetailed_Click);
+            // 
+            // btnSummary
+            // 
+            this.btnSummary.BackColor = System.Drawing.Color.Maroon;
+            this.btnSummary.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSummary.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSummary.ForeColor = System.Drawing.Color.White;
+            this.btnSummary.Location = new System.Drawing.Point(531, 20);
+            this.btnSummary.Name = "btnSummary";
+            this.btnSummary.Size = new System.Drawing.Size(121, 37);
+            this.btnSummary.TabIndex = 49;
+            this.btnSummary.Text = "SUMMARY";
+            this.btnSummary.UseVisualStyleBackColor = false;
+            this.btnSummary.Click += new System.EventHandler(this.btnSummary_Click);
             // 
             // UserControlSalesReport
             // 
@@ -263,14 +328,16 @@ namespace MrLabandero
             this.Size = new System.Drawing.Size(808, 516);
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
+            this.panelYearlyMonthly.ResumeLayout(false);
+            this.panelYearlyMonthly.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudYear)).EndInit();
             this.flowPanelSelection.ResumeLayout(false);
             this.flowPanelSelection.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudYear)).EndInit();
             this.panelDaily.ResumeLayout(false);
             this.panelDaily.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSalesReport)).EndInit();
-            this.panelYearlyMonthly.ResumeLayout(false);
-            this.panelYearlyMonthly.PerformLayout();
+            this.panelBottom.ResumeLayout(false);
+            this.panelBottom.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -295,5 +362,8 @@ namespace MrLabandero
         private System.Windows.Forms.Panel panelBottom;
         private System.Windows.Forms.Panel panelYearlyMonthly;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblTotalSales;
+        private System.Windows.Forms.Button btnSummary;
+        private System.Windows.Forms.Button btnDetailed;
     }
 }

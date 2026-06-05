@@ -679,6 +679,37 @@ namespace MrLabandero
             }
         }
 
+        // FOOR DETAILED SALES REPORT
+        public static DataTable GetDetailedDailySales(DateTime from, DateTime to)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            SELECT
+                t.ID            AS 'Trans #',
+                c.ID            AS 'Customer ID',
+                c.FullName      AS 'Customer',
+                c.ContactNumber AS 'Contact',
+                DATE(t.DateCreated) AS 'Date',
+                TIME(t.DateCreated) AS 'Time',
+                t.GrandTotal    AS 'Total (Php)'
+            FROM Transactions t
+            INNER JOIN Customers c ON c.ID = t.CustomerID
+            WHERE DATE(t.DateCreated) BETWEEN @from AND @to
+            ORDER BY t.DateCreated DESC";
+
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    adapter.SelectCommand.Parameters.AddWithValue("@from", from.ToString("yyyy-MM-dd"));
+                    adapter.SelectCommand.Parameters.AddWithValue("@to", to.ToString("yyyy-MM-dd"));
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+
         // Total sales for a date range — for summary label
         public static decimal GetTotalSales(DateTime from, DateTime to)
         {
