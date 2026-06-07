@@ -222,10 +222,10 @@ namespace MrLabandero
         // ==========================================
         public static int SaveTransaction(
             string customerName,
-            string contactNumber,
-            List<UserControlReceipt.ReceiptOrder> orders,
-            decimal grandTotal,
-            out int customerID)
+    string contactNumber,
+    List<UserControlReceipt.ReceiptOrder> orders,
+    decimal grandTotal,
+    out int customerID)
         {
             customerID = -1;
 
@@ -236,59 +236,74 @@ namespace MrLabandero
                 {
                     try
                     {
-                        // STEP 1: SAVE OR REUSE CUSTOMER
-                        long custID;
-                        string insertCustomer = "INSERT INTO Customers (Fullname, ContactNumber) VALUES (@name, @contact)";
+                        // STEP 1: CHECKS IF EXISTING, IF NOT CREATE NEW CUSTOMER ID
+                        long custID = -1;
 
-                                using (var ins = new SQLiteCommand(insertCustomer, conn))
-                                    {   
-                                    ins.Parameters.AddWithValue("@name", customerName.Trim());
-                                    ins.Parameters.AddWithValue("@contact", contactNumber.Trim());
-                                    ins.ExecuteNonQuery();
-                                    }
+                        string checkCustomer = @"
+                    SELECT ID FROM Customers
+                    WHERE TRIM(FullName)      = TRIM(@name)
+                    AND   TRIM(ContactNumber) = TRIM(@contact)
+                    LIMIT 1";
 
-                                string getID = "SELECT last_insert_rowid()";
-                                using (var getId = new SQLiteCommand(getID, conn))
-                                { 
-                                    custID = Convert.ToInt64(getId.ExecuteScalar());
-                                }
-                        
+                        using (var cmd = new SQLiteCommand(checkCustomer, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@name", customerName.Trim());
+                            cmd.Parameters.AddWithValue("@contact", contactNumber.Trim());
+                            var result = cmd.ExecuteScalar();
+                            custID = result != null ? Convert.ToInt64(result) : -1;
+                        }
+
+                        if (custID == -1)
+                        {
+                            // NEW CUSTOMER INSERT
+                            string insertCustomer = @"
+                        INSERT INTO Customers (FullName, ContactNumber)
+                        VALUES (@name, @contact)";
+
+                            using (var cmd = new SQLiteCommand(insertCustomer, conn))
+                            {
+                                cmd.Parameters.AddWithValue("@name", customerName.Trim());
+                                cmd.Parameters.AddWithValue("@contact", contactNumber.Trim());
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            using (var getId = new SQLiteCommand("SELECT last_insert_rowid()", conn))
+                                custID = Convert.ToInt64(getId.ExecuteScalar());
+                        }
+                        // EXISITING CCUSTOMER - REUSE ID
+
                         customerID = (int)custID;
 
-                        // STEP 2: SAVE TRANSACTION
+                        // STEP 2: ALWAYS INSERT TRANSACTION ROWS
                         long transactionID;
+
                         string insertTransaction = @"
-                            INSERT INTO Transactions (CustomerID, GrandTotal)
-                            VALUES (@customerID, @grandTotal);
-                            SELECT last_insert_rowid();";
+                    INSERT INTO Transactions (CustomerID, GrandTotal)
+                    VALUES (@customerID, @grandTotal)";
 
                         using (var cmd = new SQLiteCommand(insertTransaction, conn))
                         {
                             cmd.Parameters.AddWithValue("@customerID", custID);
                             cmd.Parameters.AddWithValue("@grandTotal", grandTotal);
-                            transactionID = Convert.ToInt64(cmd.ExecuteScalar());
+                            cmd.ExecuteNonQuery();
                         }
-                        // STEP 3: SAVE ORDER AND ADD ONS
-                        // ── Step 3: Save each Order Item ──
+
+                        using (var getId = new SQLiteCommand("SELECT last_insert_rowid()", conn))
+                            transactionID = Convert.ToInt64(getId.ExecuteScalar());
+
+                        // STEP 3: SAVE EACH ORDER ITEM
                         foreach (var order in orders)
                         {
-                            // Strip weight/basket info for lookup
-                            // "Clothes (2.5kg)" → "Clothes"
                             string cleanItemType = order.ItemType.Split('(')[0].Trim();
-
-                            // Get ServiceCode from Services table
                             string serviceCode = GetServiceCode(conn, order.ServiceType, cleanItemType);
-
-                            // Parse quantity — "Clothes (2.5kg)" → 2.5
                             decimal quantity = ParseQuantityFromItemType(order.ItemType);
 
-                            // Insert TransactionItem with ServiceCode directly
                             long transItemID;
                             string insertItem = @"
-                                INSERT INTO TransactionItems
-                                    (TransactionID, ServiceCode, ItemType, Quantity, BaseAmount, Subtotal)
-                                VALUES
-                                    (@transID, @serviceCode, @itemType, @qty, @baseAmount, @subtotal)";
+                        INSERT INTO TransactionItems
+                            (TransactionID, ServiceCode, ItemType, Quantity, BaseAmount, Subtotal)
+                        VALUES
+                            (@transID, @serviceCode, @itemType, @qty, @baseAmount, @subtotal)";
 
                             using (var cmd = new SQLiteCommand(insertItem, conn))
                             {
@@ -304,25 +319,22 @@ namespace MrLabandero
                             using (var getId = new SQLiteCommand("SELECT last_insert_rowid()", conn))
                                 transItemID = Convert.ToInt64(getId.ExecuteScalar());
 
-                            // ── Step 4: Save Add-ons per Transaction Item ──
+                            // STEP 4:  SAVE ADD ONS PER TRANSACTION ITEMS
                             foreach (var detail in order.AddOnDetails)
                             {
                                 string addOnName = ParseAddOnName(detail);
                                 int addOnQty = ParseQtyFromDetail(detail);
-
-                                // Get AddOnCode from AddOns table
                                 string addOnCode = GetAddOnCode(conn, addOnName);
                                 if (addOnCode == "UNKNOWN") continue;
 
                                 decimal addOnPrice = GetAddOnPrice(conn, addOnCode);
                                 decimal addOnSubtotal = addOnPrice * addOnQty;
 
-                                // Insert TransactionAddOn with AddOnCode directly
                                 string insertAddOn = @"
-                                    INSERT INTO TransactionAddOns
-                                        (TransactionItemID, AddOnCode, Quantity, Subtotal)
-                                    VALUES
-                                        (@transItemID, @addOnCode, @qty, @subtotal)";
+                            INSERT INTO TransactionAddOns
+                                (TransactionItemID, AddOnCode, Quantity, Subtotal)
+                            VALUES
+                                (@transItemID, @addOnCode, @qty, @subtotal)";
 
                                 using (var cmd = new SQLiteCommand(insertAddOn, conn))
                                 {
@@ -335,7 +347,7 @@ namespace MrLabandero
                             }
                         }
 
-                        // ── Step 5: Auto-deduct Inventory ──
+                        // STEP 5: AUTO DEDUCT INVENTORY
                         DeductInventory(conn, orders);
 
                         dbTrans.Commit();
@@ -854,8 +866,6 @@ namespace MrLabandero
             }
             catch { return 1; }
         }
-
-
         private static decimal GetAddOnPrice(SQLiteConnection conn, long addOnID)
         {
             string query = "SELECT Price FROM AddOns WHERE ID = @id";
@@ -918,6 +928,122 @@ namespace MrLabandero
                 cmd.Parameters.AddWithValue("@qtyAfter", qtyAfter);
                 cmd.Parameters.AddWithValue("@remarks", remarks ?? "");
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        // GET TRANSACTION BY TRANSACTION ID
+        // RETURNS FULL BREAKDOWN AND ADD ONS
+        // panelExtactTransaction aand UserControlSalesReport
+        public static DataTable GetTransactionByID(int transactionID)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            -- Order items
+            SELECT
+                t.ID                AS 'Trans #',
+                c.ID                AS 'Customer ID',
+                c.FullName          AS 'Customer',
+                c.ContactNumber     AS 'Contact',
+                DATE(t.DateCreated) AS 'Date',
+                TIME(t.DateCreated) AS 'Time',
+                'Item'              AS 'Type',
+                ti.ServiceCode      AS 'Code',
+                ti.ItemType         AS 'Description',
+                ti.Quantity         AS 'Qty',
+                ti.BaseAmount       AS 'Amount (Php)',
+                t.GrandTotal        AS 'Grand Total (Php)'
+            FROM Transactions t
+            INNER JOIN Customers c         ON c.ID  = t.CustomerID
+            INNER JOIN TransactionItems ti ON ti.TransactionID = t.ID
+            WHERE t.ID = @id
+
+            UNION ALL
+
+            -- Add-on items
+            SELECT
+                t.ID,
+                c.ID,
+                c.FullName,
+                c.ContactNumber,
+                DATE(t.DateCreated),
+                TIME(t.DateCreated),
+                'Add-On'            AS 'Type',
+                ta.AddOnCode        AS 'Code',
+                a.AddOnName         AS 'Description',
+                ta.Quantity         AS 'Qty',
+                ta.Subtotal         AS 'Amount (Php)',
+                NULL                AS 'Grand Total (Php)'
+            FROM Transactions t
+            INNER JOIN Customers c              ON c.ID  = t.CustomerID
+            INNER JOIN TransactionItems ti      ON ti.TransactionID = t.ID
+            INNER JOIN TransactionAddOns ta     ON ta.TransactionItemID = ti.ID
+            INNER JOIN AddOns a                 ON a.AddOnCode = ta.AddOnCode
+            WHERE t.ID = @id
+
+            ORDER BY 1, 7 DESC";
+
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    adapter.SelectCommand.Parameters.AddWithValue("@id", transactionID);
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+
+        // GET ALL TRANSACTION MADE BY A SPECIIFIC CUSTOMER ID
+        // RETURNS ALL SUMMARY MADE BY THE CUSTOMER
+        //dgvSalesReport and UserControlSalesReport
+        public static DataTable GetTransactionsByCustomerID(int customerID)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            SELECT
+                t.ID                AS 'Trans #',
+                c.ID                AS 'Customer ID',
+                c.FullName          AS 'Customer',
+                c.ContactNumber     AS 'Contact',
+                DATE(t.DateCreated) AS 'Date',
+                TIME(t.DateCreated) AS 'Time',
+                t.GrandTotal        AS 'Grand Total (Php)'
+            FROM Transactions t
+            INNER JOIN Customers c ON c.ID = t.CustomerID
+            WHERE c.ID = @id
+            ORDER BY t.DateCreated DESC";
+
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    adapter.SelectCommand.Parameters.AddWithValue("@id", customerID);
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+
+        // VALIDATE TRANSACTION BELONGS TO CUSTOMER
+        // USED WHEN BOTH TRANSACTION ID AND CUSTOMER ID ARE USED
+        // RETURNS TRUE IIF IT BELONGS TO CUSTOMER
+        public static bool ValidateTransactionCustomer(int transactionID, int customerID)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            SELECT COUNT(*) FROM Transactions
+            WHERE ID = @transID AND CustomerID = @custID";
+
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@transID", transactionID);
+                    cmd.Parameters.AddWithValue("@custID", customerID);
+                    return Convert.ToInt64(cmd.ExecuteScalar()) > 0;
+                }
             }
         }
     }

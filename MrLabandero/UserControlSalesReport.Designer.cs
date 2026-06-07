@@ -31,6 +31,12 @@ namespace MrLabandero
         {
             this.label2 = new System.Windows.Forms.Label();
             this.panelHeader = new System.Windows.Forms.Panel();
+            this.panelSearchID = new System.Windows.Forms.Panel();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.txtTransactionID = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtCustomerID = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.panelYearlyMonthly = new System.Windows.Forms.Panel();
@@ -40,6 +46,7 @@ namespace MrLabandero
             this.rbDaily = new System.Windows.Forms.RadioButton();
             this.rbWeekly = new System.Windows.Forms.RadioButton();
             this.rbMonthly = new System.Windows.Forms.RadioButton();
+            this.rbSearchID = new System.Windows.Forms.RadioButton();
             this.panelDaily = new System.Windows.Forms.Panel();
             this.dtpTo = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
@@ -47,10 +54,12 @@ namespace MrLabandero
             this.label1 = new System.Windows.Forms.Label();
             this.dgvSalesReport = new System.Windows.Forms.DataGridView();
             this.panelBottom = new System.Windows.Forms.Panel();
-            this.lblTotalSales = new System.Windows.Forms.Label();
-            this.btnDetailed = new System.Windows.Forms.Button();
             this.btnSummary = new System.Windows.Forms.Button();
+            this.btnDetailed = new System.Windows.Forms.Button();
+            this.lblTotalSales = new System.Windows.Forms.Label();
+            this.panelExactTransaction = new System.Windows.Forms.Panel();
             this.panelHeader.SuspendLayout();
+            this.panelSearchID.SuspendLayout();
             this.panelYearlyMonthly.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudYear)).BeginInit();
             this.flowPanelSelection.SuspendLayout();
@@ -72,9 +81,9 @@ namespace MrLabandero
             // 
             // panelHeader
             // 
+            this.panelHeader.Controls.Add(this.panelSearchID);
             this.panelHeader.Controls.Add(this.label6);
             this.panelHeader.Controls.Add(this.label2);
-            this.panelHeader.Controls.Add(this.btnGenerate);
             this.panelHeader.Controls.Add(this.panelYearlyMonthly);
             this.panelHeader.Controls.Add(this.flowPanelSelection);
             this.panelHeader.Controls.Add(this.panelDaily);
@@ -82,6 +91,72 @@ namespace MrLabandero
             this.panelHeader.Name = "panelHeader";
             this.panelHeader.Size = new System.Drawing.Size(808, 152);
             this.panelHeader.TabIndex = 4;
+            // 
+            // panelSearchID
+            // 
+            this.panelSearchID.Controls.Add(this.btnSearch);
+            this.panelSearchID.Controls.Add(this.txtTransactionID);
+            this.panelSearchID.Controls.Add(this.label7);
+            this.panelSearchID.Controls.Add(this.txtCustomerID);
+            this.panelSearchID.Controls.Add(this.label3);
+            this.panelSearchID.Location = new System.Drawing.Point(15, 77);
+            this.panelSearchID.Name = "panelSearchID";
+            this.panelSearchID.Size = new System.Drawing.Size(577, 71);
+            this.panelSearchID.TabIndex = 48;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.BackColor = System.Drawing.Color.Maroon;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSearch.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.ForeColor = System.Drawing.Color.White;
+            this.btnSearch.Location = new System.Drawing.Point(0, 33);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(189, 37);
+            this.btnSearch.TabIndex = 46;
+            this.btnSearch.Text = "SEARCH";
+            this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // txtTransactionID
+            // 
+            this.txtTransactionID.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTransactionID.Location = new System.Drawing.Point(366, 2);
+            this.txtTransactionID.Name = "txtTransactionID";
+            this.txtTransactionID.Size = new System.Drawing.Size(100, 25);
+            this.txtTransactionID.TabIndex = 21;
+            this.txtTransactionID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTransactionID_KeyPress);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(228, 3);
+            this.label7.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(135, 25);
+            this.label7.TabIndex = 20;
+            this.label7.Text = "Transaction ID:";
+            // 
+            // txtCustomerID
+            // 
+            this.txtCustomerID.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCustomerID.Location = new System.Drawing.Point(117, 3);
+            this.txtCustomerID.Name = "txtCustomerID";
+            this.txtCustomerID.Size = new System.Drawing.Size(100, 25);
+            this.txtCustomerID.TabIndex = 19;
+            this.txtCustomerID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCustomerID_KeyPress);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(-5, 3);
+            this.label3.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(120, 25);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "Customer ID:";
             // 
             // label6
             // 
@@ -156,9 +231,10 @@ namespace MrLabandero
             this.flowPanelSelection.Controls.Add(this.rbDaily);
             this.flowPanelSelection.Controls.Add(this.rbWeekly);
             this.flowPanelSelection.Controls.Add(this.rbMonthly);
+            this.flowPanelSelection.Controls.Add(this.rbSearchID);
             this.flowPanelSelection.Location = new System.Drawing.Point(92, 42);
             this.flowPanelSelection.Name = "flowPanelSelection";
-            this.flowPanelSelection.Size = new System.Drawing.Size(262, 29);
+            this.flowPanelSelection.Size = new System.Drawing.Size(313, 29);
             this.flowPanelSelection.TabIndex = 16;
             // 
             // rbDaily
@@ -202,6 +278,20 @@ namespace MrLabandero
             this.rbMonthly.Text = "Monthly";
             this.rbMonthly.UseVisualStyleBackColor = true;
             this.rbMonthly.CheckedChanged += new System.EventHandler(this.rbMonthly_CheckedChanged);
+            // 
+            // rbSearchID
+            // 
+            this.rbSearchID.AutoSize = true;
+            this.rbSearchID.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbSearchID.Location = new System.Drawing.Point(262, 3);
+            this.rbSearchID.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            this.rbSearchID.Name = "rbSearchID";
+            this.rbSearchID.Size = new System.Drawing.Size(43, 25);
+            this.rbSearchID.TabIndex = 20;
+            this.rbSearchID.TabStop = true;
+            this.rbSearchID.Text = "ID";
+            this.rbSearchID.UseVisualStyleBackColor = true;
+            this.rbSearchID.CheckedChanged += new System.EventHandler(this.rbSearchID_CheckedChanged);
             // 
             // panelDaily
             // 
@@ -278,16 +368,19 @@ namespace MrLabandero
             this.panelBottom.Size = new System.Drawing.Size(808, 72);
             this.panelBottom.TabIndex = 6;
             // 
-            // lblTotalSales
+            // btnSummary
             // 
-            this.lblTotalSales.AutoSize = true;
-            this.lblTotalSales.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalSales.Location = new System.Drawing.Point(11, 27);
-            this.lblTotalSales.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
-            this.lblTotalSales.Name = "lblTotalSales";
-            this.lblTotalSales.Size = new System.Drawing.Size(150, 21);
-            this.lblTotalSales.TabIndex = 23;
-            this.lblTotalSales.Text = "Total Sales: 0.00 Php";
+            this.btnSummary.BackColor = System.Drawing.Color.Maroon;
+            this.btnSummary.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSummary.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSummary.ForeColor = System.Drawing.Color.White;
+            this.btnSummary.Location = new System.Drawing.Point(531, 20);
+            this.btnSummary.Name = "btnSummary";
+            this.btnSummary.Size = new System.Drawing.Size(121, 37);
+            this.btnSummary.TabIndex = 49;
+            this.btnSummary.Text = "SUMMARY";
+            this.btnSummary.UseVisualStyleBackColor = false;
+            this.btnSummary.Click += new System.EventHandler(this.btnSummary_Click);
             // 
             // btnDetailed
             // 
@@ -303,24 +396,30 @@ namespace MrLabandero
             this.btnDetailed.UseVisualStyleBackColor = false;
             this.btnDetailed.Click += new System.EventHandler(this.btnDetailed_Click);
             // 
-            // btnSummary
+            // lblTotalSales
             // 
-            this.btnSummary.BackColor = System.Drawing.Color.Maroon;
-            this.btnSummary.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSummary.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSummary.ForeColor = System.Drawing.Color.White;
-            this.btnSummary.Location = new System.Drawing.Point(531, 20);
-            this.btnSummary.Name = "btnSummary";
-            this.btnSummary.Size = new System.Drawing.Size(121, 37);
-            this.btnSummary.TabIndex = 49;
-            this.btnSummary.Text = "SUMMARY";
-            this.btnSummary.UseVisualStyleBackColor = false;
-            this.btnSummary.Click += new System.EventHandler(this.btnSummary_Click);
+            this.lblTotalSales.AutoSize = true;
+            this.lblTotalSales.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalSales.Location = new System.Drawing.Point(11, 27);
+            this.lblTotalSales.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
+            this.lblTotalSales.Name = "lblTotalSales";
+            this.lblTotalSales.Size = new System.Drawing.Size(150, 21);
+            this.lblTotalSales.TabIndex = 23;
+            this.lblTotalSales.Text = "Total Sales: 0.00 Php";
+            // 
+            // panelExactTransaction
+            // 
+            this.panelExactTransaction.Location = new System.Drawing.Point(25, 158);
+            this.panelExactTransaction.Name = "panelExactTransaction";
+            this.panelExactTransaction.Size = new System.Drawing.Size(758, 280);
+            this.panelExactTransaction.TabIndex = 7;
             // 
             // UserControlSalesReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnGenerate);
+            this.Controls.Add(this.panelExactTransaction);
             this.Controls.Add(this.panelBottom);
             this.Controls.Add(this.dgvSalesReport);
             this.Controls.Add(this.panelHeader);
@@ -328,6 +427,8 @@ namespace MrLabandero
             this.Size = new System.Drawing.Size(808, 516);
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
+            this.panelSearchID.ResumeLayout(false);
+            this.panelSearchID.PerformLayout();
             this.panelYearlyMonthly.ResumeLayout(false);
             this.panelYearlyMonthly.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudYear)).EndInit();
@@ -365,5 +466,13 @@ namespace MrLabandero
         private System.Windows.Forms.Label lblTotalSales;
         private System.Windows.Forms.Button btnSummary;
         private System.Windows.Forms.Button btnDetailed;
+        private System.Windows.Forms.Panel panelSearchID;
+        private System.Windows.Forms.TextBox txtTransactionID;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtCustomerID;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.RadioButton rbSearchID;
+        private System.Windows.Forms.Panel panelExactTransaction;
+        private System.Windows.Forms.Button btnSearch;
     }
 }
