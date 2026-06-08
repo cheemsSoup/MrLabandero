@@ -15,6 +15,7 @@ namespace MrLabandero
         private UserControlPOS ucPOS;
         private UserControlReceipt ucReceipt;
         private UserControlSalesReport ucSalesReport;
+        private UserControlSettings uSettings;
 
         public frmMrLabandero()
         {
@@ -105,6 +106,20 @@ namespace MrLabandero
 
             mainPanel.Controls.Add(ucSalesReport);
             ucSalesReport.Visible = true;
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            mainPanel.Controls.Clear();
+
+            if (uSettings == null)
+            {
+                uSettings = new UserControlSettings();
+                uSettings.Dock = DockStyle.Fill;
+            }
+
+            mainPanel.Controls.Add(uSettings);
+            uSettings.Visible = true;
         }
     }
 }

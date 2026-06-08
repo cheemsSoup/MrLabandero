@@ -39,13 +39,13 @@ namespace MrLabandero
                         ID            INTEGER PRIMARY KEY AUTOINCREMENT,
                         FullName      TEXT NOT NULL,
                         ContactNumber TEXT NOT NULL,
-                        DateCreated   DATETIME DEFAULT CURRENT_TIMESTAMP
+                        DateCreated   DATETIME DEFAULT (datetime('now', '+8 hours'))
                     );
 
                     CREATE TABLE IF NOT EXISTS Transactions (
                         ID          INTEGER PRIMARY KEY AUTOINCREMENT,
                         CustomerID  INTEGER NOT NULL REFERENCES Customers(ID),
-                        DateCreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        DateCreated DATETIME DEFAULT (datetime('now', '+8 hours')),
                         GrandTotal  DECIMAL NOT NULL
                     );
 
@@ -91,7 +91,7 @@ namespace MrLabandero
                         ItemName    TEXT NOT NULL,
                         CurrentQty  DECIMAL NOT NULL DEFAULT 0,
                         Unit        TEXT NOT NULL,
-                        DateUpdated DATETIME DEFAULT CURRENT_TIMESTAMP
+                        DateUpdated DATETIME DEFAULT (datetime('now', '+8 hours'))
                     );
 
                     CREATE TABLE IF NOT EXISTS InventoryLog (
@@ -101,7 +101,7 @@ namespace MrLabandero
                         QtyChanged  DECIMAL NOT NULL,
                         QtyAfter    DECIMAL NOT NULL,
                         Remarks     TEXT,
-                        DateLogged  DATETIME DEFAULT CURRENT_TIMESTAMP
+                        DateLogged  DATETIME DEFAULT (datetime('now', '+8 hours'))
                     );
 
                     CREATE TABLE IF NOT EXISTS Settings (
@@ -200,8 +200,7 @@ namespace MrLabandero
         // =======================================
         // SECTION 2 — LOOKUP HELPERS
         // Get Service ID and AddOn ID by name — used in SaveTransaction
-        //  =======================================
-
+        //  ======================================
         // Get ServiceCode by ServiceName + ItemType
         private static string GetServiceCode(SQLiteConnection conn,
             string serviceName, string itemType)
@@ -219,7 +218,6 @@ namespace MrLabandero
                 return result != null ? result.ToString() : "UNKNOWN";
             }
         }
-
         // Get AddOnCode by AddOnName
         private static string GetAddOnCode(SQLiteConnection conn, string addOnName)
         {
@@ -231,7 +229,6 @@ namespace MrLabandero
                 return result != null ? result.ToString() : "UNKNOWN";
             }
         }
-
         // Get AddOn Price by AddOnCode
         private static decimal GetAddOnPrice(SQLiteConnection conn, string addOnCode)
         {
@@ -398,7 +395,6 @@ namespace MrLabandero
         // ===========================
         // SECTION 3 — INVENTORY CRUD
         // ===========================
-
         // GET ALL INVENTORY
         public static DataTable GetAllInventory()
         {
@@ -418,7 +414,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // ADD NEW INVENTORY ITEM + LOG ACTION
         public static void AddInventoryItem(string itemName, decimal quantity,
             string unit, string remarks = "")
@@ -457,7 +452,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // UPDATE ITEM INVENTORY AND THEN LOGS ACTION
         public static void UpdateInventoryItem(int id, string itemName,
             decimal newQty, string unit, string remarks = "")
@@ -507,7 +501,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // RESTOCK - ADD QUANTITY ON TOP OF STOCK
         public static void RestockInventoryItem(int id, decimal addQty, string remarks = "")
         {
@@ -545,7 +538,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // DELETE ITEM IN INVENTORY AND LOG ACTION
         public static void DeleteInventoryItem(int id)
         {
@@ -581,7 +573,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // GET INVENTORY LOG FOR ITEM
         public static DataTable GetInventoryLog(int inventoryID)
         {
@@ -612,7 +603,6 @@ namespace MrLabandero
         // =========================
         // SECTION 4 — SALES REPORT
         // =========================
-
         // All transactions with customer info — filterable by date range
         public static DataTable GetSalesReport(DateTime from, DateTime to)
         {
@@ -642,7 +632,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // Daily sales — grouped by day
         public static DataTable GetDailySales(DateTime from, DateTime to)
         {
@@ -669,7 +658,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // Weekly sales — grouped by week number
         public static DataTable GetWeeklySales(int year)
         {
@@ -695,7 +683,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // Monthly sales — grouped by month
         public static DataTable GetMonthlySales(int year)
         {
@@ -721,7 +708,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // FOOR DETAILED SALES REPORT
         public static DataTable GetDetailedDailySales(DateTime from, DateTime to)
         {
@@ -752,7 +738,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // Total sales for a date range — for summary label
         public static decimal GetTotalSales(DateTime from, DateTime to)
         {
@@ -776,7 +761,6 @@ namespace MrLabandero
         // ===========================
         // SECTION 5 — PRIVATE HELPERS
         // ==========================
-
         // AUTO-DEDUCT PER TRANSACTION
         // Full Service + Wash Only: 60ml Detergent + 60ml Fabcon (default)
         // Dry and Fold: 60ml Fabcon only (default)
@@ -835,7 +819,6 @@ namespace MrLabandero
                     DeductFromInventory(conn, fabconID, fabconDeduct, remarks);
             }
         }
-
         // GET INVENTORY ID FOR ITEM NAME — used for auto-deduct lookup
         private static long GetInventoryIDByName(SQLiteConnection conn, string itemName)
         {
@@ -847,7 +830,6 @@ namespace MrLabandero
                 return result != null ? Convert.ToInt64(result) : -1;
             }
         }
-
         // DEDUCT FROM INVENTORY AND LOG ACTION
         // WARNS OWNER LOW INVENTORY BUT BYPASSES THROOUGH
         private static void DeductFromInventory(SQLiteConnection conn,
@@ -883,7 +865,6 @@ namespace MrLabandero
 
             LogInventoryAction(conn, inventoryID, "Deduct", -deductQty, newQty, remarks);
         }
-
         // PARSE QUANTITY FROM ADD-ON DETAIL STRING
         // Format: "Liquid Detergent x2 = 50.00 Php"
         // Parse quantity from detail string — "Additional Spin x2 = 60.00 Php" → 2
@@ -907,7 +888,6 @@ namespace MrLabandero
                 return result != null ? Convert.ToDecimal(result) : 0;
             }
         }
-
         // Parse add-on name from detail — "Additional Spin x2 = 60.00 Php" → "Additional Spin"
         private static string ParseAddOnName(string detail)
         {
@@ -918,7 +898,6 @@ namespace MrLabandero
             }
             catch { return detail; }
         }
-
         // Parse quantity from ItemType — "Clothes (2.5kg)" → 2.5, "Clothes (2 Basket)" → 2
         private static decimal ParseQuantityFromItemType(string itemType)
         {
@@ -941,7 +920,6 @@ namespace MrLabandero
             }
             catch { return 1; }
         }
-
         // LOGS ALL INVENTORY ACTIONS - CALLED BY CRUD
         private static void LogInventoryAction(SQLiteConnection conn,
             long inventoryID, string action, decimal qtyChanged,
@@ -961,7 +939,6 @@ namespace MrLabandero
                 cmd.ExecuteNonQuery();
             }
         }
-
         // GET TRANSACTION BY TRANSACTION ID
         // RETURNS FULL BREAKDOWN AND ADD ONS
         // panelExtactTransaction aand UserControlSalesReport
@@ -1024,7 +1001,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // GET ALL TRANSACTION MADE BY A SPECIIFIC CUSTOMER ID
         // RETURNS ALL SUMMARY MADE BY THE CUSTOMER
         //dgvSalesReport and UserControlSalesReport
@@ -1056,7 +1032,6 @@ namespace MrLabandero
                 }
             }
         }
-
         // VALIDATE TRANSACTION BELONGS TO CUSTOMER
         // USED WHEN BOTH TRANSACTION ID AND CUSTOMER ID ARE USED
         // RETURNS TRUE IIF IT BELONGS TO CUSTOMER
@@ -1081,7 +1056,6 @@ namespace MrLabandero
         // ==========================
         // SECTION 6 — SETTINGS
         // ==========================
-
         // GET SETTING VALUE BY KEY
         // RETURNS DEFAULT VALUE
         public static string GetSetting(string key, string defaultValue = "")
