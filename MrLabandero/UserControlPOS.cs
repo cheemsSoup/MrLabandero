@@ -58,6 +58,7 @@ namespace MrLabandero
             panelWashOnly.Visible = false;
             panelDryFold.Visible = false;
             panelAddOns.Visible = false;
+            panelAddOns.Enabled = false;
 
             // DISABLE NUD ON LOAD
             nudSpin.Enabled = false;
@@ -214,27 +215,36 @@ namespace MrLabandero
 
         private void rbClothes_CheckedChanged(object sender, EventArgs e)
         {
+            panelAddOns.Enabled = rbClothes.Checked || rbTowels.Checked || rbBeddings.Checked;
             UpdateCurrentSubtotal();
         }
         private void rbTowels_CheckedChanged(object sender, EventArgs e)
         {
+            panelAddOns.Enabled = rbClothes.Checked || rbTowels.Checked || rbBeddings.Checked;
             UpdateCurrentSubtotal();
         }
         private void rbBeddings_CheckedChanged(object sender, EventArgs e)
         {
+            panelAddOns.Enabled = rbClothes.Checked || rbTowels.Checked || rbBeddings.Checked;
             UpdateCurrentSubtotal();
         }
         // WASH SERVICES
         private void rbClothesWash_CheckedChanged(object sender, EventArgs e)
         {
+            panelAddOns.Enabled = rbClothesWash.Checked || rbTowelsWash.Checked || rbBeddingsWash.Checked;
+            nudWeight.Enabled = panelAddOns.Enabled = true;
             nudWeight_ValueChanged(sender, e);
         }
         private void rbTowelsWash_CheckedChanged(object sender, EventArgs e)
         {
+            panelAddOns.Enabled = rbClothesWash.Checked || rbTowelsWash.Checked || rbBeddingsWash.Checked;
+            nudWeight.Enabled = panelAddOns.Enabled = true;
             nudWeight_ValueChanged(sender, e);
         }
         private void rbBeddingsWash_CheckedChanged(object sender, EventArgs e)
         {
+            panelAddOns.Enabled = rbClothesWash.Checked || rbTowelsWash.Checked || rbBeddingsWash.Checked;
+            nudWeight.Enabled = panelAddOns.Enabled = true;
             nudWeight_ValueChanged(sender, e);
         }
         // NUD VALUE - WEIGHT FOR WASH
@@ -254,16 +264,19 @@ namespace MrLabandero
         // DRY FOLD
         private void rbBeddingsDryFold_CheckedChanged(object sender, EventArgs e)
         {
+            panelAddOns.Enabled = rbClothesDryFold.Checked || rbBeddingsDryFold.Checked || rbTowelsDryFold.Checked;
             nudBasket_ValueChanged(sender, e);
         }
 
         private void rbTowelsDryFold_CheckedChanged(object sender, EventArgs e)
         {
+            panelAddOns.Enabled = rbClothesDryFold.Checked || rbBeddingsDryFold.Checked || rbTowelsDryFold.Checked;
             nudBasket_ValueChanged(sender, e);
         }
 
         private void rbClothesDryFold_CheckedChanged(object sender, EventArgs e)
         {
+            panelAddOns.Enabled = rbClothesDryFold.Checked || rbBeddingsDryFold.Checked || rbTowelsDryFold.Checked;
             nudBasket_ValueChanged(sender, e);
         }
 
@@ -683,6 +696,8 @@ namespace MrLabandero
         //RESETS RB VALUE TO UNCHECKED AND SERVICE SUBTEXT TO ZERO
         private void ClearItemSelection()
         {
+            panelAddOns.Enabled = false;
+
             rbClothes.Checked = false;
             rbTowels.Checked = false;
             rbBeddings.Checked = false;

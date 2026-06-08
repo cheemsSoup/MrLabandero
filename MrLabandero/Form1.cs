@@ -47,24 +47,24 @@ namespace MrLabandero
             ucPOS.Visible = true;
         }
 
+        private bool _transactionSaved = false;
         // Proceed clicked — switch to receipt
         private void ShowReceipt(object sender, UserControlPOS.ProceedEventArgs e)
         {
-            int customerID;
-            int transactionID = DatabaseHelper.SaveTransaction(
-                e.CustomerName,
-                e.ContactNumber,
-                e.Orders,
-                e.GrandTotal,
-                out customerID);
+            if (!_transactionSaved)
+            {
+                int customerID;
+                int transactionID = DatabaseHelper.SaveTransaction(
+                    e.CustomerName, e.ContactNumber,
+                    e.Orders, e.GrandTotal, out customerID);
 
-            ucReceipt.LoadReceipt(
-                e.CustomerName,
-                e.ContactNumber,
-                e.Orders,
-                e.GrandTotal,
-                transactionID,
-                customerID);
+                ucReceipt.LoadReceipt(
+                    e.CustomerName, e.ContactNumber,
+                    e.Orders, e.GrandTotal,
+                    transactionID, customerID);
+
+                _transactionSaved = true;
+            }
 
             mainPanel.Controls.Clear();
             mainPanel.Controls.Add(ucReceipt);
@@ -82,6 +82,7 @@ namespace MrLabandero
         private void StartNewOrder(object sender, EventArgs e)
         {
             ucPOS.ResetSession();
+            _transactionSaved = false;
             mainPanel.Controls.Clear();
             mainPanel.Controls.Add(ucPOS);
             ucPOS.Visible = true;

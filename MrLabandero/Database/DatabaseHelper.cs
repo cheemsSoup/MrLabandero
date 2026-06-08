@@ -103,6 +103,11 @@ namespace MrLabandero
                         Remarks     TEXT,
                         DateLogged  DATETIME DEFAULT CURRENT_TIMESTAMP
                     );
+
+                    CREATE TABLE IF NOT EXISTS Settings (
+                    Key   TEXT PRIMARY KEY,
+                    Value TEXT NOT NULL
+                    );
                 ";
 
                 using (var cmd = new SQLiteCommand(createTables, conn))
@@ -110,6 +115,7 @@ namespace MrLabandero
 
                 SeedServices(conn);
                 SeedAddOns(conn);
+                SeedSettings(conn);
             }
         }
 
@@ -161,6 +167,31 @@ namespace MrLabandero
             ('ADDRNS', 'Additional Rinse', 30, 'per 5 mins'),
             ('ADDDET', 'Liquid Detergent', 25, 'per 60ml'),
             ('ADDFBC', 'Extra Fabcon',     15, 'per 60ml')";
+
+            using (var cmd = new SQLiteCommand(insert, conn))
+                cmd.ExecuteNonQuery();
+        }
+        //  =======================================
+        // SEEDS SETTINGS
+        //  =======================================
+        private static void SeedSettings(SQLiteConnection conn)
+        {
+            string check = "SELECT COUNT(*) FROM Settings";
+            using (var cmd = new SQLiteCommand(check, conn))
+            {
+                if (Convert.ToInt64(cmd.ExecuteScalar()) > 0) return;
+            }
+
+            string insert = @"
+        INSERT INTO Settings (Key, Value) VALUES
+        -- Shop Info
+        ('ShopName',           'Mr. Labandero Laundry Shop'),
+        ('ShopAddress',        'Provincial Rd., Borol 1st, Balagtas, Bulacan'),
+        ('ShopContact',        '0947-860-4797'),
+        ('ShopHours',          'Mon-Sun 7:00AM - 7:00PM'),
+        -- Inventory Defaults (in ml per order)
+        ('DefaultDetergentML', '60'),
+        ('DefaultFabconML',    '60')";
 
             using (var cmd = new SQLiteCommand(insert, conn))
                 cmd.ExecuteNonQuery();
@@ -1044,6 +1075,453 @@ namespace MrLabandero
                     cmd.Parameters.AddWithValue("@custID", customerID);
                     return Convert.ToInt64(cmd.ExecuteScalar()) > 0;
                 }
+            }
+        }
+
+        // ==========================
+        // SECTION 6 — SETTINGS
+        // ==========================
+
+        // GET SETTING VALUE BY KEY
+        // RETURNS DEFAULT VALUE
+        public static string GetSetting(string key, string defaultValue = "")
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = "SELECT Value FROM Settings WHERE Key = @key";
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@key", key);
+                    var result = cmd.ExecuteScalar();
+                    return result != null ? result.ToString() : defaultValue;
+                }
+            }
+        }
+        // SET A SETTING VALUE - INSERT IF NOT EXSIST, UPDATE IF EXISTS
+        public static void SetSetting(string key, string value)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                // INSERT OR REPLACE — handles both insert and update
+                string query = @"
+            INSERT OR REPLACE INTO Settings (Key, Value)
+            VALUES (@key, @value)";
+
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@key", key);
+                    cmd.Parameters.AddWithValue("@value", value);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        // GET ALL SETTINGS - DISPLAY
+        public static DataTable GetAllSettings()
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = "SELECT Key, Value FROM Settings ORDER BY Key";
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+
+        // ==========================
+        // SECTION 7 — SETTINGS
+        // ==========================
+        // GET ALL SERVICES - DGV and UserControlSettings
+        public static DataTable GetAllServices()
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            SELECT ID, ServiceCode, ServiceName, ItemType, Price, PriceType
+            FROM Services
+            ORDER BY ServiceCode";
+
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+        // ADD NEW SERVICE
+        public static void AddService(string serviceCode, string serviceName,
+            string itemType, decimal price, string priceType)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            INSERT INTO Services (ServiceCode, ServiceName, ItemType, Price, PriceType)
+            VALUES (@code, @name, @item, @price, @priceType)";
+
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@code", serviceCode);
+                    cmd.Parameters.AddWithValue("@name", serviceName);
+                    cmd.Parameters.AddWithValue("@item", itemType);
+                    cmd.Parameters.AddWithValue("@price", price);
+                    cmd.Parameters.AddWithValue("@priceType", priceType);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        // UPDATE EXISTING SERVICE
+        public static void UpdateService(int id, string serviceCode, string serviceName,
+            string itemType, decimal price, string priceType)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            UPDATE Services
+            SET ServiceCode = @code, ServiceName = @name,
+                ItemType = @item, Price = @price, PriceType = @priceType
+            WHERE ID = @id";
+
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@code", serviceCode);
+                    cmd.Parameters.AddWithValue("@name", serviceName);
+                    cmd.Parameters.AddWithValue("@item", itemType);
+                    cmd.Parameters.AddWithValue("@price", price);
+                    cmd.Parameters.AddWithValue("@priceType", priceType);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        // DELETE SERVICE - WARNS IF EXISTING
+        public static bool DeleteService(int id)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+
+                // CHECK IF SERVICE IS USED IN TRANSACTION
+                string checkUsage = @"
+            SELECT COUNT(*) FROM TransactionItems
+            WHERE ServiceCode = (SELECT ServiceCode FROM Services WHERE ID = @id)";
+
+                using (var cmd = new SQLiteCommand(checkUsage, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    long count = Convert.ToInt64(cmd.ExecuteScalar());
+
+                    if (count > 0)
+                    {
+                        MessageBox.Show(
+                            $"Cannot delete — this service has {count} existing transaction/s.",
+                            "Cannot Delete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
+
+                string delete = "DELETE FROM Services WHERE ID = @id";
+                using (var cmd = new SQLiteCommand(delete, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                return true;
+            }
+        }
+        // ==========================
+        // ADD-ONS
+        // ==========================
+        // GET ALL ADD ONS - DGV and UserControlSettings
+        public static DataTable GetAllAddOns()
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            SELECT ID, AddOnCode, AddOnName, Price, Unit
+            FROM AddOns
+            ORDER BY AddOnCode";
+
+                using (var adapter = new SQLiteDataAdapter(query, conn))
+                {
+                    var table = new DataTable();
+                    adapter.Fill(table);
+                    return table;
+                }
+            }
+        }
+        // ADD NEW ADD ONS
+        public static void AddAddOn(string addOnCode, string addOnName,
+            decimal price, string unit)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            INSERT INTO AddOns (AddOnCode, AddOnName, Price, Unit)
+            VALUES (@code, @name, @price, @unit)";
+
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@code", addOnCode);
+                    cmd.Parameters.AddWithValue("@name", addOnName);
+                    cmd.Parameters.AddWithValue("@price", price);
+                    cmd.Parameters.AddWithValue("@unit", unit);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        // UPDATE EXISTING TABLE
+        public static void UpdateAddOn(int id, string addOnCode, string addOnName,
+            decimal price, string unit)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            UPDATE AddOns
+            SET AddOnCode = @code, AddOnName = @name,
+                Price = @price, Unit = @unit
+            WHERE ID = @id";
+
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@code", addOnCode);
+                    cmd.Parameters.AddWithValue("@name", addOnName);
+                    cmd.Parameters.AddWithValue("@price", price);
+                    cmd.Parameters.AddWithValue("@unit", unit);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        // DELETE ADD ONS
+        public static bool DeleteAddOn(int id)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+
+                // CHECK IF ADD ONS IS USED IN TRANSACTION
+                string checkUsage = @"
+            SELECT COUNT(*) FROM TransactionAddOns
+            WHERE AddOnCode = (SELECT AddOnCode FROM AddOns WHERE ID = @id)";
+
+                using (var cmd = new SQLiteCommand(checkUsage, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    long count = Convert.ToInt64(cmd.ExecuteScalar());
+
+                    if (count > 0)
+                    {
+                        MessageBox.Show(
+                            $"Cannot delete — this add-on has {count} existing transaction/s.",
+                            "Cannot Delete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
+
+                string delete = "DELETE FROM AddOns WHERE ID = @id";
+                using (var cmd = new SQLiteCommand(delete, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                return true;
+            }
+        }
+
+        // ==========================
+        // SECTION 8 — DATABASE MANAGEMENT
+        // ==========================
+        // Clear Transactions only
+        // Deletes: TransactionAddOns, TransactionItems, Transactions, Customers
+        // Keeps: Services, AddOns, Inventory, InventoryLog, Settings
+        // ==========================
+        public static void ClearTransactions()
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var dbTrans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // delete child tables first
+                        new SQLiteCommand("DELETE FROM TransactionAddOns", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM TransactionItems", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM Transactions", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM Customers", conn).ExecuteNonQuery();
+
+                        // Reset auto-increment counters
+                        new SQLiteCommand("DELETE FROM sqlite_sequence WHERE name IN ('TransactionAddOns','TransactionItems','Transactions','Customers')", conn).ExecuteNonQuery();
+
+                        dbTrans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        dbTrans.Rollback();
+                        MessageBox.Show($"Error clearing transactions:\n{ex.Message}",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+        // ==========================
+        // Clear Inventory only
+        // Deletes: InventoryLog, Inventory
+        // Keeps: Everything else
+        // ==========================
+        public static void ClearInventory()
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var dbTrans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        new SQLiteCommand("DELETE FROM InventoryLog", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM Inventory", conn).ExecuteNonQuery();
+
+                        // Reset auto-increment counters
+                        new SQLiteCommand("DELETE FROM sqlite_sequence WHERE name IN ('InventoryLog','Inventory')", conn).ExecuteNonQuery();
+
+                        dbTrans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        dbTrans.Rollback();
+                        MessageBox.Show($"Error clearing inventory:\n{ex.Message}",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+        // ==========================
+        // Hard Reset — deletes ALL data from ALL tables
+        // Keeps table structure — re-seeds Services, AddOns, Settings
+        // ==========================
+        public static void HardReset()
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                using (var dbTrans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // Delete all data — order matters (child first)
+                        new SQLiteCommand("DELETE FROM TransactionAddOns", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM TransactionItems", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM Transactions", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM Customers", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM InventoryLog", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM Inventory", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM Settings", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM AddOns", conn).ExecuteNonQuery();
+                        new SQLiteCommand("DELETE FROM Services", conn).ExecuteNonQuery();
+
+                        // Reset ALL auto-increment counters
+                        new SQLiteCommand("DELETE FROM sqlite_sequence", conn).ExecuteNonQuery();
+
+                        dbTrans.Commit();
+
+                        // Re-seed default data
+                        SeedServices(conn);
+                        SeedAddOns(conn);
+                        SeedSettings(conn);
+                    }
+                    catch (Exception ex)
+                    {
+                        dbTrans.Rollback();
+                        MessageBox.Show($"Error during hard reset:\n{ex.Message}",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+        // ==========================
+        // Backup Database — copies laundry.db to Desktop
+        // Filename: laundry_backup_YYYYMMDD_HHmmss.db
+        // ==========================
+        public static void BackupDatabase()
+        {
+            try
+            {
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string backupName = $"laundry_backup_{DateTime.Now:yyyyMMdd_HHmmss}.db";
+                string backupPath = Path.Combine(desktopPath, backupName);
+
+                File.Copy(DbPath, backupPath, overwrite: false);
+
+                MessageBox.Show(
+                    $"Backup saved to Desktop:\n{backupName}",
+                    "Backup Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error creating backup:\n{ex.Message}",
+                    "Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        // ==========================
+        // Restore Database — lets user pick a backup .db file
+        // Replaces current laundry.db with selected backup
+        // ==========================
+        public static void RestoreDatabase()
+        {
+            try
+            {
+                using (var ofd = new OpenFileDialog())
+                {
+                    ofd.Title = "Select Backup File";
+                    ofd.Filter = "SQLite Database|*.db";
+                    ofd.InitialDirectory = Environment.GetFolderPath(
+                        Environment.SpecialFolder.Desktop);
+
+                    if (ofd.ShowDialog() != DialogResult.OK) return;
+
+                    string selectedFile = ofd.FileName;
+
+                    var confirm = MessageBox.Show(
+                        "Restoring will replace ALL current data.\n" +
+                        "This cannot be undone. Continue?",
+                        "Confirm Restore",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
+                    if (confirm != DialogResult.Yes) return;
+
+                    // Backup current DB first before restoring
+                    string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    string autoBackupName = $"laundry_before_restore_{DateTime.Now:yyyyMMdd_HHmmss}.db";
+                    string autoBackupPath = Path.Combine(desktopPath, autoBackupName);
+                    File.Copy(DbPath, autoBackupPath, overwrite: false);
+
+                    // Replace current DB with selected backup
+                    File.Copy(selectedFile, DbPath, overwrite: true);
+
+                    MessageBox.Show(
+                        $"Database restored successfully!\n\n" +
+                        $"Your previous data was auto-backed up to Desktop:\n{autoBackupName}\n\n" +
+                        "Please restart the application.",
+                        "Restore Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error restoring database:\n{ex.Message}",
+                    "Restore Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
