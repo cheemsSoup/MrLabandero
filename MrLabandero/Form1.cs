@@ -49,6 +49,7 @@ namespace MrLabandero
                 ucReceipt.OnNewOrder += StartNewOrder;
             }
 
+            ucPOS.ReloadPrices();
             mainPanel.Controls.Add(ucPOS);
             ucPOS.Visible = true;
         }

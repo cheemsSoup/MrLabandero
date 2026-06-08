@@ -265,9 +265,8 @@ namespace MrLabandero
             {
                 conn.Open();
                 string query = @"
-                SELECT Price FROM Services
-                WHERE ServiceName = @name AND ItemType = @item
-                LIMIT 1";
+                SELECT Price FROM AddOns
+                WHERE AddOnName = @name LIMIT 1";
                 using (var cmd = new SQLiteCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@name", addOnName);

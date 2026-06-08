@@ -52,7 +52,7 @@ namespace MrLabandero
         public UserControlPOS()
         {
             InitializeComponent();
-
+            ReloadPrices();
             // HIDE UNNECESSARY PANELS
             panelFullServices.Visible = false;
             panelWashOnly.Visible = false;
@@ -154,7 +154,6 @@ namespace MrLabandero
         // =======================================
         // GROUP 4 — Service Options (Radio Buttons)
         // =======================================
-
         private void rbFullServices_CheckedChanged_1(object sender, EventArgs e)
         {
             if (rbFullServices.Checked)
@@ -251,9 +250,9 @@ namespace MrLabandero
         private void nudWeight_ValueChanged(object sender, EventArgs e)
         {
             nudWeight.Enabled = rbClothesWash.Checked || rbTowelsWash.Checked || rbBeddingsWash.Checked;
-            decimal pricePerKilo = rbClothesWash.Checked ? Prices.W_Clothes
-                      : rbTowelsWash.Checked ? Prices.W_Towels
-                      : rbBeddingsWash.Checked ? Prices.W_Beddings
+            decimal pricePerKilo = rbClothesWash.Checked ? _wClothes
+                      : rbTowelsWash.Checked ? _wTowels
+                      : rbBeddingsWash.Checked ? _wBeddings
                       : 0;
 
             decimal subtotal = pricePerKilo * (decimal)nudWeight.Value;
@@ -267,25 +266,22 @@ namespace MrLabandero
             panelAddOns.Enabled = rbClothesDryFold.Checked || rbBeddingsDryFold.Checked || rbTowelsDryFold.Checked;
             nudBasket_ValueChanged(sender, e);
         }
-
         private void rbTowelsDryFold_CheckedChanged(object sender, EventArgs e)
         {
             panelAddOns.Enabled = rbClothesDryFold.Checked || rbBeddingsDryFold.Checked || rbTowelsDryFold.Checked;
             nudBasket_ValueChanged(sender, e);
         }
-
         private void rbClothesDryFold_CheckedChanged(object sender, EventArgs e)
         {
             panelAddOns.Enabled = rbClothesDryFold.Checked || rbBeddingsDryFold.Checked || rbTowelsDryFold.Checked;
             nudBasket_ValueChanged(sender, e);
         }
-
         private void nudBasket_ValueChanged(object sender, EventArgs e)
         {
             nudBasket.Enabled = rbClothesDryFold.Checked || rbTowelsDryFold.Checked || rbBeddingsDryFold.Checked;
-            decimal pricePerBasket = rbClothesDryFold.Checked ? Prices.W_Clothes
-                      : rbTowelsDryFold.Checked ? Prices.W_Towels
-                      : rbBeddingsDryFold.Checked ? Prices.W_Beddings
+            decimal pricePerBasket = rbClothesDryFold.Checked ? _dfClothes
+                      : rbTowelsDryFold.Checked ? _dfTowels
+                      : rbBeddingsDryFold.Checked ? _dfBeddings
                       : 0;
 
             decimal subtotal = pricePerBasket * (decimal)nudBasket.Value;
@@ -297,7 +293,6 @@ namespace MrLabandero
         // =======================================
         // GROUP 6 — Add-Ons (Checkboxes)
         // =======================================
-
         private void ToggleAddOn(CheckBox chk, NumericUpDown nud, Label lbl, decimal price)
         {
             nud.Enabled = chk.Checked;
@@ -308,52 +303,56 @@ namespace MrLabandero
             UpdateCurrentSubtotal();
         }
         private void chkSpin_CheckedChanged(object sender, EventArgs e)
-           => ToggleAddOn(chkSpin, nudSpin, lblSpinSub, Prices.AddSpin);
+           => ToggleAddOn(chkSpin, nudSpin, lblSpinSub, _addSpin);
         private void chkWash_CheckedChanged(object sender, EventArgs e)
-            => ToggleAddOn(chkWash, nudWash, lblWashSub, Prices.AddWash);
+            => ToggleAddOn(chkWash, nudWash, lblWashSub, _addWash);
         private void chkRinse_CheckedChanged(object sender, EventArgs e)
-            => ToggleAddOn(chkRinse, nudRinse, lblRinseSub, Prices.AddRinse);
+            => ToggleAddOn(chkRinse, nudRinse, lblRinseSub, _addRinse);
         private void chkDetergent_CheckedChanged(object sender, EventArgs e)
-            => ToggleAddOn(chkDetergent, nudDetergent, lblDetergentSub, Prices.ExtraDetergent);
+            => ToggleAddOn(chkDetergent, nudDetergent, lblDetergentSub, _addDetergent);
         private void chkFabcon_CheckedChanged(object sender, EventArgs e)
-            => ToggleAddOn(chkFabcon, nudFabcon, lblFabconSub, Prices.ExtraFabcon);
+            => ToggleAddOn(chkFabcon, nudFabcon, lblFabconSub, _addFabcon);
 
 
         // ADD ONS - NUD VALUES
         private void nudSpin_ValueChanged(object sender, EventArgs e)
         {
             if (chkSpin.Checked)
-                lblSpinSub.Text = $"{Prices.AddSpin * (decimal)nudSpin.Value:0.00} Php";
+                lblSpinSub.Text = $"{_addSpin * (decimal)nudSpin.Value:0.00} Php";
             UpdateCurrentSubtotal();
         }
         private void nudWash_ValueChanged(object sender, EventArgs e)
         {
             if (chkWash.Checked)
-                lblWashSub.Text = $"{Prices.AddWash * (decimal)nudWash.Value:0.00} Php";
+                lblWashSub.Text = $"{_addWash * (decimal)nudWash.Value:0.00} Php";
             UpdateCurrentSubtotal();
         }
         private void nudRinse_ValueChanged(object sender, EventArgs e)
         {
             if (chkRinse.Checked)
-                lblRinseSub.Text = $"{Prices.AddRinse * (decimal)nudRinse.Value:0.00} Php";
+                lblRinseSub.Text = $"{_addRinse * (decimal)nudRinse.Value:0.00} Php";
             UpdateCurrentSubtotal();
         }
         private void nudDetergent_ValueChanged(object sender, EventArgs e)
         {
             if (chkDetergent.Checked)
-                lblDetergentSub.Text = $"{Prices.ExtraDetergent * (decimal)nudDetergent.Value:0.00} Php";
+                lblDetergentSub.Text = $"{_addDetergent * (decimal)nudDetergent.Value:0.00} Php";
             UpdateCurrentSubtotal();
         }
         private void nudFabcon_ValueChanged(object sender, EventArgs e)
         {
             if (chkFabcon.Checked)
-                lblFabconSub.Text = $"{Prices.ExtraFabcon * (decimal)nudFabcon.Value:0.00} Php";
+                lblFabconSub.Text = $"{_addFabcon * (decimal)nudFabcon.Value:0.00} Php";
             UpdateCurrentSubtotal();
         }
 
         // =======================================
         // GROUP 7 — COMPUTATIONS
         // =======================================
+        private decimal _fsClothes, _fsTowels, _fsBeddings;
+        private decimal _wClothes, _wTowels, _wBeddings;
+        private decimal _dfClothes, _dfTowels, _dfBeddings;
+        private decimal _addSpin, _addWash, _addRinse, _addDetergent, _addFabcon;
         private void UpdateCurrentSubtotal()
         {
             decimal baseService = ComputeBaseService();
@@ -372,23 +371,23 @@ namespace MrLabandero
         {
             if (rbFullServices.Checked)
             {
-                if (rbClothes.Checked) return Prices.FS_Clothes;
-                if (rbTowels.Checked) return Prices.FS_Towels;
-                if (rbBeddings.Checked) return Prices.FS_Beddings;
+                if (rbClothes.Checked) return _fsClothes;
+                if (rbTowels.Checked) return _fsTowels;
+                if (rbBeddings.Checked) return _fsBeddings;
             }
             if (rbWash.Checked)
             {
                 decimal kg = (decimal)nudWeight.Value;
-                if (rbClothesWash.Checked) return Prices.W_Clothes * kg;
-                if (rbTowelsWash.Checked) return Prices.W_Towels * kg;
-                if (rbBeddingsWash.Checked) return Prices.W_Beddings * kg; ;
+                if (rbClothesWash.Checked) return _wClothes * kg;
+                if (rbTowelsWash.Checked) return _wTowels * kg;
+                if (rbBeddingsWash.Checked) return _wBeddings * kg; ;
             }
             if (rbDryFold.Checked)
             {
                 decimal basket = (decimal)nudBasket.Value;
-                if (rbClothesDryFold.Checked) return Prices.DF_Clothes *basket;
-                if (rbTowelsDryFold.Checked) return Prices.DF_Towels * basket;
-                if (rbBeddingsDryFold.Checked) return Prices.DF_Beddings * basket;
+                if (rbClothesDryFold.Checked) return _dfClothes * basket;
+                if (rbTowelsDryFold.Checked) return _dfTowels * basket;
+                if (rbBeddingsDryFold.Checked) return _dfBeddings * basket;
             }
             return 0;
         }
@@ -396,13 +395,33 @@ namespace MrLabandero
         {
             decimal total = 0;
 
-            if (chkSpin.Checked) total += Prices.AddSpin * (decimal)nudSpin.Value;
-            if (chkWash.Checked) total += Prices.AddWash * (decimal)nudWash.Value;
-            if (chkRinse.Checked) total += Prices.AddRinse * (decimal)nudRinse.Value;
-            if (chkDetergent.Checked) total += Prices.ExtraDetergent * (decimal)nudDetergent.Value;
-            if (chkFabcon.Checked) total += Prices.ExtraFabcon * (decimal)nudFabcon.Value;
+            if (chkSpin.Checked) total += _addSpin * (decimal)nudSpin.Value;
+            if (chkWash.Checked) total += _addWash * (decimal)nudWash.Value;
+            if (chkRinse.Checked) total += _addRinse * (decimal)nudRinse.Value;
+            if (chkDetergent.Checked) total += _addDetergent * (decimal)nudDetergent.Value;
+            if (chkFabcon.Checked) total += _addFabcon * (decimal)nudFabcon.Value;
 
             return total;
+        }
+        public void ReloadPrices()
+        {
+            _fsClothes = DatabaseHelper.GetServicePriceByName("Full Service (Wash, Dry, Fold)", "Clothes");
+            _fsTowels = DatabaseHelper.GetServicePriceByName("Full Service (Wash, Dry, Fold)", "Towels or Curtains");
+            _fsBeddings = DatabaseHelper.GetServicePriceByName("Full Service (Wash, Dry, Fold)", "Beddings");
+
+            _wClothes = DatabaseHelper.GetServicePriceByName("Regular - Wash Only", "Clothes");
+            _wTowels = DatabaseHelper.GetServicePriceByName("Regular - Wash Only", "Towels or Curtains");
+            _wBeddings = DatabaseHelper.GetServicePriceByName("Regular - Wash Only", "Beddings");
+
+            _dfClothes = DatabaseHelper.GetServicePriceByName("Regular - Dry and Fold", "Clothes");
+            _dfTowels = DatabaseHelper.GetServicePriceByName("Regular - Dry and Fold", "Towels or Curtains");
+            _dfBeddings = DatabaseHelper.GetServicePriceByName("Regular - Dry and Fold", "Beddings");
+
+            _addSpin = DatabaseHelper.GetAddOnPriceByName("Additional Spin");
+            _addWash = DatabaseHelper.GetAddOnPriceByName("Additional Wash");
+            _addRinse = DatabaseHelper.GetAddOnPriceByName("Additional Rinse");
+            _addDetergent = DatabaseHelper.GetAddOnPriceByName("Liquid Detergent");
+            _addFabcon = DatabaseHelper.GetAddOnPriceByName("Extra Fabcon");
         }
 
         // =======================================
@@ -412,15 +431,15 @@ namespace MrLabandero
         {
             var addOnDetails = new List<string>();
             if (chkSpin.Checked)
-                addOnDetails.Add($"Additional Spin x{nudSpin.Value} = {Prices.AddSpin * (decimal)nudSpin.Value:0.00} Php");
+                addOnDetails.Add($"Additional Spin x{nudSpin.Value} = {_addSpin * (decimal)nudSpin.Value:0.00} Php");
             if (chkWash.Checked)
-                addOnDetails.Add($"Additional Wash x{nudWash.Value} = {Prices.AddWash * (decimal)nudWash.Value:0.00} Php");
+                addOnDetails.Add($"Additional Wash x{nudWash.Value} = {_addWash * (decimal)nudWash.Value:0.00} Php");
             if (chkRinse.Checked)
-                addOnDetails.Add($"Additional Rinse x{nudRinse.Value} = {Prices.AddRinse * (decimal)nudRinse.Value:0.00} Php");
+                addOnDetails.Add($"Additional Rinse x{nudRinse.Value} = {_addRinse * (decimal)nudRinse.Value:0.00} Php");
             if (chkDetergent.Checked)
-                addOnDetails.Add($"Liquid Detergent x{nudDetergent.Value} = {Prices.ExtraDetergent * (decimal)nudDetergent.Value:0.00} Php");
+                addOnDetails.Add($"Liquid Detergent x{nudDetergent.Value} = {_addDetergent * (decimal)nudDetergent.Value:0.00} Php");
             if (chkFabcon.Checked)
-                addOnDetails.Add($"Extra Fabcon x{nudFabcon.Value} = {Prices.ExtraFabcon * (decimal)nudFabcon.Value:0.00} Php");
+                addOnDetails.Add($"Extra Fabcon x{nudFabcon.Value} = {_addFabcon * (decimal)nudFabcon.Value:0.00} Php");
 
             string serviceType = rbFullServices.Checked ? "Full Service (Wash, Dry, Fold)"
                                : rbWash.Checked ? "Regular - Wash Only"
@@ -499,6 +518,11 @@ namespace MrLabandero
             lstOrders.Items.Add("══════════════════════════════");
             lstOrders.Items.Add($"  TOTAL:  {grandTotal:0.00} Php");
             lblGrandTotal.Text = $"{grandTotal:0.00} Php";
+        }
+
+        private void lblGrandTotal_Click(object sender, EventArgs e)
+        {
+
         }
 
         // =======================================

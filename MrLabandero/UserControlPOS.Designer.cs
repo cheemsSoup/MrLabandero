@@ -47,23 +47,23 @@ namespace MrLabandero
             this.label5 = new System.Windows.Forms.Label();
             this.lblFabconSub = new System.Windows.Forms.Label();
             this.btnAddOrder = new System.Windows.Forms.Button();
-            this.label14 = new System.Windows.Forms.Label();
+            this.lblExtraFabcon = new System.Windows.Forms.Label();
             this.nudFabcon = new System.Windows.Forms.NumericUpDown();
             this.chkFabcon = new System.Windows.Forms.CheckBox();
             this.lblDetergentSub = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
+            this.lblLiquidDetergent = new System.Windows.Forms.Label();
             this.nudDetergent = new System.Windows.Forms.NumericUpDown();
             this.chkDetergent = new System.Windows.Forms.CheckBox();
             this.lblRinseSub = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
+            this.lblAddRinse = new System.Windows.Forms.Label();
             this.nudRinse = new System.Windows.Forms.NumericUpDown();
             this.chkRinse = new System.Windows.Forms.CheckBox();
             this.lblWashSub = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
+            this.lblAddWash = new System.Windows.Forms.Label();
             this.nudWash = new System.Windows.Forms.NumericUpDown();
             this.chkWash = new System.Windows.Forms.CheckBox();
             this.lblSpinSub = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblAddSpin = new System.Windows.Forms.Label();
             this.nudSpin = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.chkSpin = new System.Windows.Forms.CheckBox();
@@ -349,15 +349,15 @@ namespace MrLabandero
             this.btnAddOrder.UseVisualStyleBackColor = false;
             this.btnAddOrder.Click += new System.EventHandler(this.btnAddOrder_Click);
             // 
-            // label14
+            // lblExtraFabcon
             // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(289, 176);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(164, 21);
-            this.label14.TabIndex = 38;
-            this.label14.Text = "@ 15 Php per 60 ml =";
+            this.lblExtraFabcon.AutoSize = true;
+            this.lblExtraFabcon.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblExtraFabcon.Location = new System.Drawing.Point(289, 176);
+            this.lblExtraFabcon.Name = "lblExtraFabcon";
+            this.lblExtraFabcon.Size = new System.Drawing.Size(164, 21);
+            this.lblExtraFabcon.TabIndex = 38;
+            this.lblExtraFabcon.Text = "@ 15 Php per 60 ml =";
             // 
             // nudFabcon
             // 
@@ -407,15 +407,15 @@ namespace MrLabandero
             this.lblDetergentSub.TabIndex = 35;
             this.lblDetergentSub.Text = "0.00 Php";
             // 
-            // label16
+            // lblLiquidDetergent
             // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(289, 141);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(164, 21);
-            this.label16.TabIndex = 34;
-            this.label16.Text = "@ 25 Php per 60 ml =";
+            this.lblLiquidDetergent.AutoSize = true;
+            this.lblLiquidDetergent.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLiquidDetergent.Location = new System.Drawing.Point(289, 141);
+            this.lblLiquidDetergent.Name = "lblLiquidDetergent";
+            this.lblLiquidDetergent.Size = new System.Drawing.Size(164, 21);
+            this.lblLiquidDetergent.TabIndex = 34;
+            this.lblLiquidDetergent.Text = "@ 25 Php per 60 ml =";
             // 
             // nudDetergent
             // 
@@ -464,15 +464,15 @@ namespace MrLabandero
             this.lblRinseSub.TabIndex = 31;
             this.lblRinseSub.Text = "0.00 Php";
             // 
-            // label12
+            // lblAddRinse
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(289, 106);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(144, 21);
-            this.label12.TabIndex = 30;
-            this.label12.Text = "@ 30 Php 5 mins =";
+            this.lblAddRinse.AutoSize = true;
+            this.lblAddRinse.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAddRinse.Location = new System.Drawing.Point(289, 106);
+            this.lblAddRinse.Name = "lblAddRinse";
+            this.lblAddRinse.Size = new System.Drawing.Size(144, 21);
+            this.lblAddRinse.TabIndex = 30;
+            this.lblAddRinse.Text = "@ 30 Php 5 mins =";
             // 
             // nudRinse
             // 
@@ -521,15 +521,15 @@ namespace MrLabandero
             this.lblWashSub.TabIndex = 27;
             this.lblWashSub.Text = "0.00 Php";
             // 
-            // label13
+            // lblAddWash
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(289, 71);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(171, 21);
-            this.label13.TabIndex = 26;
-            this.label13.Text = "@ 30 Php per 7 mins =";
+            this.lblAddWash.AutoSize = true;
+            this.lblAddWash.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAddWash.Location = new System.Drawing.Point(289, 71);
+            this.lblAddWash.Name = "lblAddWash";
+            this.lblAddWash.Size = new System.Drawing.Size(171, 21);
+            this.lblAddWash.TabIndex = 26;
+            this.lblAddWash.Text = "@ 30 Php per 7 mins =";
             // 
             // nudWash
             // 
@@ -578,15 +578,15 @@ namespace MrLabandero
             this.lblSpinSub.TabIndex = 23;
             this.lblSpinSub.Text = "0.00 Php";
             // 
-            // label7
+            // lblAddSpin
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(289, 36);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(180, 21);
-            this.label7.TabIndex = 22;
-            this.label7.Text = "@ 30 Php per 10 mins =";
+            this.lblAddSpin.AutoSize = true;
+            this.lblAddSpin.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAddSpin.Location = new System.Drawing.Point(289, 36);
+            this.lblAddSpin.Name = "lblAddSpin";
+            this.lblAddSpin.Size = new System.Drawing.Size(180, 21);
+            this.lblAddSpin.TabIndex = 22;
+            this.lblAddSpin.Text = "@ 30 Php per 10 mins =";
             // 
             // nudSpin
             // 
@@ -693,6 +693,7 @@ namespace MrLabandero
             this.lblGrandTotal.Size = new System.Drawing.Size(71, 21);
             this.lblGrandTotal.TabIndex = 42;
             this.lblGrandTotal.Text = "0.00 Php";
+            this.lblGrandTotal.Click += new System.EventHandler(this.lblGrandTotal_Click);
             // 
             // panelHeader
             // 
@@ -871,7 +872,7 @@ namespace MrLabandero
             this.panelAddOns.Controls.Add(this.label11);
             this.panelAddOns.Controls.Add(this.lblFabconSub);
             this.panelAddOns.Controls.Add(this.btnClearOptions);
-            this.panelAddOns.Controls.Add(this.label14);
+            this.panelAddOns.Controls.Add(this.lblExtraFabcon);
             this.panelAddOns.Controls.Add(this.btnAddOrder);
             this.panelAddOns.Controls.Add(this.nudFabcon);
             this.panelAddOns.Controls.Add(this.label8);
@@ -879,16 +880,16 @@ namespace MrLabandero
             this.panelAddOns.Controls.Add(this.chkSpin);
             this.panelAddOns.Controls.Add(this.lblDetergentSub);
             this.panelAddOns.Controls.Add(this.nudSpin);
-            this.panelAddOns.Controls.Add(this.label16);
-            this.panelAddOns.Controls.Add(this.label7);
+            this.panelAddOns.Controls.Add(this.lblLiquidDetergent);
+            this.panelAddOns.Controls.Add(this.lblAddSpin);
             this.panelAddOns.Controls.Add(this.nudDetergent);
             this.panelAddOns.Controls.Add(this.lblSpinSub);
             this.panelAddOns.Controls.Add(this.chkDetergent);
             this.panelAddOns.Controls.Add(this.chkWash);
             this.panelAddOns.Controls.Add(this.lblRinseSub);
             this.panelAddOns.Controls.Add(this.nudWash);
-            this.panelAddOns.Controls.Add(this.label12);
-            this.panelAddOns.Controls.Add(this.label13);
+            this.panelAddOns.Controls.Add(this.lblAddRinse);
+            this.panelAddOns.Controls.Add(this.lblAddWash);
             this.panelAddOns.Controls.Add(this.nudRinse);
             this.panelAddOns.Controls.Add(this.lblWashSub);
             this.panelAddOns.Controls.Add(this.chkRinse);
@@ -1074,23 +1075,23 @@ namespace MrLabandero
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown nudSpin;
         private System.Windows.Forms.Label lblWashSub;
-        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label lblAddWash;
         private System.Windows.Forms.NumericUpDown nudWash;
         private System.Windows.Forms.CheckBox chkWash;
         private System.Windows.Forms.Label lblSpinSub;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblAddSpin;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label lblServiceSub;
         private System.Windows.Forms.Label lblFabconSub;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label lblExtraFabcon;
         private System.Windows.Forms.NumericUpDown nudFabcon;
         private System.Windows.Forms.CheckBox chkFabcon;
         private System.Windows.Forms.Label lblDetergentSub;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label lblLiquidDetergent;
         private System.Windows.Forms.NumericUpDown nudDetergent;
         private System.Windows.Forms.CheckBox chkDetergent;
         private System.Windows.Forms.Label lblRinseSub;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label lblAddRinse;
         private System.Windows.Forms.NumericUpDown nudRinse;
         private System.Windows.Forms.CheckBox chkRinse;
         private System.Windows.Forms.Label lblGrandTotal;
