@@ -79,6 +79,12 @@ namespace MrLabandero
             nudBasket.Minimum = 1;
 
             // RESET SUBTEXT TOTALS
+            rbClothesWash.Text = $"Clothes (₱{_wClothes}/kg)";
+            rbTowelsWash.Text = $"Towels/Curtains (₱{_wTowels}/kg)";
+            rbBeddings.Text = $"Beddings (₱{_wBeddings}/kg)";
+            rbClothesDryFold.Text = $"Clothes (₱{_dfClothes})";
+            rbTowelsDryFold.Text = $"Towels/Curtains (₱{_dfTowels})";
+            rbBeddingsDryFold.Text = $"Beddings (₱{_dfBeddings})";
             lblAddSpin.Text = $"@ {_addSpin} Php per 10 mins = 0.00 Php";
             lblAddWash.Text = $"@ {_addWash} Php per 7 mins = 0.00 Php";
             lblAddRinse.Text = $"@ {_addRinse} Php per 5 mins = 0.00 Php";
@@ -233,18 +239,21 @@ namespace MrLabandero
         // WASH SERVICES
         private void rbClothesWash_CheckedChanged(object sender, EventArgs e)
         {
+            rbClothesWash.Text = $"Clothes (₱{_wClothes}/kg)";
             panelAddOns.Enabled = rbClothesWash.Checked || rbTowelsWash.Checked || rbBeddingsWash.Checked;
             nudWeight.Enabled = panelAddOns.Enabled = true;
             nudWeight_ValueChanged(sender, e);
         }
         private void rbTowelsWash_CheckedChanged(object sender, EventArgs e)
         {
+            rbTowelsWash.Text = $"Towels/Curtains (₱{_wTowels}/kg)";
             panelAddOns.Enabled = rbClothesWash.Checked || rbTowelsWash.Checked || rbBeddingsWash.Checked;
             nudWeight.Enabled = panelAddOns.Enabled = true;
             nudWeight_ValueChanged(sender, e);
         }
         private void rbBeddingsWash_CheckedChanged(object sender, EventArgs e)
-        {
+        {  
+            rbBeddingsWash.Text = $"Beddings (₱{_wBeddings}/kg)";
             panelAddOns.Enabled = rbClothesWash.Checked || rbTowelsWash.Checked || rbBeddingsWash.Checked;
             nudWeight.Enabled = panelAddOns.Enabled = true;
             nudWeight_ValueChanged(sender, e);
@@ -266,16 +275,19 @@ namespace MrLabandero
         // DRY FOLD
         private void rbBeddingsDryFold_CheckedChanged(object sender, EventArgs e)
         {
+            rbBeddingsDryFold.Text = $"Beddings (₱{_dfBeddings})";
             panelAddOns.Enabled = rbClothesDryFold.Checked || rbBeddingsDryFold.Checked || rbTowelsDryFold.Checked;
             nudBasket_ValueChanged(sender, e);
         }
         private void rbTowelsDryFold_CheckedChanged(object sender, EventArgs e)
         {
+            rbTowelsDryFold.Text = $"Towels/Curtains (₱{_dfTowels})";
             panelAddOns.Enabled = rbClothesDryFold.Checked || rbBeddingsDryFold.Checked || rbTowelsDryFold.Checked;
             nudBasket_ValueChanged(sender, e);
         }
         private void rbClothesDryFold_CheckedChanged(object sender, EventArgs e)
         {
+            rbClothesDryFold.Text = $"Clothes (₱{_dfClothes})";
             panelAddOns.Enabled = rbClothesDryFold.Checked || rbBeddingsDryFold.Checked || rbTowelsDryFold.Checked;
             nudBasket_ValueChanged(sender, e);
         }
@@ -739,6 +751,12 @@ namespace MrLabandero
         //RESETS SUBTEXT VALUE TO ZERO
         private void ResetSubLabels()
         {
+            rbClothesWash.Text = $"Clothes (₱{_wClothes}/kg)";
+            rbTowelsWash.Text = $"Towels/Curtains (₱{_wTowels}/kg)";
+            rbBeddings.Text = $"Beddings (₱{_wBeddings}/kg)";
+            rbClothesDryFold.Text = $"Clothes (₱{_dfClothes})";
+            rbTowelsDryFold.Text = $"Towels/Curtains (₱{_dfTowels})";
+            rbBeddingsDryFold.Text = $"Beddings (₱{_dfBeddings})";
             lblAddSpin.Text = $"@ {_addSpin} Php per 10 mins = 0.00 Php";
             lblAddWash.Text = $"@ {_addWash} Php per 7 mins = 0.00 Php";
             lblAddRinse.Text = $"@ {_addRinse} Php per 5 mins = 0.00 Php";
@@ -748,6 +766,20 @@ namespace MrLabandero
             lblSubTotalWash.Text = "0.00 Php";
             lblSubTotalDryFold.Text = "0.00 Php";
             lblGrandTotal.Text = "0.00 Php";
+        }
+        public void RefreshSubLabels()
+        {
+            rbClothesWash.Text = $"Clothes (₱{_wClothes}/kg)";
+            rbTowelsWash.Text = $"Towels/Curtains (₱{_wTowels}/kg)";
+            rbBeddings.Text = $"Beddings (₱{_wBeddings}/kg)";
+            rbClothesDryFold.Text = $"Clothes (₱{_dfClothes})";
+            rbTowelsDryFold.Text = $"Towels/Curtains (₱{_dfTowels})";
+            rbBeddingsDryFold.Text = $"Beddings (₱{_dfBeddings})";
+            lblAddSpin.Text = $"@ {_addSpin} Php per 10 mins = 0.00 Php";
+            lblAddWash.Text = $"@ {_addWash} Php per 7 mins = 0.00 Php";
+            lblAddRinse.Text = $"@ {_addRinse} Php per 5 mins = 0.00 Php";
+            lblLiquidDetergent.Text = $"@ {_addDetergent} Php per 60 ml = 0.00 Php";
+            lblExtraFabcon.Text = $"@ {_addFabcon} Php per 60 ml = 0.00 Php";
         }
 
         private void lstOrders_SelectedIndexChanged(object sender, EventArgs e)

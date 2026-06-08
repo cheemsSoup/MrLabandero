@@ -274,10 +274,10 @@ namespace MrLabandero
             this.rbBeddingsWash.Location = new System.Drawing.Point(371, 41);
             this.rbBeddingsWash.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.rbBeddingsWash.Name = "rbBeddingsWash";
-            this.rbBeddingsWash.Size = new System.Drawing.Size(152, 25);
+            this.rbBeddingsWash.Size = new System.Drawing.Size(156, 25);
             this.rbBeddingsWash.TabIndex = 14;
             this.rbBeddingsWash.TabStop = true;
-            this.rbBeddingsWash.Text = "Beddings(₱65/kg)";
+            this.rbBeddingsWash.Text = "Beddings (₱65/kg)";
             this.rbBeddingsWash.UseVisualStyleBackColor = true;
             this.rbBeddingsWash.CheckedChanged += new System.EventHandler(this.rbBeddingsWash_CheckedChanged);
             // 
@@ -288,10 +288,10 @@ namespace MrLabandero
             this.rbTowelsWash.Location = new System.Drawing.Point(163, 41);
             this.rbTowelsWash.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.rbTowelsWash.Name = "rbTowelsWash";
-            this.rbTowelsWash.Size = new System.Drawing.Size(198, 25);
+            this.rbTowelsWash.Size = new System.Drawing.Size(202, 25);
             this.rbTowelsWash.TabIndex = 13;
             this.rbTowelsWash.TabStop = true;
-            this.rbTowelsWash.Text = "Towels/Curtains(₱45/kg)";
+            this.rbTowelsWash.Text = "Towels/Curtains (₱45/kg)";
             this.rbTowelsWash.UseVisualStyleBackColor = true;
             this.rbTowelsWash.CheckedChanged += new System.EventHandler(this.rbTowelsWash_CheckedChanged);
             // 
@@ -788,9 +788,9 @@ namespace MrLabandero
             this.panelMainUserControl.Controls.Add(this.lstOrders);
             this.panelMainUserControl.Controls.Add(this.panelAddOns);
             this.panelMainUserControl.Controls.Add(this.panelHeader);
-            this.panelMainUserControl.Controls.Add(this.panelFullServices);
-            this.panelMainUserControl.Controls.Add(this.panelDryFold);
             this.panelMainUserControl.Controls.Add(this.panelWashOnly);
+            this.panelMainUserControl.Controls.Add(this.panelDryFold);
+            this.panelMainUserControl.Controls.Add(this.panelFullServices);
             this.panelMainUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainUserControl.Location = new System.Drawing.Point(0, 0);
             this.panelMainUserControl.Name = "panelMainUserControl";
@@ -942,10 +942,10 @@ namespace MrLabandero
             this.rbClothesDryFold.Location = new System.Drawing.Point(15, 40);
             this.rbClothesDryFold.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
             this.rbClothesDryFold.Name = "rbClothesDryFold";
-            this.rbClothesDryFold.Size = new System.Drawing.Size(130, 25);
+            this.rbClothesDryFold.Size = new System.Drawing.Size(126, 25);
             this.rbClothesDryFold.TabIndex = 12;
             this.rbClothesDryFold.TabStop = true;
-            this.rbClothesDryFold.Text = "Clothes (₱100)";
+            this.rbClothesDryFold.Text = "Clothes(₱100)";
             this.rbClothesDryFold.UseVisualStyleBackColor = true;
             this.rbClothesDryFold.CheckedChanged += new System.EventHandler(this.rbClothesDryFold_CheckedChanged);
             // 

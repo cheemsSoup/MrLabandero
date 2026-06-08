@@ -50,6 +50,7 @@ namespace MrLabandero
             }
 
             ucPOS.ReloadPrices();
+            ucPOS.RefreshSubLabels();
             mainPanel.Controls.Add(ucPOS);
             ucPOS.Visible = true;
         }
