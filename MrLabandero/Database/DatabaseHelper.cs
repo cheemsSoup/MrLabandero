@@ -7,6 +7,7 @@ using System.Data;
 using System.IO;
 using System.Windows.Forms;
 using System.Data.SQLite;
+using System.Xml.Serialization.Configuration;
 
 
 namespace MrLabandero
@@ -240,6 +241,41 @@ namespace MrLabandero
                 return result != null ? Convert.ToDecimal(result) : 0;
             }
         }
+        public static decimal GetServicePriceByName(string serviceName, string itemType)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+                SELECT Price FROM Services
+                WHERE ServiceName = @name AND ItemType = @item
+                LIMIT 1";
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@name", serviceName);
+                    cmd.Parameters.AddWithValue("@item", itemType);
+                    var result = cmd.ExecuteScalar();
+                    return result != null ? Convert.ToDecimal(result) : 0;
+                }
+            }
+        }
+        public static decimal GetAddOnPriceByName(string addOnName)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+                SELECT Price FROM Services
+                WHERE ServiceName = @name AND ItemType = @item
+                LIMIT 1";
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@name", addOnName);
+                    var result = cmd.ExecuteScalar();
+                    return result != null ? Convert.ToDecimal(result) : 0;
+                }
+            }
+        }
 
         // ==========================================
         // SECTION 3 — POS: SAVE TRANSACTION
@@ -250,10 +286,10 @@ namespace MrLabandero
         // ==========================================
         public static int SaveTransaction(
             string customerName,
-    string contactNumber,
-    List<UserControlReceipt.ReceiptOrder> orders,
-    decimal grandTotal,
-    out int customerID)
+            string contactNumber,
+            List<UserControlReceipt.ReceiptOrder> orders,
+            decimal grandTotal,
+            out int customerID)
         {
             customerID = -1;
 
@@ -1091,21 +1127,6 @@ namespace MrLabandero
                 }
             }
         }
-        // GET ALL SETTINGS - DISPLAY
-        public static DataTable GetAllSettings()
-        {
-            using (var conn = new SQLiteConnection(ConnectionString))
-            {
-                conn.Open();
-                string query = "SELECT Key, Value FROM Settings ORDER BY Key";
-                using (var adapter = new SQLiteDataAdapter(query, conn))
-                {
-                    var table = new DataTable();
-                    adapter.Fill(table);
-                    return table;
-                }
-            }
-        }
 
         // ==========================
         // SECTION 7 — SETTINGS
@@ -1126,28 +1147,6 @@ namespace MrLabandero
                     var table = new DataTable();
                     adapter.Fill(table);
                     return table;
-                }
-            }
-        }
-        // ADD NEW SERVICE
-        public static void AddService(string serviceCode, string serviceName,
-            string itemType, decimal price, string priceType)
-        {
-            using (var conn = new SQLiteConnection(ConnectionString))
-            {
-                conn.Open();
-                string query = @"
-            INSERT INTO Services (ServiceCode, ServiceName, ItemType, Price, PriceType)
-            VALUES (@code, @name, @item, @price, @priceType)";
-
-                using (var cmd = new SQLiteCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@code", serviceCode);
-                    cmd.Parameters.AddWithValue("@name", serviceName);
-                    cmd.Parameters.AddWithValue("@item", itemType);
-                    cmd.Parameters.AddWithValue("@price", price);
-                    cmd.Parameters.AddWithValue("@priceType", priceType);
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -1176,41 +1175,7 @@ namespace MrLabandero
                 }
             }
         }
-        // DELETE SERVICE - WARNS IF EXISTING
-        public static bool DeleteService(int id)
-        {
-            using (var conn = new SQLiteConnection(ConnectionString))
-            {
-                conn.Open();
 
-                // CHECK IF SERVICE IS USED IN TRANSACTION
-                string checkUsage = @"
-            SELECT COUNT(*) FROM TransactionItems
-            WHERE ServiceCode = (SELECT ServiceCode FROM Services WHERE ID = @id)";
-
-                using (var cmd = new SQLiteCommand(checkUsage, conn))
-                {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    long count = Convert.ToInt64(cmd.ExecuteScalar());
-
-                    if (count > 0)
-                    {
-                        MessageBox.Show(
-                            $"Cannot delete — this service has {count} existing transaction/s.",
-                            "Cannot Delete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
-                    }
-                }
-
-                string delete = "DELETE FROM Services WHERE ID = @id";
-                using (var cmd = new SQLiteCommand(delete, conn))
-                {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
-                }
-                return true;
-            }
-        }
         // ==========================
         // ADD-ONS
         // ==========================
@@ -1230,27 +1195,6 @@ namespace MrLabandero
                     var table = new DataTable();
                     adapter.Fill(table);
                     return table;
-                }
-            }
-        }
-        // ADD NEW ADD ONS
-        public static void AddAddOn(string addOnCode, string addOnName,
-            decimal price, string unit)
-        {
-            using (var conn = new SQLiteConnection(ConnectionString))
-            {
-                conn.Open();
-                string query = @"
-            INSERT INTO AddOns (AddOnCode, AddOnName, Price, Unit)
-            VALUES (@code, @name, @price, @unit)";
-
-                using (var cmd = new SQLiteCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@code", addOnCode);
-                    cmd.Parameters.AddWithValue("@name", addOnName);
-                    cmd.Parameters.AddWithValue("@price", price);
-                    cmd.Parameters.AddWithValue("@unit", unit);
-                    cmd.ExecuteNonQuery();
                 }
             }
         }
@@ -1276,41 +1220,6 @@ namespace MrLabandero
                     cmd.Parameters.AddWithValue("@unit", unit);
                     cmd.ExecuteNonQuery();
                 }
-            }
-        }
-        // DELETE ADD ONS
-        public static bool DeleteAddOn(int id)
-        {
-            using (var conn = new SQLiteConnection(ConnectionString))
-            {
-                conn.Open();
-
-                // CHECK IF ADD ONS IS USED IN TRANSACTION
-                string checkUsage = @"
-            SELECT COUNT(*) FROM TransactionAddOns
-            WHERE AddOnCode = (SELECT AddOnCode FROM AddOns WHERE ID = @id)";
-
-                using (var cmd = new SQLiteCommand(checkUsage, conn))
-                {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    long count = Convert.ToInt64(cmd.ExecuteScalar());
-
-                    if (count > 0)
-                    {
-                        MessageBox.Show(
-                            $"Cannot delete — this add-on has {count} existing transaction/s.",
-                            "Cannot Delete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return false;
-                    }
-                }
-
-                string delete = "DELETE FROM AddOns WHERE ID = @id";
-                using (var cmd = new SQLiteCommand(delete, conn))
-                {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
-                }
-                return true;
             }
         }
 

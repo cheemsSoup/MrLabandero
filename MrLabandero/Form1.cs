@@ -22,7 +22,12 @@ namespace MrLabandero
             InitializeComponent();
             DatabaseHelper.InitializeDatabase();
         }
+        // HOME
+        private void btnHome_Click(object sender, EventArgs e)
+        {
 
+        }
+        // POS
         private void btnPOS_Click(object sender, EventArgs e)
         {
             mainPanel.Controls.Clear();
@@ -31,7 +36,7 @@ namespace MrLabandero
             {
                 ucPOS = new UserControlPOS();
                 ucPOS.Dock = DockStyle.Fill;
-
+                 
                 ucPOS.OnProceed += ShowReceipt;
             }
 
@@ -47,7 +52,6 @@ namespace MrLabandero
             mainPanel.Controls.Add(ucPOS);
             ucPOS.Visible = true;
         }
-
         private bool _transactionSaved = false;
         // Proceed clicked — switch to receipt
         private void ShowReceipt(object sender, UserControlPOS.ProceedEventArgs e)
@@ -71,14 +75,12 @@ namespace MrLabandero
             mainPanel.Controls.Add(ucReceipt);
             ucReceipt.Visible = true;
         }
-
         private void ReturnToPOS(object sender, EventArgs e)
         {
             mainPanel.Controls.Clear();
             mainPanel.Controls.Add(ucPOS);
             ucPOS.Visible = true;
         }
-
         // New Order — reset POS then switch back
         private void StartNewOrder(object sender, EventArgs e)
         {
@@ -88,12 +90,12 @@ namespace MrLabandero
             mainPanel.Controls.Add(ucPOS);
             ucPOS.Visible = true;
         }
-
-        private void mainPanel_Paint(object sender, PaintEventArgs e)
+        // INVENTORY
+        private void btnInventory_Click(object sender, EventArgs e)
         {
 
         }
-
+        // SALES REPORT
         private void btnSalesReport_Click(object sender, EventArgs e)
         {
             mainPanel.Controls.Clear();
@@ -107,7 +109,7 @@ namespace MrLabandero
             mainPanel.Controls.Add(ucSalesReport);
             ucSalesReport.Visible = true;
         }
-
+        // SETTINGS
         private void btnSettings_Click(object sender, EventArgs e)
         {
             mainPanel.Controls.Clear();

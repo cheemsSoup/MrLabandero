@@ -19,6 +19,15 @@ namespace MrLabandero
         {
             InitializeComponent();
             LoadAllSettings();
+
+            txtServiceCode.ReadOnly = true;
+            txtServiceName.ReadOnly = true;
+            txtServiceItemType.ReadOnly = true;
+            txtServicePriceType.ReadOnly = true;
+
+            txtAddOnCode.ReadOnly = true;
+            txtAddOnName.ReadOnly = true;
+            txtAddOnUnit.ReadOnly = true;
         }
 
         // =============================
@@ -80,23 +89,6 @@ namespace MrLabandero
                 dgvAddOns.Columns["ID"].Visible = false;
         }
         // SERVICES
-        private void btnAddService_Click(object sender, EventArgs e)
-        {
-            if (!ValidateServiceInputs()) return;
-
-            DatabaseHelper.AddService(
-                txtServiceCode.Text.Trim().ToUpper(),
-                txtServiceName.Text.Trim(),
-                txtServiceItemType.Text.Trim(),
-                nudServicePrice.Value,
-                txtServicePriceType.Text.Trim());
-
-            LoadServices();
-            ClearServiceInputs();
-
-            MessageBox.Show("Service added!", "Success",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
         private void btnEditService_Click(object sender, EventArgs e)
         {
             if (dgvServices.SelectedRows.Count == 0)
@@ -109,8 +101,6 @@ namespace MrLabandero
             DataGridViewRow row = dgvServices.SelectedRows[0];
             int id = Convert.ToInt32(row.Cells["ID"].Value);
 
-            if (!ValidateServiceInputs()) return;
-
             DatabaseHelper.UpdateService(
                 id,
                 txtServiceCode.Text.Trim().ToUpper(),
@@ -120,36 +110,9 @@ namespace MrLabandero
                 txtServicePriceType.Text.Trim());
 
             LoadServices();
-            ClearServiceInputs();
 
             MessageBox.Show("Service updated!", "Success",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-        private void btnDeleteService_Click(object sender, EventArgs e)
-        {
-            if (dgvServices.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Please select a service to delete.",
-                    "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DataGridViewRow row = dgvServices.SelectedRows[0];
-            int id = Convert.ToInt32(row.Cells["ID"].Value);
-            string code = row.Cells["ServiceCode"].Value.ToString();
-
-            var confirm = MessageBox.Show(
-                $"Delete service '{code}'?",
-                "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (confirm == DialogResult.Yes)
-            {
-                if (DatabaseHelper.DeleteService(id))
-                {
-                    LoadServices();
-                    ClearServiceInputs();
-                }
-            }
         }
         private void dgvServices_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -163,22 +126,6 @@ namespace MrLabandero
             txtServicePriceType.Text = row.Cells["PriceType"].Value?.ToString();
         }
         // ADD ONS
-        private void btnAddAddOn_Click(object sender, EventArgs e)
-        {
-            if (!ValidateAddOnInputs()) return;
-
-            DatabaseHelper.AddAddOn(
-                txtAddOnCode.Text.Trim().ToUpper(),
-                txtAddOnName.Text.Trim(),
-                nudAddOnPrice.Value,
-                txtAddOnUnit.Text.Trim());
-
-            LoadAddOns();
-            ClearAddOnInputs();
-
-            MessageBox.Show("Add-On added!", "Success",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
         private void btnEditAddOn_Click(object sender, EventArgs e)
         {
             if (dgvAddOns.SelectedRows.Count == 0)
@@ -191,8 +138,6 @@ namespace MrLabandero
             DataGridViewRow row = dgvAddOns.SelectedRows[0];
             int id = Convert.ToInt32(row.Cells["ID"].Value);
 
-            if (!ValidateAddOnInputs()) return;
-
             DatabaseHelper.UpdateAddOn(
                 id,
                 txtAddOnCode.Text.Trim().ToUpper(),
@@ -201,36 +146,9 @@ namespace MrLabandero
                 txtAddOnUnit.Text.Trim());
 
             LoadAddOns();
-            ClearAddOnInputs();
 
             MessageBox.Show("Add-On updated!", "Success",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-        private void btnDeleteAddOn_Click(object sender, EventArgs e)
-        {
-            if (dgvAddOns.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Please select an add-on to delete.",
-                    "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            DataGridViewRow row = dgvAddOns.SelectedRows[0];
-            int id = Convert.ToInt32(row.Cells["ID"].Value);
-            string code = row.Cells["AddOnCode"].Value.ToString();
-
-            var confirm = MessageBox.Show(
-                $"Delete add-on '{code}'?",
-                "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (confirm == DialogResult.Yes)
-            {
-                if (DatabaseHelper.DeleteAddOn(id))
-                {
-                    LoadAddOns();
-                    ClearAddOnInputs();
-                }
-            }
         }
         private void dgvAddOns_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -333,76 +251,5 @@ namespace MrLabandero
         {
             DatabaseHelper.RestoreDatabase();
         }
-
-        // ==============================
-        // SECTION 6 — VALIDATION HELPERS
-        // ==============================
-        private bool ValidateServiceInputs()
-        {
-            if (string.IsNullOrWhiteSpace(txtServiceCode.Text))
-            {
-                MessageBox.Show("Service Code is required.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(txtServiceName.Text))
-            {
-                MessageBox.Show("Service Name is required.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(txtServiceItemType.Text))
-            {
-                MessageBox.Show("Item Type is required.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(txtServicePriceType.Text))
-            {
-                MessageBox.Show("Price Type is required.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            return true;
-        }
-        private bool ValidateAddOnInputs()
-        {
-            if (string.IsNullOrWhiteSpace(txtAddOnCode.Text))
-            {
-                MessageBox.Show("Add-On Code is required.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(txtAddOnName.Text))
-            {
-                MessageBox.Show("Add-On Name is required.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(txtAddOnUnit.Text))
-            {
-                MessageBox.Show("Unit is required.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            return true;
-        }
-        private void ClearServiceInputs()
-        {
-            txtServiceCode.Text = "";
-            txtServiceName.Text = "";
-            txtServiceItemType.Text = "";
-            nudServicePrice.Value = 0;
-            txtServicePriceType.Text = "";
-        }
-        private void ClearAddOnInputs()
-        {
-            txtAddOnCode.Text = "";
-            txtAddOnName.Text = "";
-            nudAddOnPrice.Value = 0;
-            txtAddOnUnit.Text = "";
-        }
-
-      
     }
 }

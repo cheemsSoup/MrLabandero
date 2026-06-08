@@ -189,6 +189,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserControlHome.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControlHome.Designer.cs">
+      <DependentUpon>UserControlHome.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControlPOS.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -226,6 +232,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControlHome.resx">
+      <DependentUpon>UserControlHome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControlPOS.resx">
       <DependentUpon>UserControlPOS.cs</DependentUpon>

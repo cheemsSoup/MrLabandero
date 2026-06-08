@@ -40,21 +40,17 @@ namespace MrLabandero
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtShopName = new System.Windows.Forms.TextBox();
-            this.txtAddOnCode = new System.Windows.Forms.TabPage();
-            this.btnDeleteAddOn = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnEditAddOn = new System.Windows.Forms.Button();
-            this.btnAddAddOn = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.txtAddOnUnit = new System.Windows.Forms.TextBox();
             this.nudAddOnPrice = new System.Windows.Forms.NumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
             this.txtAddOnName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtAddOnCode = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.btnDeleteService = new System.Windows.Forms.Button();
             this.btnEditService = new System.Windows.Forms.Button();
-            this.btnAddService = new System.Windows.Forms.Button();
             this.txtServicePriceType = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.nudServicePrice = new System.Windows.Forms.NumericUpDown();
@@ -97,7 +93,7 @@ namespace MrLabandero
             this.label18 = new System.Windows.Forms.Label();
             this.tabSettings.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.txtAddOnCode.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAddOnPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudServicePrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddOns)).BeginInit();
@@ -111,7 +107,7 @@ namespace MrLabandero
             // tabSettings
             // 
             this.tabSettings.Controls.Add(this.tabPage1);
-            this.tabSettings.Controls.Add(this.txtAddOnCode);
+            this.tabSettings.Controls.Add(this.tabPage2);
             this.tabSettings.Controls.Add(this.tabPage3);
             this.tabSettings.Controls.Add(this.tabPage4);
             this.tabSettings.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -228,57 +224,39 @@ namespace MrLabandero
             this.txtShopName.Size = new System.Drawing.Size(342, 29);
             this.txtShopName.TabIndex = 0;
             // 
-            // txtAddOnCode
+            // tabPage2
             // 
-            this.txtAddOnCode.Controls.Add(this.btnDeleteAddOn);
-            this.txtAddOnCode.Controls.Add(this.btnEditAddOn);
-            this.txtAddOnCode.Controls.Add(this.btnAddAddOn);
-            this.txtAddOnCode.Controls.Add(this.label15);
-            this.txtAddOnCode.Controls.Add(this.txtAddOnUnit);
-            this.txtAddOnCode.Controls.Add(this.nudAddOnPrice);
-            this.txtAddOnCode.Controls.Add(this.label14);
-            this.txtAddOnCode.Controls.Add(this.txtAddOnName);
-            this.txtAddOnCode.Controls.Add(this.label13);
-            this.txtAddOnCode.Controls.Add(this.textBox2);
-            this.txtAddOnCode.Controls.Add(this.label12);
-            this.txtAddOnCode.Controls.Add(this.btnDeleteService);
-            this.txtAddOnCode.Controls.Add(this.btnEditService);
-            this.txtAddOnCode.Controls.Add(this.btnAddService);
-            this.txtAddOnCode.Controls.Add(this.txtServicePriceType);
-            this.txtAddOnCode.Controls.Add(this.label11);
-            this.txtAddOnCode.Controls.Add(this.nudServicePrice);
-            this.txtAddOnCode.Controls.Add(this.label10);
-            this.txtAddOnCode.Controls.Add(this.txtServiceItemType);
-            this.txtAddOnCode.Controls.Add(this.label9);
-            this.txtAddOnCode.Controls.Add(this.txtServiceName);
-            this.txtAddOnCode.Controls.Add(this.label8);
-            this.txtAddOnCode.Controls.Add(this.label7);
-            this.txtAddOnCode.Controls.Add(this.txtServiceCode);
-            this.txtAddOnCode.Controls.Add(this.dgvAddOns);
-            this.txtAddOnCode.Controls.Add(this.label6);
-            this.txtAddOnCode.Controls.Add(this.dgvServices);
-            this.txtAddOnCode.Controls.Add(this.label5);
-            this.txtAddOnCode.Location = new System.Drawing.Point(4, 30);
-            this.txtAddOnCode.Name = "txtAddOnCode";
-            this.txtAddOnCode.Padding = new System.Windows.Forms.Padding(3);
-            this.txtAddOnCode.Size = new System.Drawing.Size(800, 482);
-            this.txtAddOnCode.TabIndex = 1;
-            this.txtAddOnCode.Text = "Price Management";
-            this.txtAddOnCode.UseVisualStyleBackColor = true;
-            // 
-            // btnDeleteAddOn
-            // 
-            this.btnDeleteAddOn.BackColor = System.Drawing.Color.Maroon;
-            this.btnDeleteAddOn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeleteAddOn.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteAddOn.ForeColor = System.Drawing.Color.White;
-            this.btnDeleteAddOn.Location = new System.Drawing.Point(622, 326);
-            this.btnDeleteAddOn.Name = "btnDeleteAddOn";
-            this.btnDeleteAddOn.Size = new System.Drawing.Size(124, 37);
-            this.btnDeleteAddOn.TabIndex = 28;
-            this.btnDeleteAddOn.Text = "DELETE ADD-ON";
-            this.btnDeleteAddOn.UseVisualStyleBackColor = false;
-            this.btnDeleteAddOn.Click += new System.EventHandler(this.btnDeleteAddOn_Click);
+            this.tabPage2.Controls.Add(this.btnEditAddOn);
+            this.tabPage2.Controls.Add(this.label15);
+            this.tabPage2.Controls.Add(this.txtAddOnUnit);
+            this.tabPage2.Controls.Add(this.nudAddOnPrice);
+            this.tabPage2.Controls.Add(this.label14);
+            this.tabPage2.Controls.Add(this.txtAddOnName);
+            this.tabPage2.Controls.Add(this.label13);
+            this.tabPage2.Controls.Add(this.txtAddOnCode);
+            this.tabPage2.Controls.Add(this.label12);
+            this.tabPage2.Controls.Add(this.btnEditService);
+            this.tabPage2.Controls.Add(this.txtServicePriceType);
+            this.tabPage2.Controls.Add(this.label11);
+            this.tabPage2.Controls.Add(this.nudServicePrice);
+            this.tabPage2.Controls.Add(this.label10);
+            this.tabPage2.Controls.Add(this.txtServiceItemType);
+            this.tabPage2.Controls.Add(this.label9);
+            this.tabPage2.Controls.Add(this.txtServiceName);
+            this.tabPage2.Controls.Add(this.label8);
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.txtServiceCode);
+            this.tabPage2.Controls.Add(this.dgvAddOns);
+            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.dgvServices);
+            this.tabPage2.Controls.Add(this.label5);
+            this.tabPage2.Location = new System.Drawing.Point(4, 30);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(800, 482);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Price Management";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // btnEditAddOn
             // 
@@ -286,27 +264,13 @@ namespace MrLabandero
             this.btnEditAddOn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditAddOn.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditAddOn.ForeColor = System.Drawing.Color.White;
-            this.btnEditAddOn.Location = new System.Drawing.Point(507, 326);
+            this.btnEditAddOn.Location = new System.Drawing.Point(381, 329);
             this.btnEditAddOn.Name = "btnEditAddOn";
-            this.btnEditAddOn.Size = new System.Drawing.Size(109, 37);
+            this.btnEditAddOn.Size = new System.Drawing.Size(246, 37);
             this.btnEditAddOn.TabIndex = 27;
             this.btnEditAddOn.Text = "EDIT ADD-ON";
             this.btnEditAddOn.UseVisualStyleBackColor = false;
             this.btnEditAddOn.Click += new System.EventHandler(this.btnEditAddOn_Click);
-            // 
-            // btnAddAddOn
-            // 
-            this.btnAddAddOn.BackColor = System.Drawing.Color.Maroon;
-            this.btnAddAddOn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddAddOn.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddAddOn.ForeColor = System.Drawing.Color.White;
-            this.btnAddAddOn.Location = new System.Drawing.Point(381, 326);
-            this.btnAddAddOn.Name = "btnAddAddOn";
-            this.btnAddAddOn.Size = new System.Drawing.Size(120, 37);
-            this.btnAddAddOn.TabIndex = 26;
-            this.btnAddAddOn.Text = "ADD ADD-ON";
-            this.btnAddAddOn.UseVisualStyleBackColor = false;
-            this.btnAddAddOn.Click += new System.EventHandler(this.btnAddAddOn_Click);
             // 
             // label15
             // 
@@ -330,6 +294,11 @@ namespace MrLabandero
             // 
             this.nudAddOnPrice.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudAddOnPrice.Location = new System.Drawing.Point(381, 291);
+            this.nudAddOnPrice.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.nudAddOnPrice.Name = "nudAddOnPrice";
             this.nudAddOnPrice.Size = new System.Drawing.Size(120, 29);
             this.nudAddOnPrice.TabIndex = 23;
@@ -363,12 +332,12 @@ namespace MrLabandero
             this.label13.TabIndex = 20;
             this.label13.Text = "Add Ons Name";
             // 
-            // textBox2
+            // txtAddOnCode
             // 
-            this.textBox2.Location = new System.Drawing.Point(381, 227);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(154, 29);
-            this.textBox2.TabIndex = 19;
+            this.txtAddOnCode.Location = new System.Drawing.Point(381, 227);
+            this.txtAddOnCode.Name = "txtAddOnCode";
+            this.txtAddOnCode.Size = new System.Drawing.Size(154, 29);
+            this.txtAddOnCode.TabIndex = 19;
             // 
             // label12
             // 
@@ -381,47 +350,19 @@ namespace MrLabandero
             this.label12.TabIndex = 18;
             this.label12.Text = "Add Ons Code";
             // 
-            // btnDeleteService
-            // 
-            this.btnDeleteService.BackColor = System.Drawing.Color.Maroon;
-            this.btnDeleteService.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeleteService.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteService.ForeColor = System.Drawing.Color.White;
-            this.btnDeleteService.Location = new System.Drawing.Point(251, 392);
-            this.btnDeleteService.Name = "btnDeleteService";
-            this.btnDeleteService.Size = new System.Drawing.Size(124, 37);
-            this.btnDeleteService.TabIndex = 17;
-            this.btnDeleteService.Text = "DELETE SERVICE";
-            this.btnDeleteService.UseVisualStyleBackColor = false;
-            this.btnDeleteService.Click += new System.EventHandler(this.btnDeleteService_Click);
-            // 
             // btnEditService
             // 
             this.btnEditService.BackColor = System.Drawing.Color.Maroon;
             this.btnEditService.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditService.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditService.ForeColor = System.Drawing.Color.White;
-            this.btnEditService.Location = new System.Drawing.Point(136, 392);
+            this.btnEditService.Location = new System.Drawing.Point(10, 392);
             this.btnEditService.Name = "btnEditService";
-            this.btnEditService.Size = new System.Drawing.Size(109, 37);
+            this.btnEditService.Size = new System.Drawing.Size(246, 37);
             this.btnEditService.TabIndex = 16;
             this.btnEditService.Text = "EDIT SERVICE";
             this.btnEditService.UseVisualStyleBackColor = false;
             this.btnEditService.Click += new System.EventHandler(this.btnEditService_Click);
-            // 
-            // btnAddService
-            // 
-            this.btnAddService.BackColor = System.Drawing.Color.Maroon;
-            this.btnAddService.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddService.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddService.ForeColor = System.Drawing.Color.White;
-            this.btnAddService.Location = new System.Drawing.Point(10, 392);
-            this.btnAddService.Name = "btnAddService";
-            this.btnAddService.Size = new System.Drawing.Size(120, 37);
-            this.btnAddService.TabIndex = 15;
-            this.btnAddService.Text = "ADD SERVICE";
-            this.btnAddService.UseVisualStyleBackColor = false;
-            this.btnAddService.Click += new System.EventHandler(this.btnAddService_Click);
             // 
             // txtServicePriceType
             // 
@@ -437,14 +378,19 @@ namespace MrLabandero
             this.label11.Location = new System.Drawing.Point(5, 329);
             this.label11.Margin = new System.Windows.Forms.Padding(5, 5, 3, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(213, 25);
+            this.label11.Size = new System.Drawing.Size(206, 25);
             this.label11.TabIndex = 13;
-            this.label11.Text = "Services Item Type Price";
+            this.label11.Text = "Services Item Type Unit";
             // 
             // nudServicePrice
             // 
             this.nudServicePrice.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudServicePrice.Location = new System.Drawing.Point(10, 292);
+            this.nudServicePrice.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.nudServicePrice.Name = "nudServicePrice";
             this.nudServicePrice.Size = new System.Drawing.Size(120, 29);
             this.nudServicePrice.TabIndex = 12;
@@ -889,8 +835,8 @@ namespace MrLabandero
             this.tabSettings.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.txtAddOnCode.ResumeLayout(false);
-            this.txtAddOnCode.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAddOnPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudServicePrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAddOns)).EndInit();
@@ -917,7 +863,7 @@ namespace MrLabandero
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtShopName;
-        private System.Windows.Forms.TabPage txtAddOnCode;
+        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Button btnSaveShopInfo;
@@ -935,19 +881,15 @@ namespace MrLabandero
         private System.Windows.Forms.TextBox txtServiceCode;
         private System.Windows.Forms.DataGridView dgvAddOns;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button btnDeleteService;
         private System.Windows.Forms.Button btnEditService;
-        private System.Windows.Forms.Button btnAddService;
-        private System.Windows.Forms.Button btnDeleteAddOn;
         private System.Windows.Forms.Button btnEditAddOn;
-        private System.Windows.Forms.Button btnAddAddOn;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TextBox txtAddOnUnit;
         private System.Windows.Forms.NumericUpDown nudAddOnPrice;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtAddOnName;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtAddOnCode;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;

@@ -36,6 +36,7 @@ namespace MrLabandero
             this.btnSalesReport = new System.Windows.Forms.Button();
             this.btnInventory = new System.Windows.Forms.Button();
             this.btnPOS = new System.Windows.Forms.Button();
+            this.btnHome = new System.Windows.Forms.Button();
             this.panelWhiteTop2 = new System.Windows.Forms.Panel();
             this.panelWhiteTop = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,7 +52,6 @@ namespace MrLabandero
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(808, 516);
             this.mainPanel.TabIndex = 1;
-            this.mainPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.mainPanel_Paint);
             // 
             // panelBlueLeft
             // 
@@ -60,6 +60,7 @@ namespace MrLabandero
             this.panelBlueLeft.Controls.Add(this.btnSalesReport);
             this.panelBlueLeft.Controls.Add(this.btnInventory);
             this.panelBlueLeft.Controls.Add(this.btnPOS);
+            this.panelBlueLeft.Controls.Add(this.btnHome);
             this.panelBlueLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelBlueLeft.Location = new System.Drawing.Point(0, 0);
             this.panelBlueLeft.Name = "panelBlueLeft";
@@ -75,12 +76,12 @@ namespace MrLabandero
             this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSettings.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSettings.ForeColor = System.Drawing.Color.White;
-            this.btnSettings.Location = new System.Drawing.Point(0, 134);
+            this.btnSettings.Location = new System.Drawing.Point(0, 179);
             this.btnSettings.Margin = new System.Windows.Forms.Padding(20, 10, 20, 10);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Padding = new System.Windows.Forms.Padding(2);
             this.btnSettings.Size = new System.Drawing.Size(200, 45);
-            this.btnSettings.TabIndex = 4;
+            this.btnSettings.TabIndex = 5;
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseVisualStyleBackColor = false;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
@@ -94,12 +95,12 @@ namespace MrLabandero
             this.btnSalesReport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSalesReport.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSalesReport.ForeColor = System.Drawing.Color.White;
-            this.btnSalesReport.Location = new System.Drawing.Point(0, 89);
+            this.btnSalesReport.Location = new System.Drawing.Point(0, 134);
             this.btnSalesReport.Margin = new System.Windows.Forms.Padding(20, 10, 20, 10);
             this.btnSalesReport.Name = "btnSalesReport";
             this.btnSalesReport.Padding = new System.Windows.Forms.Padding(2);
             this.btnSalesReport.Size = new System.Drawing.Size(200, 45);
-            this.btnSalesReport.TabIndex = 3;
+            this.btnSalesReport.TabIndex = 4;
             this.btnSalesReport.Text = "Sales Report";
             this.btnSalesReport.UseVisualStyleBackColor = false;
             this.btnSalesReport.Click += new System.EventHandler(this.btnSalesReport_Click);
@@ -113,14 +114,15 @@ namespace MrLabandero
             this.btnInventory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInventory.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnInventory.ForeColor = System.Drawing.Color.White;
-            this.btnInventory.Location = new System.Drawing.Point(0, 44);
+            this.btnInventory.Location = new System.Drawing.Point(0, 89);
             this.btnInventory.Margin = new System.Windows.Forms.Padding(20, 10, 20, 10);
             this.btnInventory.Name = "btnInventory";
             this.btnInventory.Padding = new System.Windows.Forms.Padding(2);
             this.btnInventory.Size = new System.Drawing.Size(200, 45);
-            this.btnInventory.TabIndex = 2;
+            this.btnInventory.TabIndex = 3;
             this.btnInventory.Text = "Inventory";
             this.btnInventory.UseVisualStyleBackColor = false;
+            this.btnInventory.Click += new System.EventHandler(this.btnInventory_Click);
             // 
             // btnPOS
             // 
@@ -131,15 +133,34 @@ namespace MrLabandero
             this.btnPOS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPOS.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPOS.ForeColor = System.Drawing.Color.White;
-            this.btnPOS.Location = new System.Drawing.Point(0, 0);
+            this.btnPOS.Location = new System.Drawing.Point(0, 44);
             this.btnPOS.Margin = new System.Windows.Forms.Padding(20, 10, 20, 10);
             this.btnPOS.Name = "btnPOS";
             this.btnPOS.Padding = new System.Windows.Forms.Padding(2);
-            this.btnPOS.Size = new System.Drawing.Size(200, 44);
-            this.btnPOS.TabIndex = 1;
+            this.btnPOS.Size = new System.Drawing.Size(200, 45);
+            this.btnPOS.TabIndex = 2;
             this.btnPOS.Text = "POS";
             this.btnPOS.UseVisualStyleBackColor = false;
             this.btnPOS.Click += new System.EventHandler(this.btnPOS_Click);
+            // 
+            // btnHome
+            // 
+            this.btnHome.BackColor = System.Drawing.Color.Transparent;
+            this.btnHome.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnHome.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnHome.FlatAppearance.BorderSize = 0;
+            this.btnHome.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnHome.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHome.ForeColor = System.Drawing.Color.White;
+            this.btnHome.Location = new System.Drawing.Point(0, 0);
+            this.btnHome.Margin = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            this.btnHome.Name = "btnHome";
+            this.btnHome.Padding = new System.Windows.Forms.Padding(2);
+            this.btnHome.Size = new System.Drawing.Size(200, 44);
+            this.btnHome.TabIndex = 1;
+            this.btnHome.Text = "Home";
+            this.btnHome.UseVisualStyleBackColor = false;
+            this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
             // 
             // panelWhiteTop2
             // 
@@ -204,10 +225,11 @@ namespace MrLabandero
         private System.Windows.Forms.Panel panelBlueLeft;
         private System.Windows.Forms.Panel panelWhiteTop;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Button btnSalesReport;
         private System.Windows.Forms.Button btnInventory;
         private System.Windows.Forms.Button btnPOS;
+        private System.Windows.Forms.Button btnHome;
+        private System.Windows.Forms.Button btnSettings;
     }
 }
 
