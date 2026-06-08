@@ -79,11 +79,11 @@ namespace MrLabandero
             nudBasket.Minimum = 1;
 
             // RESET SUBTEXT TOTALS
-            lblSpinSub.Text = "0.00 Php";
-            lblWashSub.Text = "0.00 Php";
-            lblRinseSub.Text = "0.00 Php";
-            lblDetergentSub.Text = "0.00 Php";
-            lblFabconSub.Text = "0.00 Php"; 
+            lblAddSpin.Text = $"@ {_addSpin} Php per 10 mins = 0.00 Php";
+            lblAddWash.Text = $"@ {_addWash} Php per 7 mins = 0.00 Php";
+            lblAddRinse.Text = $"@ {_addRinse} Php per 5 mins = 0.00 Php";
+            lblLiquidDetergent.Text = $"@ {_addDetergent} Php per 60 ml = 0.00 Php";
+            lblExtraFabcon.Text = $"@ {_addFabcon} Php per 60 ml = 0.00 Php"; 
             lblServiceSub.Text = "0.00 Php";
             lblSubTotalWash.Text = "0.00 Php";
             lblSubTotalDryFold.Text = "0.00 Php";
@@ -158,6 +158,7 @@ namespace MrLabandero
         {
             if (rbFullServices.Checked)
             {
+                ClearAddOns();
                 panelFullServices.Visible = true;
                 panelAddOns.Visible = true;
                 panelWashOnly.Visible = false;
@@ -176,6 +177,7 @@ namespace MrLabandero
         {
             if (rbDryFold.Checked)
             {
+                ClearAddOns();
                 panelDryFold.Visible = true;
                 panelWashOnly.Visible = false;
                 panelFullServices.Visible = false;
@@ -192,6 +194,7 @@ namespace MrLabandero
         {
             if (rbWash.Checked)
             {
+                ClearAddOns();
                 panelWashOnly.Visible = true;
                 panelFullServices.Visible = false;
                 panelDryFold.Visible = false;
@@ -293,58 +296,40 @@ namespace MrLabandero
         // =======================================
         // GROUP 6 — Add-Ons (Checkboxes)
         // =======================================
-        private void ToggleAddOn(CheckBox chk, NumericUpDown nud, Label lbl, decimal price)
+        private void ToggleAddOn(CheckBox chk, NumericUpDown nud, Label lbl, decimal price, string unitDescription)
         {
             nud.Enabled = chk.Checked;
-            lbl.Text = chk.Checked
-                ? $"{price * (decimal)nud.Value:0.00} Php"
-                : "0.00 Php";
-            if (!chk.Checked) nud.Value = 1;
+            if (chk.Checked)
+            {
+                decimal total = price * nud.Value;
+                lbl.Text = $"@ {price} Php {unitDescription} = {total:0.00} Php";
+            }
             UpdateCurrentSubtotal();
         }
         private void chkSpin_CheckedChanged(object sender, EventArgs e)
-           => ToggleAddOn(chkSpin, nudSpin, lblSpinSub, _addSpin);
+           => ToggleAddOn(chkSpin, nudSpin, lblAddSpin, _addSpin, "per 10 mins");
         private void chkWash_CheckedChanged(object sender, EventArgs e)
-            => ToggleAddOn(chkWash, nudWash, lblWashSub, _addWash);
+            => ToggleAddOn(chkWash, nudWash, lblAddWash, _addWash, "per 7 mins");
         private void chkRinse_CheckedChanged(object sender, EventArgs e)
-            => ToggleAddOn(chkRinse, nudRinse, lblRinseSub, _addRinse);
+            => ToggleAddOn(chkRinse, nudRinse, lblAddRinse, _addRinse, "per 5 mins");
         private void chkDetergent_CheckedChanged(object sender, EventArgs e)
-            => ToggleAddOn(chkDetergent, nudDetergent, lblDetergentSub, _addDetergent);
+            => ToggleAddOn(chkDetergent, nudDetergent, lblLiquidDetergent, _addDetergent, "per 60ml");
         private void chkFabcon_CheckedChanged(object sender, EventArgs e)
-            => ToggleAddOn(chkFabcon, nudFabcon, lblFabconSub, _addFabcon);
+            => ToggleAddOn(chkFabcon, nudFabcon, lblExtraFabcon, _addFabcon, "per 60ml");
 
 
         // ADD ONS - NUD VALUES
         private void nudSpin_ValueChanged(object sender, EventArgs e)
-        {
-            if (chkSpin.Checked)
-                lblSpinSub.Text = $"{_addSpin * (decimal)nudSpin.Value:0.00} Php";
-            UpdateCurrentSubtotal();
-        }
+           => ToggleAddOn(chkSpin, nudSpin, lblAddSpin, _addSpin, "per 10 mins");
         private void nudWash_ValueChanged(object sender, EventArgs e)
-        {
-            if (chkWash.Checked)
-                lblWashSub.Text = $"{_addWash * (decimal)nudWash.Value:0.00} Php";
-            UpdateCurrentSubtotal();
-        }
+           => ToggleAddOn(chkWash, nudWash, lblAddWash, _addWash, "per 7 mins");
         private void nudRinse_ValueChanged(object sender, EventArgs e)
-        {
-            if (chkRinse.Checked)
-                lblRinseSub.Text = $"{_addRinse * (decimal)nudRinse.Value:0.00} Php";
-            UpdateCurrentSubtotal();
-        }
+           => ToggleAddOn(chkRinse, nudRinse, lblAddRinse, _addRinse, "per 5 mins");
         private void nudDetergent_ValueChanged(object sender, EventArgs e)
-        {
-            if (chkDetergent.Checked)
-                lblDetergentSub.Text = $"{_addDetergent * (decimal)nudDetergent.Value:0.00} Php";
-            UpdateCurrentSubtotal();
-        }
+           => ToggleAddOn(chkDetergent, nudDetergent, lblLiquidDetergent, _addDetergent, "per 60ml");
         private void nudFabcon_ValueChanged(object sender, EventArgs e)
-        {
-            if (chkFabcon.Checked)
-                lblFabconSub.Text = $"{_addFabcon * (decimal)nudFabcon.Value:0.00} Php";
-            UpdateCurrentSubtotal();
-        }
+           => ToggleAddOn(chkFabcon, nudFabcon, lblExtraFabcon, _addFabcon, "per 60ml");
+
 
         // =======================================
         // GROUP 7 — COMPUTATIONS
@@ -672,6 +657,20 @@ namespace MrLabandero
         // GROUP 12 - HELPER METHODS
         // =======================================
 
+        private void ClearAddOns()
+        {
+            nudSpin.Value = 1;
+            nudWash.Value = 1;
+            nudRinse.Value = 1;
+            nudDetergent.Value = 1;
+            nudFabcon.Value = 1;
+
+            chkWash.Checked = false;
+            chkSpin.Checked = false;
+            chkRinse.Checked = false;
+            chkFabcon.Checked = false;
+            chkDetergent.Checked = false;
+        }
         //CLEARS EVERYTHING EXCEPT FULL NAME AND CONTACT NUMBER
         private void ClearServiceSelection()
         {
@@ -740,11 +739,11 @@ namespace MrLabandero
         //RESETS SUBTEXT VALUE TO ZERO
         private void ResetSubLabels()
         {
-            lblSpinSub.Text = "0.00 Php";
-            lblWashSub.Text = "0.00 Php";
-            lblRinseSub.Text = "0.00 Php";
-            lblDetergentSub.Text = "0.00 Php";
-            lblFabconSub.Text = "0.00 Php";
+            lblAddSpin.Text = $"@ {_addSpin} Php per 10 mins = 0.00 Php";
+            lblAddWash.Text = $"@ {_addWash} Php per 7 mins = 0.00 Php";
+            lblAddRinse.Text = $"@ {_addRinse} Php per 5 mins = 0.00 Php";
+            lblLiquidDetergent.Text = $"@ {_addDetergent} Php per 60 ml = 0.00 Php";
+            lblExtraFabcon.Text = $"@ {_addFabcon} Php per 60 ml = 0.00 Php";
             lblServiceSub.Text = "0.00 Php";
             lblSubTotalWash.Text = "0.00 Php";
             lblSubTotalDryFold.Text = "0.00 Php";
