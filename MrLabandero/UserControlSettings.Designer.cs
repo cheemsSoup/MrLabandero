@@ -559,6 +559,7 @@ namespace MrLabandero
             this.nudDetergentML.Name = "nudDetergentML";
             this.nudDetergentML.Size = new System.Drawing.Size(169, 29);
             this.nudDetergentML.TabIndex = 2;
+            this.nudDetergentML.ValueChanged += new System.EventHandler(this.nudDetergentML_ValueChanged);
             // 
             // label17
             // 

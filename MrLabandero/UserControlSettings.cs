@@ -267,6 +267,9 @@ namespace MrLabandero
             DatabaseHelper.RestoreDatabase();
         }
 
-       
+        private void nudDetergentML_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

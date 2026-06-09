@@ -8,6 +8,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Data.SQLite;
 using System.Xml.Serialization.Configuration;
+using System.Data.Entity.Core.Objects;
 
 
 namespace MrLabandero
@@ -117,6 +118,7 @@ namespace MrLabandero
                 SeedServices(conn);
                 SeedAddOns(conn);
                 SeedSettings(conn);
+                SeedInventory(conn);
             }
         }
 
@@ -148,7 +150,6 @@ namespace MrLabandero
             using (var cmd = new SQLiteCommand(insert, conn))
                 cmd.ExecuteNonQuery();
         }
-
         //  =======================================
         // SEED ADDS ON TABLE IF EMPTY
         // ONLY INSERT TABLE IF EMPTY
@@ -196,6 +197,27 @@ namespace MrLabandero
 
             using (var cmd = new SQLiteCommand(insert, conn))
                 cmd.ExecuteNonQuery();
+        }
+        //  =======================================
+        // SEEDS INVENTORY
+        //  =======================================
+        private static void SeedInventory(SQLiteConnection conn)
+        {
+            string check = "SELECT COUNT(*) FROM Inventory";
+            using (var cmd = new SQLiteCommand(check,conn))
+            {
+                if (Convert.ToInt64(cmd.ExecuteScalar()) > 0) return;
+            }
+            string insert1 = @" INSERT INTO Inventory (ItemName, CurrentQty, Unit, DateUpdated) VALUES ('Liquid Detergent', 0, 'ml', CURRENT_TIMESTAMP)";
+            using (var cmd = new SQLiteCommand(insert1, conn))
+            {
+                cmd.ExecuteNonQuery();
+            }
+            string insert2 = @" INSERT INTO Inventory (ItemName, CurrentQty, Unit, DateUpdated) VALUES  ('Fabcon', 0, 'ml', CURRENT_TIMESTAMP)";
+            using (var cmd = new SQLiteCommand(insert2, conn))
+            {
+                cmd.ExecuteNonQuery();
+            }
         }
 
         // =======================================
@@ -428,7 +450,7 @@ namespace MrLabandero
         }
 
         // ===========================
-        // SECTION 3 — INVENTORY CRUD
+        // SECTION 4 — INVENTORY CRUD
         // ===========================
         // GET ALL INVENTORY
         public static DataTable GetAllInventory()
@@ -631,6 +653,40 @@ namespace MrLabandero
                     var table = new DataTable();
                     adapter.Fill(table);
                     return table;
+                }
+            }
+        }
+        public static decimal GetInventoryStock(string itemName)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            SELECT CurrentQty FROM Inventory
+            WHERE ItemName = @name LIMIT 1";
+
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@name", itemName);
+                    var result = cmd.ExecuteScalar();
+                    return result != null ? Convert.ToDecimal(result) : 0;
+                }
+            }
+        }
+        public static int GetInventoryIDByItemName(string itemName)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = @"
+            SELECT ID FROM Inventory
+            WHERE ItemName = @name LIMIT 1";
+
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@name", itemName);
+                    var result = cmd.ExecuteScalar();
+                    return result != null ? Convert.ToInt32(result) : -1;
                 }
             }
         }
