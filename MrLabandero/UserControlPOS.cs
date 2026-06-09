@@ -188,6 +188,7 @@ namespace MrLabandero
                 panelWashOnly.Visible = false;
                 panelFullServices.Visible = false;
                 panelAddOns.Visible = true;
+                nudBasket.Value = 1;
                 chkWash.Enabled = false;
                 chkRinse.Enabled = false;
                 chkDetergent.Enabled = false;

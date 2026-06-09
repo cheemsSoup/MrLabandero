@@ -788,8 +788,8 @@ namespace MrLabandero
             this.panelMainUserControl.Controls.Add(this.lstOrders);
             this.panelMainUserControl.Controls.Add(this.panelAddOns);
             this.panelMainUserControl.Controls.Add(this.panelHeader);
-            this.panelMainUserControl.Controls.Add(this.panelWashOnly);
             this.panelMainUserControl.Controls.Add(this.panelDryFold);
+            this.panelMainUserControl.Controls.Add(this.panelWashOnly);
             this.panelMainUserControl.Controls.Add(this.panelFullServices);
             this.panelMainUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainUserControl.Location = new System.Drawing.Point(0, 0);
@@ -885,7 +885,13 @@ namespace MrLabandero
             // 
             // nudBasket
             // 
+            this.nudBasket.DecimalPlaces = 1;
             this.nudBasket.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nudBasket.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
             this.nudBasket.Location = new System.Drawing.Point(219, 7);
             this.nudBasket.Maximum = new decimal(new int[] {
             20,
