@@ -16,7 +16,7 @@ namespace MrLabandero
         private UserControlReceipt ucReceipt;
         private UserControlSalesReport ucSalesReport;
         private UserControlSettings uSettings;
-
+        private UserControl_Inventory ucInventory;
         public frmMrLabandero()
         {
             InitializeComponent();
@@ -95,7 +95,16 @@ namespace MrLabandero
         // INVENTORY
         private void btnInventory_Click(object sender, EventArgs e)
         {
+            mainPanel.Controls.Clear();
 
+            if (ucInventory == null)
+            {
+                ucInventory = new UserControl_Inventory();
+                ucInventory.Dock = DockStyle.Fill;
+            }
+
+            mainPanel.Controls.Add(ucInventory);
+            ucInventory.Visible = true;
         }
         // SALES REPORT
         private void btnSalesReport_Click(object sender, EventArgs e)

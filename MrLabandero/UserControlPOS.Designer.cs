@@ -788,8 +788,8 @@ namespace MrLabandero
             this.panelMainUserControl.Controls.Add(this.lstOrders);
             this.panelMainUserControl.Controls.Add(this.panelAddOns);
             this.panelMainUserControl.Controls.Add(this.panelHeader);
-            this.panelMainUserControl.Controls.Add(this.panelFullServices);
             this.panelMainUserControl.Controls.Add(this.panelDryFold);
+            this.panelMainUserControl.Controls.Add(this.panelFullServices);
             this.panelMainUserControl.Controls.Add(this.panelWashOnly);
             this.panelMainUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainUserControl.Location = new System.Drawing.Point(0, 0);
