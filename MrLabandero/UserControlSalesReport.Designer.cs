@@ -38,7 +38,6 @@ namespace MrLabandero
             this.txtCustomerID = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.btnGenerate = new System.Windows.Forms.Button();
             this.panelYearlyMonthly = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.nudYear = new System.Windows.Forms.NumericUpDown();
@@ -52,6 +51,7 @@ namespace MrLabandero
             this.label4 = new System.Windows.Forms.Label();
             this.dtpFrom = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnGenerate = new System.Windows.Forms.Button();
             this.dgvSalesReport = new System.Windows.Forms.DataGridView();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.btnSummary = new System.Windows.Forms.Button();
@@ -168,20 +168,6 @@ namespace MrLabandero
             this.label6.Size = new System.Drawing.Size(84, 25);
             this.label6.TabIndex = 15;
             this.label6.Text = "View By:";
-            // 
-            // btnGenerate
-            // 
-            this.btnGenerate.BackColor = System.Drawing.Color.Maroon;
-            this.btnGenerate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGenerate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGenerate.ForeColor = System.Drawing.Color.White;
-            this.btnGenerate.Location = new System.Drawing.Point(15, 111);
-            this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(189, 37);
-            this.btnGenerate.TabIndex = 45;
-            this.btnGenerate.Text = "GENERATE";
-            this.btnGenerate.UseVisualStyleBackColor = false;
-            this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
             // 
             // panelYearlyMonthly
             // 
@@ -348,6 +334,20 @@ namespace MrLabandero
             this.label1.TabIndex = 20;
             this.label1.Text = "To:";
             // 
+            // btnGenerate
+            // 
+            this.btnGenerate.BackColor = System.Drawing.Color.Maroon;
+            this.btnGenerate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGenerate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerate.ForeColor = System.Drawing.Color.White;
+            this.btnGenerate.Location = new System.Drawing.Point(15, 111);
+            this.btnGenerate.Name = "btnGenerate";
+            this.btnGenerate.Size = new System.Drawing.Size(189, 37);
+            this.btnGenerate.TabIndex = 45;
+            this.btnGenerate.Text = "GENERATE";
+            this.btnGenerate.UseVisualStyleBackColor = false;
+            this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
+            // 
             // dgvSalesReport
             // 
             this.dgvSalesReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -413,6 +413,7 @@ namespace MrLabandero
             this.panelExactTransaction.Name = "panelExactTransaction";
             this.panelExactTransaction.Size = new System.Drawing.Size(758, 280);
             this.panelExactTransaction.TabIndex = 7;
+            this.panelExactTransaction.Paint += new System.Windows.Forms.PaintEventHandler(this.panelExactTransaction_Paint);
             // 
             // UserControlSalesReport
             // 

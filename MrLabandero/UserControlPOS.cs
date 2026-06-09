@@ -81,7 +81,7 @@ namespace MrLabandero
             // RESET SUBTEXT TOTALS
             rbClothesWash.Text = $"Clothes (₱{_wClothes}/kg)";
             rbTowelsWash.Text = $"Towels/Curtains (₱{_wTowels}/kg)";
-            rbBeddings.Text = $"Beddings (₱{_wBeddings}/kg)";
+            rbBeddingsWash.Text = $"Beddings (₱{_wBeddings}/kg)";
             rbClothesDryFold.Text = $"Clothes (₱{_dfClothes})";
             rbTowelsDryFold.Text = $"Towels/Curtains (₱{_dfTowels})";
             rbBeddingsDryFold.Text = $"Beddings (₱{_dfBeddings})";
@@ -754,7 +754,7 @@ namespace MrLabandero
         {
             rbClothesWash.Text = $"Clothes (₱{_wClothes}/kg)";
             rbTowelsWash.Text = $"Towels/Curtains (₱{_wTowels}/kg)";
-            rbBeddings.Text = $"Beddings (₱{_wBeddings}/kg)";
+            rbBeddingsWash.Text = $"Beddings (₱{_wBeddings}/kg)";
             rbClothesDryFold.Text = $"Clothes (₱{_dfClothes})";
             rbTowelsDryFold.Text = $"Towels/Curtains (₱{_dfTowels})";
             rbBeddingsDryFold.Text = $"Beddings (₱{_dfBeddings})";

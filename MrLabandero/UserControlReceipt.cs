@@ -54,12 +54,21 @@ namespace MrLabandero
         }
         // =======================================
         // GROUP 1 - LOAD RECEIPT
-        // =======================================
+        // =======================================]
+        
+
         private int _customerID = 0;
         private int _transactionID = 0;
+
+        private string _shopName, _shopAddress, _shopContact, _shopHours;
         public void LoadReceipt(string customerName, string contactNumber,
           List<ReceiptOrder> orders, decimal grandTotal, int transactionID, int customerID)
         {
+            _shopName = DatabaseHelper.GetSetting("ShopName");
+            _shopAddress = DatabaseHelper.GetSetting("ShopAddress");
+            _shopContact = DatabaseHelper.GetSetting("ShopContact");
+            _shopHours = DatabaseHelper.GetSetting("ShopHours");
+
             _customerName = customerName;
             _contactNumber = contactNumber;
             _orders = orders;
@@ -82,9 +91,9 @@ namespace MrLabandero
             int fullWidth = panelReceiptContent.Width - 40;
 
             // ── Shop Header ──
-            AddLabel("MR. LABANDERO LAUNDRY SHOP", ref y, bold: true, size: 12, center: true);
-            AddLabel("Provincial Rd., Borol 1st, Balagtas, Bulacan", ref y, bold: false, size: 8, center: true);
-            AddLabel("0947-860-4797  |  Mon-Sun 7:00AM - 7:00PM", ref y, bold: false, size: 8, center: true);
+            AddLabel(_shopName, ref y, bold: true, size: 12, center: true);
+            AddLabel(_shopAddress, ref y, bold: false, size: 8, center: true);
+            AddLabel($"{_shopContact} | {_shopAddress}", ref y, bold: false, size: 8, center: true);
 
             AddDivider(ref y);
 
@@ -133,7 +142,7 @@ namespace MrLabandero
             AddDivider(ref y);
 
             // ── Footer ──
-            AddLabel("Thank you for choosing Mr. Labandero!", ref y, bold: false, size: 8, center: true);
+            AddLabel("Thank you for choosing us!", ref y, bold: false, size: 8, center: true);
             AddLabel("Available for Pick-up and Delivery (with minimal fee)", ref y, bold: false, size: 8, center: true);
 
             // Expand panel height if content overflows
@@ -224,6 +233,8 @@ namespace MrLabandero
             panelReceiptContent.Controls.Add(line);
             y += 10;
         }
+
+       
 
         private void panelReceiptContent_Paint(object sender, PaintEventArgs e)
         {

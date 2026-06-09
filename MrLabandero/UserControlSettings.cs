@@ -160,6 +160,21 @@ namespace MrLabandero
             nudAddOnPrice.Value = Convert.ToDecimal(row.Cells["Price"].Value);
             txtAddOnUnit.Text = row.Cells["Unit"].Value?.ToString();
         }
+        private void dgvServices_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            dgvServices.ReadOnly = true;
+            dgvServices.EditMode = DataGridViewEditMode.EditProgrammatically;
+            dgvServices.AllowUserToAddRows = false;
+            dgvServices.AllowUserToDeleteRows = false;
+        }
+
+        private void dgvAddOns_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            dgvAddOns.ReadOnly = true;
+            dgvAddOns.EditMode = DataGridViewEditMode.EditProgrammatically;
+            dgvAddOns.AllowUserToAddRows = false;
+            dgvAddOns.AllowUserToDeleteRows = false;
+        }
 
         // ==================================
         // SECTION 4 — INVENTORY DEFAULTS TAB
@@ -251,5 +266,7 @@ namespace MrLabandero
         {
             DatabaseHelper.RestoreDatabase();
         }
+
+       
     }
 }

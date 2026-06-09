@@ -469,6 +469,7 @@ namespace MrLabandero
             this.dgvAddOns.Size = new System.Drawing.Size(410, 150);
             this.dgvAddOns.TabIndex = 4;
             this.dgvAddOns.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAddOns_CellClick);
+            this.dgvAddOns.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAddOns_CellContentClick);
             // 
             // label6
             // 
@@ -490,6 +491,7 @@ namespace MrLabandero
             this.dgvServices.Size = new System.Drawing.Size(365, 150);
             this.dgvServices.TabIndex = 1;
             this.dgvServices.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvServices_CellClick);
+            this.dgvServices.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvServices_CellContentClick);
             // 
             // label5
             // 

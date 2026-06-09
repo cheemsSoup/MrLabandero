@@ -443,5 +443,10 @@ namespace MrLabandero
             panelExactTransaction.Controls.Add(line);
             y += 10;
         }
+
+        private void panelExactTransaction_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
