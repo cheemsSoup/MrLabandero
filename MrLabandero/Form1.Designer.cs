@@ -40,6 +40,9 @@ namespace MrLabandero
             this.panelWhiteTop2 = new System.Windows.Forms.Panel();
             this.panelWhiteTop = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.mainPanel.SuspendLayout();
             this.panelBlueLeft.SuspendLayout();
             this.panelWhiteTop2.SuspendLayout();
             this.panelWhiteTop.SuspendLayout();
@@ -47,6 +50,8 @@ namespace MrLabandero
             // 
             // mainPanel
             // 
+            this.mainPanel.Controls.Add(this.label2);
+            this.mainPanel.Controls.Add(this.label3);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(200, 45);
             this.mainPanel.Name = "mainPanel";
@@ -196,6 +201,28 @@ namespace MrLabandero
             this.label1.Text = "Mr. Labandero POS";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(11, 35);
+            this.label2.Margin = new System.Windows.Forms.Padding(10, 8, 10, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(187, 21);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Greetings, LABANDERO!";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(10, 8);
+            this.label3.Margin = new System.Windows.Forms.Padding(10, 8, 10, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(76, 30);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "HOME";
+            // 
             // frmMrLabandero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -211,6 +238,8 @@ namespace MrLabandero
             this.Name = "frmMrLabandero";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mr. Labandero POS & Inventory System";
+            this.mainPanel.ResumeLayout(false);
+            this.mainPanel.PerformLayout();
             this.panelBlueLeft.ResumeLayout(false);
             this.panelWhiteTop2.ResumeLayout(false);
             this.panelWhiteTop.ResumeLayout(false);
@@ -230,6 +259,8 @@ namespace MrLabandero
         private System.Windows.Forms.Button btnPOS;
         private System.Windows.Forms.Button btnHome;
         private System.Windows.Forms.Button btnSettings;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
 

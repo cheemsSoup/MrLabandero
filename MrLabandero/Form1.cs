@@ -17,6 +17,7 @@ namespace MrLabandero
         private UserControlSalesReport ucSalesReport;
         private UserControlSettings uSettings;
         private UserControl_Inventory ucInventory;
+        private UserControlHome ucHome;
         public frmMrLabandero()
         {
             InitializeComponent();
@@ -25,7 +26,16 @@ namespace MrLabandero
         // HOME
         private void btnHome_Click(object sender, EventArgs e)
         {
+            mainPanel.Controls.Clear();
 
+            if (ucHome == null)
+            {
+                ucHome = new UserControlHome();
+                ucHome.Dock = DockStyle.Fill;
+            }
+
+            mainPanel.Controls.Add(ucHome);
+            ucHome.Visible = true;
         }
         // POS
         private void btnPOS_Click(object sender, EventArgs e)
@@ -103,6 +113,7 @@ namespace MrLabandero
                 ucInventory.Dock = DockStyle.Fill;
             }
 
+            ucInventory.RefreshInventory();
             mainPanel.Controls.Add(ucInventory);
             ucInventory.Visible = true;
         }

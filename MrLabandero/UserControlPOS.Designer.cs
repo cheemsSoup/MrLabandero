@@ -343,6 +343,7 @@ namespace MrLabandero
             this.lblExtraFabcon.Size = new System.Drawing.Size(241, 21);
             this.lblExtraFabcon.TabIndex = 38;
             this.lblExtraFabcon.Text = "@ 0.00 Php per 60 ml = 0.00 Php";
+            this.lblExtraFabcon.Click += new System.EventHandler(this.lblExtraFabcon_Click);
             // 
             // nudFabcon
             // 

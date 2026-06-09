@@ -17,6 +17,8 @@ namespace MrLabandero
         public UserControl_Inventory()
         {
             InitializeComponent();
+            RefreshInventory();
+
             nudFabconAdd.Minimum = 0;
             nudDetergentAdd.Minimum = 0;
             nudFabconAdd.Maximum = 999999;
@@ -102,7 +104,7 @@ namespace MrLabandero
         }
         private void btnAddDetergent_Click(object sender, EventArgs e)
         {
-            if (nudFabconAdd.Value == 0)
+            if (nudDetergentAdd.Value == 0)
             {
                 MessageBox.Show(
                     "Invalid value! Please input minimum of 1 ml.", "WARNING!", MessageBoxButtons.OK, MessageBoxIcon.Warning);

@@ -309,6 +309,7 @@ namespace MrLabandero
         // =======================================
         // GROUP 6 — Add-Ons (Checkboxes)
         // =======================================
+        private string _unitSpin, _unitWash, _unitRinse, _unitDetergent, _unitFabcon;
         private void ToggleAddOn(CheckBox chk, NumericUpDown nud, Label lbl, decimal price, string unitDescription)
         {
             nud.Enabled = chk.Checked;
@@ -330,7 +331,7 @@ namespace MrLabandero
         private void chkFabcon_CheckedChanged(object sender, EventArgs e)
             => ToggleAddOn(chkFabcon, nudFabcon, lblExtraFabcon, _addFabcon, "per 60ml");
 
-
+       
         // ADD ONS - NUD VALUES
         private void nudSpin_ValueChanged(object sender, EventArgs e)
            => ToggleAddOn(chkSpin, nudSpin, lblAddSpin, _addSpin, "per 10 mins");
@@ -575,7 +576,6 @@ namespace MrLabandero
                 return;
             }
 
-            // Kung nag-click sa divider o total line — reject agad
             string selectedLine = lstOrders.Items[lstOrders.SelectedIndex]?.ToString().TrimStart() ?? "";
             if (selectedLine.StartsWith("═") || selectedLine.StartsWith("TOTAL") || selectedLine.Trim() == "")
             {
@@ -584,7 +584,6 @@ namespace MrLabandero
                 return;
             }
 
-            // Hanapin ang pinakamalapit na header pataas
             int selectedIndex = lstOrders.SelectedIndex;
             while (selectedIndex >= 0)
             {
@@ -609,6 +608,11 @@ namespace MrLabandero
                 RefreshOrderSummary();
                 UpdateCurrentSubtotal();
             }
+        }
+
+        private void lblExtraFabcon_Click(object sender, EventArgs e)
+        {
+
         }
 
         // =======================================
@@ -772,7 +776,7 @@ namespace MrLabandero
         {
             rbClothesWash.Text = $"Clothes (₱{_wClothes}/kg)";
             rbTowelsWash.Text = $"Towels/Curtains (₱{_wTowels}/kg)";
-            rbBeddings.Text = $"Beddings (₱{_wBeddings}/kg)";
+            rbBeddingsWash.Text = $"Beddings (₱{_wBeddings}/kg)";
             rbClothesDryFold.Text = $"Clothes (₱{_dfClothes})";
             rbTowelsDryFold.Text = $"Towels/Curtains (₱{_dfTowels})";
             rbBeddingsDryFold.Text = $"Beddings (₱{_dfBeddings})";

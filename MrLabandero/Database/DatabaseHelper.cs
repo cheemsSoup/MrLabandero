@@ -856,6 +856,20 @@ namespace MrLabandero
         // Full Service + Wash Only: 60ml Detergent + 60ml Fabcon (default)
         // Dry and Fold: 60ml Fabcon only (default)
         // Extra add-ons multiply the deduction
+        public static string GetAddOnUnit(string addOnName)
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            {
+                conn.Open();
+                string query = "SELECT Unit FROM AddOns WHERE AddOnName = @name LIMIT 1";
+                using (var cmd = new SQLiteCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@name", addOnName);
+                    var result = cmd.ExecuteScalar();
+                    return result != null ? result.ToString() : "";
+                }
+            }
+        }
         private static void DeductInventory(SQLiteConnection conn,
             List<UserControlReceipt.ReceiptOrder> orders)
         {
@@ -876,27 +890,22 @@ namespace MrLabandero
 
             foreach (var order in orders)
             {
-                decimal detergentDeduct = 0;
-                decimal fabconDeduct = 60; // DEFAULT 60ml FOR ALL SERVICE TYPES
+                decimal defaultFabconML = Convert.ToDecimal(GetSetting("DefaultFabconML", "60"));
+                decimal defaultDetergentML = Convert.ToDecimal(GetSetting("DefaultDetergentML", "60"));
 
-                // DETERGENT - FOR FFULL SERVIC AND WASH ONLY
-                if (order.ServiceType == "Full Service (Wash, Dry, Fold)" ||
-                    order.ServiceType == "Regular - Wash Only")
-                    detergentDeduct = 60; // DEFAULT 60ml
+                decimal detergentDeduct = defaultFabconML;
+                decimal fabconDeduct = defaultFabconML;
 
-                // EXTRA ADD-ONS 
+                if (order.ServiceType == "Full Service (Wash, Dry, Fold)" ||  order.ServiceType == "Regular - Wash Only")
+                    detergentDeduct = defaultDetergentML;
+                    fabconDeduct = defaultFabconML;
+
                 foreach (var detail in order.AddOnDetails)
                 {
                     if (detail.StartsWith("Liquid Detergent"))
-                    {
-                        int qty = ParseQtyFromDetail(detail);
-                        detergentDeduct += qty * 60;
-                    }
+                        detergentDeduct += ParseQtyFromDetail(detail) * defaultDetergentML;
                     if (detail.StartsWith("Extra Fabcon"))
-                    {
-                        int qty = ParseQtyFromDetail(detail);
-                        fabconDeduct += qty * 60;
-                    }
+                        fabconDeduct += ParseQtyFromDetail(detail) * defaultFabconML;
                 }
 
                 string remarks = $"Auto-deduct: {order.ServiceType} — {order.ItemType}";
@@ -1342,8 +1351,32 @@ namespace MrLabandero
                         MessageBox.Show($"Error clearing inventory:\n{ex.Message}",
                             "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+
                 }
             }
+        }
+        public static void SeedAfterReset()
+        {
+            using (var conn = new SQLiteConnection(ConnectionString))
+            { 
+                conn.Open();
+                string check = "SELECT COUNT(*) FROM Inventory";
+                using (var cmd = new SQLiteCommand(check, conn))
+                {
+                    if (Convert.ToInt64(cmd.ExecuteScalar()) > 0) return;
+                }
+                string insert1 = @" INSERT INTO Inventory (ItemName, CurrentQty, Unit, DateUpdated) VALUES ('Liquid Detergent', 1000, 'ml', CURRENT_TIMESTAMP)";
+                using (var cmd = new SQLiteCommand(insert1, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                string insert2 = @" INSERT INTO Inventory (ItemName, CurrentQty, Unit, DateUpdated) VALUES  ('Fabcon', 1000, 'ml', CURRENT_TIMESTAMP)";
+                using (var cmd = new SQLiteCommand(insert2, conn))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+           
         }
         // ==========================
         // Hard Reset — deletes ALL data from ALL tables
@@ -1378,6 +1411,7 @@ namespace MrLabandero
                         SeedServices(conn);
                         SeedAddOns(conn);
                         SeedSettings(conn);
+                        SeedInventory(conn);
                     }
                     catch (Exception ex)
                     {

@@ -20,6 +20,9 @@ namespace MrLabandero
             InitializeComponent();
             LoadAllSettings();
 
+            dgvServices.ReadOnly = true;
+            dgvAddOns.ReadOnly = true;
+
             txtServiceCode.ReadOnly = true;
             txtServiceName.ReadOnly = true;
             txtServiceItemType.ReadOnly = true;
@@ -28,6 +31,7 @@ namespace MrLabandero
             txtAddOnCode.ReadOnly = true;
             txtAddOnName.ReadOnly = true;
             txtAddOnUnit.ReadOnly = true;
+            txtShopName.ReadOnly = true;
         }
 
         // =============================
@@ -230,6 +234,7 @@ namespace MrLabandero
                 MessageBox.Show("Inventory cleared.",
                     "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            DatabaseHelper.SeedAfterReset();
         }
         private void btnHardReset_Click(object sender, EventArgs e)
         {
