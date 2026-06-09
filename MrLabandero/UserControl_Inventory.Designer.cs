@@ -33,7 +33,8 @@ namespace MrLabandero
             this.dgvInventory = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.panelInventoryItems = new System.Windows.Forms.Panel();
-            this.btnSave = new System.Windows.Forms.Button();
+            this.lblDetergentServings = new System.Windows.Forms.Label();
+            this.lblFabconServings = new System.Windows.Forms.Label();
             this.txtRemarks = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
@@ -59,8 +60,6 @@ namespace MrLabandero
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lblFabconServings = new System.Windows.Forms.Label();
-            this.lblDetergentServings = new System.Windows.Forms.Label();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             this.panelInventoryItems.SuspendLayout();
@@ -85,6 +84,7 @@ namespace MrLabandero
             this.dgvInventory.Name = "dgvInventory";
             this.dgvInventory.Size = new System.Drawing.Size(776, 183);
             this.dgvInventory.TabIndex = 4;
+            this.dgvInventory.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInventory_CellContentClick);
             // 
             // label2
             // 
@@ -101,7 +101,6 @@ namespace MrLabandero
             // 
             this.panelInventoryItems.Controls.Add(this.lblDetergentServings);
             this.panelInventoryItems.Controls.Add(this.lblFabconServings);
-            this.panelInventoryItems.Controls.Add(this.btnSave);
             this.panelInventoryItems.Controls.Add(this.txtRemarks);
             this.panelInventoryItems.Controls.Add(this.label8);
             this.panelInventoryItems.Controls.Add(this.panel10);
@@ -132,18 +131,27 @@ namespace MrLabandero
             this.panelInventoryItems.Size = new System.Drawing.Size(805, 291);
             this.panelInventoryItems.TabIndex = 1;
             // 
-            // btnSave
+            // lblDetergentServings
             // 
-            this.btnSave.BackColor = System.Drawing.Color.Maroon;
-            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(374, 250);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(103, 32);
-            this.btnSave.TabIndex = 75;
-            this.btnSave.Text = "SAVE";
-            this.btnSave.UseVisualStyleBackColor = false;
+            this.lblDetergentServings.AutoSize = true;
+            this.lblDetergentServings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDetergentServings.Location = new System.Drawing.Point(253, 113);
+            this.lblDetergentServings.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.lblDetergentServings.Name = "lblDetergentServings";
+            this.lblDetergentServings.Size = new System.Drawing.Size(121, 21);
+            this.lblDetergentServings.TabIndex = 77;
+            this.lblDetergentServings.Text = "Servings left: 60";
+            // 
+            // lblFabconServings
+            // 
+            this.lblFabconServings.AutoSize = true;
+            this.lblFabconServings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFabconServings.Location = new System.Drawing.Point(11, 113);
+            this.lblFabconServings.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.lblFabconServings.Name = "lblFabconServings";
+            this.lblFabconServings.Size = new System.Drawing.Size(121, 21);
+            this.lblFabconServings.TabIndex = 76;
+            this.lblFabconServings.Text = "Servings left: 60";
             // 
             // txtRemarks
             // 
@@ -215,23 +223,13 @@ namespace MrLabandero
             this.nudDetergentAdd.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudDetergentAdd.Location = new System.Drawing.Point(257, 162);
             this.nudDetergentAdd.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.nudDetergentAdd.Minimum = new decimal(new int[] {
-            1,
+            999999,
             0,
             0,
             0});
             this.nudDetergentAdd.Name = "nudDetergentAdd";
             this.nudDetergentAdd.Size = new System.Drawing.Size(134, 25);
             this.nudDetergentAdd.TabIndex = 70;
-            this.nudDetergentAdd.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.nudDetergentAdd.ValueChanged += new System.EventHandler(this.nudDetergentAdd_ValueChanged);
             // 
             // nudFabconAdd
@@ -240,23 +238,13 @@ namespace MrLabandero
             this.nudFabconAdd.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nudFabconAdd.Location = new System.Drawing.Point(15, 162);
             this.nudFabconAdd.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.nudFabconAdd.Minimum = new decimal(new int[] {
-            1,
+            999999,
             0,
             0,
             0});
             this.nudFabconAdd.Name = "nudFabconAdd";
             this.nudFabconAdd.Size = new System.Drawing.Size(136, 25);
             this.nudFabconAdd.TabIndex = 69;
-            this.nudFabconAdd.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.nudFabconAdd.ValueChanged += new System.EventHandler(this.nudFabconAdd_ValueChanged);
             // 
             // label7
@@ -424,28 +412,6 @@ namespace MrLabandero
             this.panel1.Size = new System.Drawing.Size(776, 14);
             this.panel1.TabIndex = 53;
             // 
-            // lblFabconServings
-            // 
-            this.lblFabconServings.AutoSize = true;
-            this.lblFabconServings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFabconServings.Location = new System.Drawing.Point(11, 113);
-            this.lblFabconServings.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
-            this.lblFabconServings.Name = "lblFabconServings";
-            this.lblFabconServings.Size = new System.Drawing.Size(121, 21);
-            this.lblFabconServings.TabIndex = 76;
-            this.lblFabconServings.Text = "Servings left: 60";
-            // 
-            // lblDetergentServings
-            // 
-            this.lblDetergentServings.AutoSize = true;
-            this.lblDetergentServings.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDetergentServings.Location = new System.Drawing.Point(253, 113);
-            this.lblDetergentServings.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
-            this.lblDetergentServings.Name = "lblDetergentServings";
-            this.lblDetergentServings.Size = new System.Drawing.Size(121, 21);
-            this.lblDetergentServings.TabIndex = 77;
-            this.lblDetergentServings.Text = "Servings left: 60";
-            // 
             // UserControl_Inventory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -495,7 +461,6 @@ namespace MrLabandero
         private System.Windows.Forms.Panel panel11;
         private System.Windows.Forms.Button btnAddDetergent;
         private System.Windows.Forms.Button btnAddFabcon;
-        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox txtRemarks;
         private System.Windows.Forms.Label lblFabconServings;
         private System.Windows.Forms.Label lblDetergentServings;

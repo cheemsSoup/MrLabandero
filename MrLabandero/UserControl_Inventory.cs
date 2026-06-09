@@ -17,10 +17,12 @@ namespace MrLabandero
         public UserControl_Inventory()
         {
             InitializeComponent();
-            nudFabconAdd.Minimum = 1;
-            nudDetergentAdd.Minimum = 1;
+            nudFabconAdd.Minimum = 0;
+            nudDetergentAdd.Minimum = 0;
             nudFabconAdd.Maximum = 999999;
             nudDetergentAdd.Maximum = 999999;
+            nudFabconAdd.Enabled = true;
+            nudDetergentAdd.Enabled = true;
 
             dgvInventory.ReadOnly = true;
             dgvInventory.AllowUserToAddRows = false;
@@ -68,6 +70,12 @@ namespace MrLabandero
         // ===========================
         private void btnAddFabcon_Click(object sender, EventArgs e)
         {
+            if ( nudFabconAdd.Value == 0 )
+            {
+                MessageBox.Show(
+                    "Invalid value! Please input minimum of 1 ml.", "WARNING!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (_fabconID == -1)
             {
                 MessageBox.Show(
@@ -84,17 +92,22 @@ namespace MrLabandero
             DatabaseHelper.RestockInventoryItem(
                 _fabconID, nudFabconAdd.Value, remarks);
 
-            txtRemarks.Clear();
-            nudFabconAdd.Value = 1;
-
-            RefreshInventory();
-
             MessageBox.Show(
-                $"Fabcon restocked by {nudFabconAdd.Minimum} ml.",
-                "Restocked", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                $"Fabcon restocked by {nudFabconAdd.Value} ml.",
+            "Restocked", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            txtRemarks.Clear();
+            nudFabconAdd.Value = 0;
+            RefreshInventory();
         }
         private void btnAddDetergent_Click(object sender, EventArgs e)
         {
+            if (nudFabconAdd.Value == 0)
+            {
+                MessageBox.Show(
+                    "Invalid value! Please input minimum of 1 ml.", "WARNING!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (_detergentID == -1)
             {
                 MessageBox.Show(
@@ -111,14 +124,13 @@ namespace MrLabandero
             DatabaseHelper.RestockInventoryItem(
                 _detergentID, nudDetergentAdd.Value, remarks);
 
-            txtRemarks.Clear();
-            nudDetergentAdd.Value = 1;
-
-            RefreshInventory();
-
             MessageBox.Show(
-                $"Liquid Detergent restocked.",
-                "Restocked", MessageBoxButtons.OK, MessageBoxIcon.Information);
+             $"Liquid Detergent restocked by {nudDetergentAdd.Value} ml.",
+             "Restocked", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            txtRemarks.Clear();
+            nudDetergentAdd.Value = 0;
+            RefreshInventory();
         }
 
         // ======================
@@ -167,6 +179,11 @@ namespace MrLabandero
                 lbl.ForeColor = Color.Orange;
             else
                 lbl.ForeColor = Color.Red;
+
+        }
+
+        private void dgvInventory_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }

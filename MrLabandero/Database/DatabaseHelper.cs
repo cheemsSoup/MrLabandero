@@ -208,12 +208,12 @@ namespace MrLabandero
             {
                 if (Convert.ToInt64(cmd.ExecuteScalar()) > 0) return;
             }
-            string insert1 = @" INSERT INTO Inventory (ItemName, CurrentQty, Unit, DateUpdated) VALUES ('Liquid Detergent', 0, 'ml', CURRENT_TIMESTAMP)";
+            string insert1 = @" INSERT INTO Inventory (ItemName, CurrentQty, Unit, DateUpdated) VALUES ('Liquid Detergent', 1000, 'ml', CURRENT_TIMESTAMP)";
             using (var cmd = new SQLiteCommand(insert1, conn))
             {
                 cmd.ExecuteNonQuery();
             }
-            string insert2 = @" INSERT INTO Inventory (ItemName, CurrentQty, Unit, DateUpdated) VALUES  ('Fabcon', 0, 'ml', CURRENT_TIMESTAMP)";
+            string insert2 = @" INSERT INTO Inventory (ItemName, CurrentQty, Unit, DateUpdated) VALUES  ('Fabcon', 1000, 'ml', CURRENT_TIMESTAMP)";
             using (var cmd = new SQLiteCommand(insert2, conn))
             {
                 cmd.ExecuteNonQuery();
