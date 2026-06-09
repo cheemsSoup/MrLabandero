@@ -31,6 +31,8 @@ namespace MrLabandero
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMrLabandero));
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.panelBlueLeft = new System.Windows.Forms.Panel();
             this.btnSettings = new System.Windows.Forms.Button();
             this.btnSalesReport = new System.Windows.Forms.Button();
@@ -40,23 +42,46 @@ namespace MrLabandero
             this.panelWhiteTop2 = new System.Windows.Forms.Panel();
             this.panelWhiteTop = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.mainPanel.SuspendLayout();
             this.panelBlueLeft.SuspendLayout();
             this.panelWhiteTop2.SuspendLayout();
             this.panelWhiteTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // mainPanel
             // 
             this.mainPanel.Controls.Add(this.label2);
             this.mainPanel.Controls.Add(this.label3);
+            this.mainPanel.Controls.Add(this.pictureBox1);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(200, 45);
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(808, 516);
             this.mainPanel.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(11, 35);
+            this.label2.Margin = new System.Windows.Forms.Padding(10, 8, 10, 10);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(187, 21);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Greetings, LABANDERO!";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(10, 8);
+            this.label3.Margin = new System.Windows.Forms.Padding(10, 8, 10, 10);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(76, 30);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "HOME";
             // 
             // panelBlueLeft
             // 
@@ -201,27 +226,15 @@ namespace MrLabandero
             this.label1.Text = "Mr. Labandero POS";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // pictureBox1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(11, 35);
-            this.label2.Margin = new System.Windows.Forms.Padding(10, 8, 10, 10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(187, 21);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Greetings, LABANDERO!";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(10, 8);
-            this.label3.Margin = new System.Windows.Forms.Padding(10, 8, 10, 10);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(76, 30);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "HOME";
+            this.pictureBox1.Image = global::MrLabandero.Properties.Resources.MrLabanderoOriginal;
+            this.pictureBox1.Location = new System.Drawing.Point(149, 35);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(481, 447);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 9;
+            this.pictureBox1.TabStop = false;
             // 
             // frmMrLabandero
             // 
@@ -244,6 +257,7 @@ namespace MrLabandero
             this.panelWhiteTop2.ResumeLayout(false);
             this.panelWhiteTop.ResumeLayout(false);
             this.panelWhiteTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -261,6 +275,7 @@ namespace MrLabandero
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
